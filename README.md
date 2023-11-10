@@ -9,3 +9,6 @@ make setup
 mkdir -p $GOPATH/src/github.com/keiveltra/gin-playground && cd "$_"
 curl https://raw.githubusercontent.com/gin-gonic/examples/master/basic/main.go > main.go
 ```
+
+go get -u gorm.io/gorm
+
