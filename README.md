@@ -6,12 +6,9 @@ The purpose of this repo is
 
 ## Setup
 
-make sure $GOPATH is valid.
-
+execute the following command:
 ```
-make setup
-mkdir -p $GOPATH/src/github.com/keiveltra/gin-playground && cd "$_"
-curl https://raw.githubusercontent.com/gin-gonic/examples/master/basic/main.go > main.go
+$ make setup
 ```
 
 After setup the repo, please setup the mysql:
@@ -19,4 +16,19 @@ After setup the repo, please setup the mysql:
 brew install mysql
 CREATE USER 'moomin'@'localhost' IDENTIFIED BY 'moomin';
 GRANT ALL PRIVILEGES ON *.* TO 'moomin'@'localhost' WITH GRANT OPTION;
+```
+
+## Usage
+
+First you need to make sure you have no mysql database named 'test'.
+(Since it is going to be truncated)
+
+```
+$ make migrate
+```
+
+To run the webapp,
+
+```
+$ make run
 ```
