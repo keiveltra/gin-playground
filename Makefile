@@ -8,7 +8,18 @@ compile:
 
 run:
 	go build -o webapp
-	./webapp
+	./webapp $(arg)
+
+migrate:
+	mysql -u moomin -pmoomin -e "drop database test; create database test"
+	go build -o webapp
+	./webapp m
 
 curl:
 	curl localhost:8080
+
+start-mysql:
+	brew services start mysql
+
+mysql:
+	mysql -u moomin -pmoomin

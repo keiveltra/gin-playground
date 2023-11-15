@@ -6,13 +6,15 @@ import (
 	"gorm.io/gorm"
 	"log"
 	"net/http"
+	"os"
 	"time"
 )
 
 type Review struct {
     gorm.Model
     ID                 uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
-    AcActivityID       uint64     `gorm:"type:int unsigned;index"`
+    ServiceKey         string     `gorm:"type:enum('ac','ticket');index"`
+    ServiceTargetId    uint64     `gorm:"type:int unsigned"`
     BookingID          uint64     `gorm:"type:int unsigned"`
     UserBasicID        uint64     `gorm:"type:int unsigned;index"`
     Rate               uint8      `gorm:"type:tinyint unsigned;index:idx_rate;default:5"`
@@ -50,14 +52,48 @@ type Review struct {
     ACConversionFlag   uint8      `gorm:"type:tinyint unsigned;index;default:0"`
 }
 
+type ReviewImage struct {
+    gorm.Model
+    ID                 uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
+    Filename           string     `gorm:"type:varchar(128)"`
+    FilenameBase       string     `gorm:"type:varchar(128)"`
+    Width              uint64     `gorm:"type:int unsigned"`
+    Height             uint64     `gorm:"type:int unsigned"`
+    Size               uint64     `gorm:"type:int unsigned"`
+    Comment            string     `gorm:"type:varchar(1000)"`
+
+    Created            *time.Time `gorm:"type:datetime"`
+    CreatedUserID      uint64     `gorm:"type:int unsigned"`
+    CreatedURL         string     `gorm:"type:varchar(512)"`
+    Updated            *time.Time `gorm:"type:datetime"`
+    UpdatedUserID      int        `gorm:"type:int"`
+    UpdatedURL         string     `gorm:"type:varchar(512)"`
+    ACConversionFlag   uint8      `gorm:"type:tinyint unsigned;index;default:0"`
+}
+
+type ReviewKeys struct {
+    ID             uint      `gorm:"column:id;primaryKey"`
+    BookingID      uint      `gorm:"column:booking_id;index"`
+    TrUserBasicID  uint      `gorm:"column:tr_user_basic_id"`
+    Hash           string    `gorm:"column:hash;unique"`
+    Created        time.Time `gorm:"column:created"`
+    CreatedUserID  uint      `gorm:"column:created_user_id"`
+    CreatedURL     string    `gorm:"column:created_url"`
+    Updated        time.Time `gorm:"column:updated"`
+    UpdatedUserID  uint      `gorm:"column:updated_user_id"`
+    UpdatedURL     string    `gorm:"column:updated_url"`
+}
+
 var db = make(map[string]string)
 
 func migrateDatabase() {
-    db, err := gorm.Open(mysql.Open("username:password@tcp(127.0.0.1:3306)/your_database"), &gorm.Config{})
+    db, err := gorm.Open(mysql.Open("moomin:moomin@tcp(127.0.0.1:3306)/test"), &gorm.Config{})
     if err != nil {
         log.Fatal(err)
     }
-    db.AutoMigrate(&Review{})
+    if err := db.AutoMigrate(&Review{}, &ReviewImage{}, &ReviewKeys{}); err != nil {
+        log.Fatal(err)
+    }
 }
 
 func setupRouter() *gin.Engine {
@@ -120,6 +156,12 @@ func setupRouter() *gin.Engine {
 }
 
 func main() {
+	args := os.Args
+	if len(args) > 1 && (args[1] == "m" || args[1] == "migrate") {
+		migrateDatabase()
+		return
+	}
+
 	r := setupRouter()
 	// Listen and Server in 0.0.0.0:8080
 	r.Run(":8080")

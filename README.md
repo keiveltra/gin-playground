@@ -10,5 +10,7 @@ mkdir -p $GOPATH/src/github.com/keiveltra/gin-playground && cd "$_"
 curl https://raw.githubusercontent.com/gin-gonic/examples/master/basic/main.go > main.go
 ```
 
-go get -u gorm.io/gorm
+brew install mysql
 
+CREATE USER 'moomin'@'localhost' IDENTIFIED BY 'moomin';
+GRANT ALL PRIVILEGES ON *.* TO 'moomin'@'localhost' WITH GRANT OPTION;
