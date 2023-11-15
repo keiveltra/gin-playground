@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+// Tables of Status Quo
 type Review struct {
 	gorm.Model
 	ID                  uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
@@ -83,6 +84,41 @@ type ReviewKeys struct {
 	UpdatedURL         string    `gorm:"column:updated_url"`
 }
 
+// Tables of Dynamic Review 
+type Template struct {
+	ID                 int    `gorm:"primaryKey"`
+	QuestionsID        string `gorm:"column:questions_id"`
+	SortOrder          string `gorm:"column:sort_order"`
+	ReviewQTTemplateID int    `gorm:"column:review_qt_template_id"`
+}
+
+type Questionnaire struct {
+    ID                           int    `gorm:"primaryKey"`
+    Title                        string
+    FieldType                    string `gorm:"column:field_type"`
+    FieldID                      string `gorm:"column:field_id"`
+    TemplateID                   int    `gorm:"column:template_id"`
+    TemplateReviewQTTemplateID   int    `gorm:"column:template_review_qt_template_id"`
+}
+
+type Answer struct {
+    ID                                     int `gorm:"primaryKey"`
+    Answer                                 string
+    QTFieldID                              int `gorm:"column:qt_field_id"`
+    QTFieldQuestioneriesID                 int `gorm:"column:qt_field_questionnaires_id"`
+    QTFieldQuestioneriesTemplateID         int `gorm:"column:qt_field_questionnaires_template_id"`
+    QTFieldQuestioneriesTemplateReviewID   int `gorm:"column:qt_field_questionnaires_template_review_qt_template_id"`
+}
+
+type QTField struct {
+    ID                                        int `gorm:"primaryKey"`
+    Type                                      string
+    AnswerID                                  string `gorm:"column:answer_id"`
+    QuestioneriesID                           int    `gorm:"column:questionnaires_id"`
+    QuestioneriesTemplateID                   int    `gorm:"column:questionnaires_template_id"`
+    QuestioneriesTemplateReviewQTTemplateID   int    `gorm:"column:questionnaires_template_review_qt_template_id"`
+}
+
 var db = make(map[string]string)
 
 func migrateDatabase() {
@@ -90,7 +126,8 @@ func migrateDatabase() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	if err := db.AutoMigrate(&Review{}, &ReviewImage{}, &ReviewKeys{}); err != nil {
+
+	if err := db.AutoMigrate(&Review{}, &ReviewImage{}, &ReviewKeys{}, &Template{}, &Questionnaire{}, &Answer{}, &QTField{}); err != nil {
 		log.Fatal(err)
 	}
 }
