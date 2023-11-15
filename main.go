@@ -11,89 +11,88 @@ import (
 )
 
 type Review struct {
-    gorm.Model
-    ID                 uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
-    ServiceKey         string     `gorm:"type:enum('ac','ticket');index"`
-    ServiceTargetId    uint64     `gorm:"type:int unsigned"`
-    BookingID          uint64     `gorm:"type:int unsigned"`
-    UserBasicID        uint64     `gorm:"type:int unsigned;index"`
-    Rate               uint8      `gorm:"type:tinyint unsigned;index:idx_rate;default:5"`
-    DisplayUserName    string     `gorm:"type:varchar(64)"`
-    Title              string     `gorm:"type:varchar(256)"`
-    Review             string     `gorm:"type:varchar(4000)"`
-    GoWithID           uint16     `gorm:"type:smallint unsigned"`
-    FirstReviewID      uint64     `gorm:"type:int unsigned;index"`
-    OrgReviewID        uint64     `gorm:"type:int unsigned"`
-    PtrComment         string     `gorm:"type:varchar(1000)"`
-    LikeCount          uint64     `gorm:"type:int unsigned"`
-    Status             string     `gorm:"type:enum('new','pending','published','declined','deleted');index"`
-    PtrStatus          string     `gorm:"type:enum('pending','published','declined')"`
-    UseFlag            uint8      `gorm:"type:tinyint unsigned;index"`
-    MappingID          int64      `gorm:"type:int"`
-    CdFlag             uint8      `gorm:"type:tinyint unsigned;default:0"`
-    PostDate           *time.Time `gorm:"type:datetime"`
-    CommentDate        *time.Time `gorm:"type:datetime"`
-    StatusChangeDate   *time.Time `gorm:"type:datetime"`
-    StatusChangeID     int        `gorm:"type:int"`
-    PtrStatusChangeDate *time.Time `gorm:"type:datetime"`
-    PtrStatusChangeID   int        `gorm:"type:int"`
-    MSiteID            int        `gorm:"type:int"`
-    LangID             int        `gorm:"type:int unsigned;index"`
-    MOriginID          uint64     `gorm:"type:int unsigned"`
-    ActivityDate       *time.Time `gorm:"type:date"`
-    PtrBasicID         int        `gorm:"type:int unsigned;index"`
-    PointCurrency      string     `gorm:"type:varchar(10)"`
-    Created            *time.Time `gorm:"type:datetime"`
-    CreatedUserID      int        `gorm:"type:int"`
-    CreatedURL         string     `gorm:"type:varchar(512)"`
-    Updated            *time.Time `gorm:"type:datetime"`
-    UpdatedUserID      int        `gorm:"type:int"`
-    UpdatedURL         string     `gorm:"type:varchar(512)"`
-    ACConversionFlag   uint8      `gorm:"type:tinyint unsigned;index;default:0"`
+	gorm.Model
+	ID                  uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
+	ServiceKey          string     `gorm:"type:enum('ac','ticket');index"`
+	ServiceTargetId     uint64     `gorm:"type:int unsigned"`
+	BookingID           uint64     `gorm:"type:int unsigned"`
+	UserBasicID         uint64     `gorm:"type:int unsigned;index"`
+	Rate                uint8      `gorm:"type:tinyint unsigned;index:idx_rate;default:5"`
+	DisplayUserName     string     `gorm:"type:varchar(64)"`
+	Title               string     `gorm:"type:varchar(256)"`
+	Review              string     `gorm:"type:varchar(4000)"`
+	GoWithID            uint16     `gorm:"type:smallint unsigned"`
+	FirstReviewID       uint64     `gorm:"type:int unsigned;index"`
+	OrgReviewID         uint64     `gorm:"type:int unsigned"`
+	PtrComment          string     `gorm:"type:varchar(1000)"`
+	LikeCount           uint64     `gorm:"type:int unsigned"`
+	Status              string     `gorm:"type:enum('new','pending','published','declined','deleted');index"`
+	PtrStatus           string     `gorm:"type:enum('pending','published','declined')"`
+	UseFlag             uint8      `gorm:"type:tinyint unsigned;index"`
+	MappingID           int64      `gorm:"type:int"`
+	CdFlag              uint8      `gorm:"type:tinyint unsigned;default:0"`
+	PostDate            *time.Time `gorm:"type:datetime"`
+	CommentDate         *time.Time `gorm:"type:datetime"`
+	StatusChangeDate    *time.Time `gorm:"type:datetime"`
+	StatusChangeID      int        `gorm:"type:int"`
+	PtrStatusChangeDate *time.Time `gorm:"type:datetime"`
+	PtrStatusChangeID   int        `gorm:"type:int"`
+	MSiteID             int        `gorm:"type:int"`
+	LangID              int        `gorm:"type:int unsigned;index"`
+	MOriginID           uint64     `gorm:"type:int unsigned"`
+	ActivityDate        *time.Time `gorm:"type:date"`
+	PtrBasicID          int        `gorm:"type:int unsigned;index"`
+	PointCurrency       string     `gorm:"type:varchar(10)"`
+	Created             *time.Time `gorm:"type:datetime"`
+	CreatedUserID       int        `gorm:"type:int"`
+	CreatedURL          string     `gorm:"type:varchar(512)"`
+	Updated             *time.Time `gorm:"type:datetime"`
+	UpdatedUserID       int        `gorm:"type:int"`
+	UpdatedURL          string     `gorm:"type:varchar(512)"`
+	ACConversionFlag    uint8      `gorm:"type:tinyint unsigned;index;default:0"`
 }
 
 type ReviewImage struct {
-    gorm.Model
-    ID                 uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
-    Filename           string     `gorm:"type:varchar(128)"`
-    FilenameBase       string     `gorm:"type:varchar(128)"`
-    Width              uint64     `gorm:"type:int unsigned"`
-    Height             uint64     `gorm:"type:int unsigned"`
-    Size               uint64     `gorm:"type:int unsigned"`
-    Comment            string     `gorm:"type:varchar(1000)"`
-
-    Created            *time.Time `gorm:"type:datetime"`
-    CreatedUserID      uint64     `gorm:"type:int unsigned"`
-    CreatedURL         string     `gorm:"type:varchar(512)"`
-    Updated            *time.Time `gorm:"type:datetime"`
-    UpdatedUserID      int        `gorm:"type:int"`
-    UpdatedURL         string     `gorm:"type:varchar(512)"`
-    ACConversionFlag   uint8      `gorm:"type:tinyint unsigned;index;default:0"`
+	gorm.Model
+	ID                 uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
+	Filename           string     `gorm:"type:varchar(128)"`
+	FilenameBase       string     `gorm:"type:varchar(128)"`
+	Width              uint64     `gorm:"type:int unsigned"`
+	Height             uint64     `gorm:"type:int unsigned"`
+	Size               uint64     `gorm:"type:int unsigned"`
+	Comment            string     `gorm:"type:varchar(1000)"`
+	Created            *time.Time `gorm:"type:datetime"`
+	CreatedUserID      uint64     `gorm:"type:int unsigned"`
+	CreatedURL         string     `gorm:"type:varchar(512)"`
+	Updated            *time.Time `gorm:"type:datetime"`
+	UpdatedUserID      int        `gorm:"type:int"`
+	UpdatedURL         string     `gorm:"type:varchar(512)"`
+	ACConversionFlag   uint8      `gorm:"type:tinyint unsigned;index;default:0"`
 }
 
 type ReviewKeys struct {
-    ID             uint      `gorm:"column:id;primaryKey"`
-    BookingID      uint      `gorm:"column:booking_id;index"`
-    TrUserBasicID  uint      `gorm:"column:tr_user_basic_id"`
-    Hash           string    `gorm:"column:hash;unique"`
-    Created        time.Time `gorm:"column:created"`
-    CreatedUserID  uint      `gorm:"column:created_user_id"`
-    CreatedURL     string    `gorm:"column:created_url"`
-    Updated        time.Time `gorm:"column:updated"`
-    UpdatedUserID  uint      `gorm:"column:updated_user_id"`
-    UpdatedURL     string    `gorm:"column:updated_url"`
+	ID                 uint      `gorm:"column:id;primaryKey"`
+	BookingID          uint      `gorm:"column:booking_id;index"`
+	TrUserBasicID      uint      `gorm:"column:tr_user_basic_id"`
+	Hash               string    `gorm:"column:hash;unique"`
+	Created            time.Time `gorm:"column:created"`
+	CreatedUserID      uint      `gorm:"column:created_user_id"`
+	CreatedURL         string    `gorm:"column:created_url"`
+	Updated            time.Time `gorm:"column:updated"`
+	UpdatedUserID      uint      `gorm:"column:updated_user_id"`
+	UpdatedURL         string    `gorm:"column:updated_url"`
 }
 
 var db = make(map[string]string)
 
 func migrateDatabase() {
-    db, err := gorm.Open(mysql.Open("moomin:moomin@tcp(127.0.0.1:3306)/test"), &gorm.Config{})
-    if err != nil {
-        log.Fatal(err)
-    }
-    if err := db.AutoMigrate(&Review{}, &ReviewImage{}, &ReviewKeys{}); err != nil {
-        log.Fatal(err)
-    }
+	db, err := gorm.Open(mysql.Open("moomin:moomin@tcp(127.0.0.1:3306)/test"), &gorm.Config{})
+	if err != nil {
+		log.Fatal(err)
+	}
+	if err := db.AutoMigrate(&Review{}, &ReviewImage{}, &ReviewKeys{}); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func setupRouter() *gin.Engine {
