@@ -85,38 +85,46 @@ type ReviewKeys struct {
 }
 
 // Tables of Dynamic Review 
+type ReviewQTTemplate struct {
+	ID       int `gorm:"primaryKey"`
+	Templates []Template
+}
+
 type Template struct {
 	ID                 int    `gorm:"primaryKey"`
 	QuestionsID        string `gorm:"column:questions_id"`
-	SortOrder          string `gorm:"column:sort_order"`
+	SortOrder          int    `gorm:"column:sort_order"`
 	ReviewQTTemplateID int    `gorm:"column:review_qt_template_id"`
+	Questionnaires []Questionnaire `gorm:"foreignKey:TemplateReviewQTTemplateID"`
 }
 
 type Questionnaire struct {
-    ID                           int    `gorm:"primaryKey"`
-    Title                        string
-    FieldType                    string `gorm:"column:field_type"`
-    FieldID                      string `gorm:"column:field_id"`
-    TemplateID                   int    `gorm:"column:template_id"`
-    TemplateReviewQTTemplateID   int    `gorm:"column:template_review_qt_template_id"`
+	ID                           int       `gorm:"primaryKey"`
+	Title                        string
+	FieldType                    string    `gorm:"column:field_type"`
+	FieldID                      string    `gorm:"column:field_id"`
+	TemplateID                   int       `gorm:"column:template_id"`
+	TemplateReviewQTTemplateID   int       `gorm:"column:template_review_qt_template_id"`
+	QTFields                     []QTField `gorm:"foreignKey:QuestioneriesID"`
 }
 
 type Answer struct {
-    ID                                     int `gorm:"primaryKey"`
-    Answer                                 string
-    QTFieldID                              int `gorm:"column:qt_field_id"`
-    QTFieldQuestioneriesID                 int `gorm:"column:qt_field_questionnaires_id"`
-    QTFieldQuestioneriesTemplateID         int `gorm:"column:qt_field_questionnaires_template_id"`
-    QTFieldQuestioneriesTemplateReviewID   int `gorm:"column:qt_field_questionnaires_template_review_qt_template_id"`
+	ID                                     int `gorm:"primaryKey"`
+	Answer                                 string
+	QTFieldID                              int `gorm:"column:qt_field_id"`
+	QTFieldQuestioneriesID                 int `gorm:"column:qt_field_questionnaires_id"`
+	QTFieldQuestioneriesTemplateID         int `gorm:"column:qt_field_questionnaires_template_id"`
+	QTFieldQuestioneriesTemplateReviewID   int `gorm:"column:qt_field_questionnaires_template_review_qt_template_id"`
 }
 
 type QTField struct {
-    ID                                        int `gorm:"primaryKey"`
-    Type                                      string
-    AnswerID                                  string `gorm:"column:answer_id"`
-    QuestioneriesID                           int    `gorm:"column:questionnaires_id"`
-    QuestioneriesTemplateID                   int    `gorm:"column:questionnaires_template_id"`
-    QuestioneriesTemplateReviewQTTemplateID   int    `gorm:"column:questionnaires_template_review_qt_template_id"`
+	ID                                        int      `gorm:"primaryKey"`
+	Type                                      string
+	AnswerID                                  string   `gorm:"column:answer_id"`
+	QuestioneriesID                           int      `gorm:"column:questionnaires_id"`
+	QuestioneriesTemplateID                   int      `gorm:"column:questionnaires_template_id"`
+	QuestioneriesTemplateReviewQTTemplateID   int      `gorm:"column:questionnaires_template_review_qt_template_id"`
+	QTFieldQuestioneriesTemplate              []Answer `gorm:"foreignKey:QTFieldQuestioneriesID"`
 }
 
 var db = make(map[string]string)
@@ -127,9 +135,12 @@ func migrateDatabase() {
 		log.Fatal(err)
 	}
 
+	// migrate schema
 	if err := db.AutoMigrate(&Review{}, &ReviewImage{}, &ReviewKeys{}, &Template{}, &Questionnaire{}, &Answer{}, &QTField{}); err != nil {
 		log.Fatal(err)
 	}
+
+	// migrate data
 }
 
 func setupRouter() *gin.Engine {
