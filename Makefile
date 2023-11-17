@@ -10,7 +10,7 @@ run:
 	go build -o webapp
 	./webapp $(arg)
 
-migrate:
+mig:
 	mysql -u moomin -pmoomin -e "drop database test; create database test"
 	go build -o webapp
 	./webapp m
