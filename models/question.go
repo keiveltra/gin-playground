@@ -1,4 +1,4 @@
-package main
+package models
 
 import (
     "time"
@@ -12,5 +12,3 @@ type Question struct {
 	CreatedAt          time.Time `gorm:"type:datetime" json:"created_at"`
 	UpdatedAt          time.Time `gorm:"type:datetime" json:"updated_at"`
 }
-
-

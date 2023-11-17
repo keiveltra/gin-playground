@@ -6,6 +6,7 @@ import (
 	"gorm.io/gorm"
 	"log"
 	"time"
+	"veltra.com/gin_playground/models"
 )
 
 var db = make(map[string]string)
@@ -17,14 +18,14 @@ func migrateDatabase() {
 	}
 
 	models := []interface{}{
-	    &Review{},
-	    &ReviewImage{},
-	    &ReviewKeys{},
-	    &QuestionTemplate{},
-	    &Question{},
-	    &QuestionSection{},
-	    &QuestionOption{},
-	    &Answer{},
+	    &models.Review{},
+	    &models.ReviewImage{},
+	    &models.ReviewKeys{},
+	    &models.QuestionTemplate{},
+	    &models.Question{},
+	    &models.QuestionSection{},
+	    &models.QuestionOption{},
+	    &models.Answer{},
 	}
 	
 	if err := db.AutoMigrate(models...); err != nil {
@@ -59,13 +60,13 @@ func migrateDatabase() {
 	}
 }
 
-func getReviewImage() ReviewImage {
-	return ReviewImage{}
+func getReviewImage() models.ReviewImage {
+	return models.ReviewImage{}
 }
 
-func getReviewKeys() ReviewKeys {
+func getReviewKeys() models.ReviewKeys {
     	currentTime := time.Now()
-	return ReviewKeys{
+	return models.ReviewKeys{
 		BookingID: 1,
 		TrUserBasicID: 100,
 		Hash: "abc123abc123",
@@ -74,19 +75,19 @@ func getReviewKeys() ReviewKeys {
 	}
 }
 
-func getQuestionTemplate() QuestionTemplate {
-	return QuestionTemplate{
+func getQuestionTemplate() models.QuestionTemplate {
+	return models.QuestionTemplate{
 		Name: "Type 1",
 	}
 }
 
-func getQuestionSection(questionTemplateID uint) QuestionSection {
+func getQuestionSection(questionTemplateID uint) models.QuestionSection {
 	currentTime := time.Now()
 
 	fmt.Println("questionTemplateID is:", questionTemplateID)
-	return QuestionSection{
+	return models.QuestionSection{
 		QuestionTemplateID: questionTemplateID,
-		Type:               SectionTypeNormal,
+		Type:               models.SectionTypeNormal,
 		Label:              "Type 1",
 		SortOrder:          1,
 		CreatedAt:          currentTime,
@@ -94,13 +95,13 @@ func getQuestionSection(questionTemplateID uint) QuestionSection {
 	}
 }
 
-func getQuestionOption(questionSectionID uint) QuestionOption {
+func getQuestionOption(questionSectionID uint) models.QuestionOption {
 	currentTime := time.Now()
 
 	fmt.Println("questionSectionID is:", questionSectionID)
-	return QuestionOption{
+	return models.QuestionOption{
 		QuestionSectionID:  questionSectionID,
-		Type:               string(OptionTypeCheckbox),
+		Type:               string(models.OptionTypeCheckbox),
 		Label:              "How is the staff?",
 		SortOrder:          1,
 		CreatedAt:          currentTime,
@@ -108,10 +109,10 @@ func getQuestionOption(questionSectionID uint) QuestionOption {
 	}
 }
 
-func getAnswer(questionSectionID uint, questionOptionID uint, reviewID uint) Answer {
+func getAnswer(questionSectionID uint, questionOptionID uint, reviewID uint) models.Answer {
 	currentTime := time.Now()
 	
-	return Answer{
+	return models.Answer{
 		QuestionSectionID:  questionSectionID,
 		QuestionOptionID:   questionOptionID,
 		ReviewID:           reviewID,
@@ -121,11 +122,11 @@ func getAnswer(questionSectionID uint, questionOptionID uint, reviewID uint) Ans
 	}
 }
 
-func getReview() Review {
+func getReview() models.Review {
 	currentTime := time.Now()
 	
-	return Review{
-		ServiceKey:         Activity,
+	return models.Review{
+		ServiceKey:         models.Activity,
 		ServiceCategoryID:  10,
 		BookingID:          12345,
 		UserBasicID:        1,
