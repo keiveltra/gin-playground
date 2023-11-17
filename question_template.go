@@ -1,0 +1,14 @@
+package main
+
+import (
+    "time"
+)
+
+type QuestionTemplate struct {
+	ID        uint      `gorm:"type:int unsigned;primary_key;auto_increment" json:"id"`
+	Name      string    `gorm:"type:varchar(255)" json:"name"`
+	CreatedAt time.Time `gorm:"type:datetime" json:"created_at"`
+	UpdatedAt time.Time `gorm:"type:datetime" json:"updated_at"`
+
+	Questions []Question `gorm:"foreignKey:QuestionTemplateID"`
+}
