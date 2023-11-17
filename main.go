@@ -10,18 +10,18 @@ import (
 	"time"
 )
 
-// Tables of Status Quo
 type Review struct {
 	gorm.Model
 	ID                  uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
 	ServiceKey          string     `gorm:"type:enum('ac','ticket');index"`
-	ServiceTargetId     uint64     `gorm:"type:int unsigned"`
+	ServiceCategoryID   uint64     `gorm:"type:int unsigned"`
 	BookingID           uint64     `gorm:"type:int unsigned"`
 	UserBasicID         uint64     `gorm:"type:int unsigned;index"`
 	Rate                uint8      `gorm:"type:tinyint unsigned;index:idx_rate;default:5"`
 	DisplayUserName     string     `gorm:"type:varchar(64)"`
 	Title               string     `gorm:"type:varchar(256)"`
 	Review              string     `gorm:"type:varchar(4000)"`
+	Advice              string     `gorm:"type:varchar(4000)"`
 	GoWithID            uint16     `gorm:"type:smallint unsigned"`
 	FirstReviewID       uint64     `gorm:"type:int unsigned;index"`
 	OrgReviewID         uint64     `gorm:"type:int unsigned"`
@@ -51,6 +51,8 @@ type Review struct {
 	UpdatedUserID       int        `gorm:"type:int"`
 	UpdatedURL          string     `gorm:"type:varchar(512)"`
 	ACConversionFlag    uint8      `gorm:"type:tinyint unsigned;index;default:0"`
+
+	Answers []Answer `gorm:"foreignKey:ReviewID"`
 }
 
 type ReviewImage struct {
@@ -84,47 +86,61 @@ type ReviewKeys struct {
 	UpdatedURL         string    `gorm:"column:updated_url"`
 }
 
-// Tables of Dynamic Review 
-type ReviewQTTemplate struct {
-	ID       int `gorm:"primaryKey"`
-	Templates []Template
+type Question struct {
+	ID                 uint      `gorm:"type:int unsigned;primary_key;auto_increment" json:"id"`
+	QuestionTemplateID uint      `gorm:"type:int unsigned" json:"question_template_id"`
+	ServiceKey         string    `gorm:"type:enum('activity','ticket','point')" json:"service_key"`
+	ServiceCategoryID  uint      `gorm:"type:int unsigned" json:"service_target_id"`
+	CreatedAt          time.Time `gorm:"type:datetime" json:"created_at"`
+	UpdatedAt          time.Time `gorm:"type:datetime" json:"updated_at"`
+	
+	QuestionSections []QuestionSection `gorm:"foreignKey:QuestionTemplateID"`
 }
 
-type Template struct {
-	ID                 int    `gorm:"primaryKey"`
-	QuestionsID        string `gorm:"column:questions_id"`
-	SortOrder          int    `gorm:"column:sort_order"`
-	ReviewQTTemplateID int    `gorm:"column:review_qt_template_id"`
-	Questionnaires []Questionnaire `gorm:"foreignKey:TemplateReviewQTTemplateID"`
+type QuestionTemplate struct {
+	ID        uint      `gorm:"type:int unsigned;primary_key;auto_increment" json:"id"`
+	Name      string    `gorm:"type:varchar(255)" json:"name"`
+	CreatedAt time.Time `gorm:"type:datetime" json:"created_at"`
+	UpdatedAt time.Time `gorm:"type:datetime" json:"updated_at"`
+
+	Questions []Question `gorm:"foreignKey:QuestionTemplateID"`
 }
 
-type Questionnaire struct {
-	ID                           int       `gorm:"primaryKey"`
-	Title                        string
-	FieldType                    string    `gorm:"column:field_type"`
-	FieldID                      string    `gorm:"column:field_id"`
-	TemplateID                   int       `gorm:"column:template_id"`
-	TemplateReviewQTTemplateID   int       `gorm:"column:template_review_qt_template_id"`
-	QTFields                     []QTField `gorm:"foreignKey:QuestioneriesID"`
+type QuestionSection struct {
+	ID                uint      `gorm:"type:int unsigned;primary_key;auto_increment" json:"id"`
+	QuestionTemplateID uint     `gorm:"type:int unsigned" json:"question_template_id"`
+	Type              string    `gorm:"type:enum('normal','weather','multi_choice')" json:"type"`
+	Label             string    `gorm:"type:varchar(100)" json:"label"`
+	SortOrder         uint      `gorm:"type:int unsigned" json:"sort_order"`
+	CreatedAt         time.Time `gorm:"type:datetime" json:"created_at"`
+	UpdatedAt         time.Time `gorm:"type:datetime" json:"updated_at"`
+
+	QuestionOptions []QuestionOption `gorm:"foreignKey:QuestionSectionID"`
+}
+ 
+type QuestionOption struct {
+	ID                uint      `gorm:"type:int unsigned;primary_key;auto_increment" json:"id"`
+	QuestionSectionID uint      `gorm:"type:int unsigned" json:"question_section_id"`
+	Type              uint8     `gorm:"type:tinyint unsigned" json:"type"`
+	Label             string    `gorm:"type:varchar(100)" json:"label"`
+	SortOrder         uint      `gorm:"type:int unsigned" json:"sort_order"`
+	CreatedAt         time.Time `gorm:"type:datetime" json:"created_at"`
+	UpdatedAt         time.Time `gorm:"type:datetime" json:"updated_at"`
+
+	Answers []Answer `gorm:"foreignKey:QuestionOptionID"`
 }
 
 type Answer struct {
-	ID                                     int `gorm:"primaryKey"`
-	Answer                                 string
-	QTFieldID                              int `gorm:"column:qt_field_id"`
-	QTFieldQuestioneriesID                 int `gorm:"column:qt_field_questionnaires_id"`
-	QTFieldQuestioneriesTemplateID         int `gorm:"column:qt_field_questionnaires_template_id"`
-	QTFieldQuestioneriesTemplateReviewID   int `gorm:"column:qt_field_questionnaires_template_review_qt_template_id"`
-}
+	ID                uint      `gorm:"type:int unsigned;primary_key;auto_increment" json:"id"`
+	QuestionSectionID uint      `gorm:"type:int unsigned" json:"question_section_id"`
+	QuestionOptionID  uint      `gorm:"type:int unsigned" json:"question_field_id"`
+	ReviewID          uint      `gorm:"type:int unsigned" json:"review_id"`
+	Value             uint      `gorm:"type:int unsigned" json:"value"`
+	CreatedAt         time.Time `gorm:"type:datetime;default:CURRENT_TIMESTAMP" json:"created_at"`
+	UpdatedAt         time.Time `gorm:"type:datetime;default:CURRENT_TIMESTAMP" json:"updated_at"`
 
-type QTField struct {
-	ID                                        int      `gorm:"primaryKey"`
-	Type                                      string
-	AnswerID                                  string   `gorm:"column:answer_id"`
-	QuestioneriesID                           int      `gorm:"column:questionnaires_id"`
-	QuestioneriesTemplateID                   int      `gorm:"column:questionnaires_template_id"`
-	QuestioneriesTemplateReviewQTTemplateID   int      `gorm:"column:questionnaires_template_review_qt_template_id"`
-	QTFieldQuestioneriesTemplate              []Answer `gorm:"foreignKey:QTFieldQuestioneriesID"`
+	Review Review `gorm:"foreignKey:ReviewID"`
+	QuestionOption QuestionOption `gorm:"foreignKey:QuestionOptionID"`
 }
 
 var db = make(map[string]string)
@@ -135,12 +151,20 @@ func migrateDatabase() {
 		log.Fatal(err)
 	}
 
-	// migrate schema
-	if err := db.AutoMigrate(&Review{}, &ReviewImage{}, &ReviewKeys{}, &Template{}, &Questionnaire{}, &Answer{}, &QTField{}); err != nil {
-		log.Fatal(err)
+	models := []interface{}{
+	    &Review{},
+	    &ReviewImage{},
+	    &ReviewKeys{},
+	    &QuestionTemplate{},
+	    &Question{},
+	    &QuestionSection{},
+	    &QuestionOption{},
+	    &Answer{},
 	}
-
-	// migrate data
+	
+	if err := db.AutoMigrate(models...); err != nil {
+	    log.Fatal(err)
+	}
 }
 
 func setupRouter() *gin.Engine {
@@ -177,13 +201,13 @@ func setupRouter() *gin.Engine {
 	}))
 
 	/* example curl for /admin with basicauth header
-	   Zm9vOmJhcg== is base64("foo:bar")
+	Zm9vOmJhcg== is base64("foo:bar")
 
 		curl -X POST \
-	  	http://localhost:8080/admin \
-	  	-H 'authorization: Basic Zm9vOmJhcg==' \
-	  	-H 'content-type: application/json' \
-	  	-d '{"value":"bar"}'
+	http://localhost:8080/admin \
+	-H 'authorization: Basic Zm9vOmJhcg==' \
+	-H 'content-type: application/json' \
+	-d '{"value":"bar"}'
 	*/
 	authorized.POST("admin", func(c *gin.Context) {
 		user := c.MustGet(gin.AuthUserKey).(string)
