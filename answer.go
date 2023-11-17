@@ -12,9 +12,4 @@ type Answer struct {
 	Value             uint      `gorm:"type:int unsigned" json:"value"`
 	CreatedAt         time.Time `gorm:"type:datetime;default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt         time.Time `gorm:"type:datetime;default:CURRENT_TIMESTAMP" json:"updated_at"`
-
-	Review Review `gorm:"foreignKey:ReviewID"`
-	QuestionOption QuestionOption `gorm:"foreignKey:QuestionOptionID"`
 }
-
-

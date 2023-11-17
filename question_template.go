@@ -10,5 +10,6 @@ type QuestionTemplate struct {
 	CreatedAt time.Time `gorm:"type:datetime" json:"created_at"`
 	UpdatedAt time.Time `gorm:"type:datetime" json:"updated_at"`
 
-	Questions []Question `gorm:"foreignKey:QuestionTemplateID"`
+	QuestionSections []QuestionSection `gorm:"foreignKey:QuestionTemplateID"`
+	Questions        []Question        `gorm:"foreignKey:QuestionTemplateID"`
 }

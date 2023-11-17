@@ -11,8 +11,6 @@ type Question struct {
 	ServiceCategoryID  uint      `gorm:"type:int unsigned" json:"service_target_id"`
 	CreatedAt          time.Time `gorm:"type:datetime" json:"created_at"`
 	UpdatedAt          time.Time `gorm:"type:datetime" json:"updated_at"`
-	
-	QuestionSections []QuestionSection `gorm:"foreignKey:QuestionTemplateID"`
 }
 
 

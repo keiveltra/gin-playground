@@ -18,5 +18,5 @@ type QuestionOption struct {
 	CreatedAt         time.Time `gorm:"type:datetime" json:"created_at"`
 	UpdatedAt         time.Time `gorm:"type:datetime" json:"updated_at"`
 
-	Answers []Answer `gorm:"foreignKey:QuestionOptionID"`
+	Answer Answer `gorm:"foreignKey:QuestionOptionID"`
 }

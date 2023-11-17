@@ -7,9 +7,9 @@ import (
 
 type ServiceKey string
 const (
-    Activity = iota
-    Ticket
-    Store
+    Activity ServiceKey = "ac"
+    Ticket   ServiceKey = "ticket"
+    Store    ServiceKey = "store"
 )
 
 type Status string
@@ -31,7 +31,7 @@ const (
 type Review struct {
 	gorm.Model
 	ID                  uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
-	ServiceKey          string     `gorm:"type:enum('ac','ticket');index"`
+	ServiceKey          ServiceKey `gorm:"type:enum('ac','ticket');index"`
 	ServiceCategoryID   uint64     `gorm:"type:int unsigned"`
 	BookingID           uint64     `gorm:"type:int unsigned"`
 	UserBasicID         uint64     `gorm:"type:int unsigned;index"`
@@ -70,7 +70,7 @@ type Review struct {
 	UpdatedURL          string     `gorm:"type:varchar(512)"`
 	ACConversionFlag    uint8      `gorm:"type:tinyint unsigned;index;default:0"`
 
-	Answers []Answer `gorm:"foreignKey:ReviewID"`
+	Answer Answer `gorm:"foreignKey:ReviewID"`
 }
 
 // func (r *Review) UpdateMyself(newLabel string) {
