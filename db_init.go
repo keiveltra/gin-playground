@@ -2,9 +2,11 @@ package main
 
 import (
 	"fmt"
+	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"log"
+	"os"
 	"time"
 	"veltra.com/gin_playground/models"
 )
@@ -33,27 +35,32 @@ func migrateDatabase() {
 	}
 
 	fmt.Println("Injecting the dataset ...")
-	review           := getReview()
-	db.Create(&review)
 
-	reviewImage      := getReviewImage()
-	db.Create(&reviewImage)
+        for _, data := range getTestModelDataFromYaml() {	
+		fmt.Println("...%s", data)
 
-	reviewKeys       := getReviewKeys()
-	db.Create(&reviewKeys)
+		review := getReview(data)
+		db.Create(&review)
+	}
 
-	questionTemplate := getQuestionTemplate()
-	db.Create(&questionTemplate)
+	//reviewImage := getReviewImage()
+	//db.Create(&reviewImage)
 
-	questionSection  := getQuestionSection(questionTemplate.ID)
-	db.Create(&questionSection)
+	//reviewKeys := getReviewKeys()
+	//db.Create(&reviewKeys)
 
-	questionOption   := getQuestionOption(questionSection.ID)
-	db.Create(&questionOption)
+	//questionTemplate := getQuestionTemplate()
+	//db.Create(&questionTemplate)
 
-	answer           := getAnswer(questionSection.ID, 
-				      questionOption.ID, uint(review.ID))
-	db.Create(&answer)
+	//questionSection := getQuestionSection(questionTemplate.ID)
+	//db.Create(&questionSection)
+
+	//questionOption := getQuestionOption(questionSection.ID)
+	//db.Create(&questionOption)
+
+	//answer := getAnswer(questionSection.ID, 
+	//      	      questionOption.ID, uint(review.ID))
+	//db.Create(&answer)
 
 	if db.Error != nil {
 		log.Fatal(db.Error)
@@ -122,21 +129,46 @@ func getAnswer(questionSectionID uint, questionOptionID uint, reviewID uint) mod
 	}
 }
 
-func getReview() models.Review {
+func getTestModelDataFromYaml() []map[string]interface{} {
+	viper.SetConfigFile("test/fixtures/test.yaml")
+
+	if err := viper.ReadInConfig(); err != nil {
+		fmt.Printf("Error reading config file: %s\n", err)
+		os.Exit(1)
+	}
+
+	var result []map[string]interface{}
+	reviews := viper.Get("data").([]interface{})
+	for _, review := range reviews {
+		reviewMap         := review.(map[string]interface{})
+		result             = append(result, reviewMap)
+	}
+
+	return result
+}
+
+func getReview(data map[string]interface{}) models.Review {
 	currentTime := time.Now()
-	
+
+	serviceCategoryID, _ := data["service_category_id"].(uint64)	
+	bookingID, _         := data["booking_id"].(uint64)	
+	userBasicID, _       := data["user_basic_id"].(uint64)	
+	rate, _              := data["rate"].(uint8)	
+	displayUserName, _   := data["display_user_name"].(string)	
+	advice, _            := data["advice"].(string)
+	goWithID, _          := data["go_with_id"].(uint16)
+	firstReviewID, _     := data["first_review_id"].(uint64)
+
 	return models.Review{
 		ServiceKey:         models.Activity,
-		ServiceCategoryID:  10,
-		BookingID:          12345,
-		UserBasicID:        1,
-		Rate:               4,
-		DisplayUserName:    "David Solomon a.k.a D-sol",
-		Title:              "I LOVE THIS PLACE!!!!!",
-		Review:             "This is one of the best stadium in the world I can dance, and forget about my daily job",
-		Advice:             "Well, do not wear any suits. you are here to enjoy.",
-		GoWithID:           777,
-		FirstReviewID:      0,
+		ServiceCategoryID:  serviceCategoryID,
+		BookingID:          bookingID,
+		UserBasicID:        userBasicID,
+		Rate:               rate,
+		DisplayUserName:    displayUserName,
+		Advice:             advice,
+		GoWithID:           goWithID,
+		FirstReviewID:      firstReviewID,
 		OrgReviewID:        10,
 		PtrComment:         "Thanks. Our team is very impressed about your feedback.",
 		LikeCount:          200000,
