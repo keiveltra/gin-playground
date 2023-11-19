@@ -158,6 +158,21 @@ func getReview(data map[string]interface{}) models.Review {
 	advice, _            := data["advice"].(string)
 	goWithID, _          := data["go_with_id"].(uint16)
 	firstReviewID, _     := data["first_review_id"].(uint64)
+	orgReviewID, _       := data["org_review_id"].(uint64)
+	ptrComment, _        := data["ptr_comment"].(string)
+	likeCount, _         := data["like_count"].(uint64)
+	status, _            := data["status"].(string)
+	ptrStatus, _         := data["ptr_status"].(string)
+	useFlag, _           := data["use_flag"].(uint8)
+	mappingID, _         := data["mapping_id"].(int64)
+	cdFlag, _            := data["cd_flag"].(uint8)
+	statusChangeID, _    := data["status_change_id"].(int)
+	ptrStatusChangeID, _ := data["ptr_status_change_id"].(int)
+	mSiteID, _           := data["m_site_id"].(int)
+	langID, _            := data["lang_id"].(int)
+	mOriginID, _         := data["m_origin_id"].(uint64)
+	ptrBasicID, _        := data["ptr_basic_id"].(int)
+	pointCurrency, _     := data["point_currency"].(string)
 
 	return models.Review{
 		ServiceKey:         models.Activity,
@@ -169,26 +184,26 @@ func getReview(data map[string]interface{}) models.Review {
 		Advice:             advice,
 		GoWithID:           goWithID,
 		FirstReviewID:      firstReviewID,
-		OrgReviewID:        10,
-		PtrComment:         "Thanks. Our team is very impressed about your feedback.",
-		LikeCount:          200000,
-		Status:             "new",
-		PtrStatus:          "pending",
-		UseFlag:            10,
-		MappingID:          10,
-		CdFlag:             10,
+		OrgReviewID:        orgReviewID,
+		PtrComment:         ptrComment,
+		LikeCount:          likeCount,
+		Status:             status,
+		PtrStatus:          ptrStatus,
+		UseFlag:            useFlag,
+		MappingID:          mappingID,
+		CdFlag:             cdFlag,
 		PostDate:           &currentTime,
 		CommentDate:        &currentTime,
 		StatusChangeDate:   &currentTime,
-		StatusChangeID:     10,
+		StatusChangeID:     statusChangeID,
 	    	PtrStatusChangeDate: &currentTime,
-	    	PtrStatusChangeID:  20,
-	    	MSiteID:            10,
-	    	LangID:             2,
-	    	MOriginID:          10,
+	    	PtrStatusChangeID:  ptrStatusChangeID,
+	    	MSiteID:            mSiteID,
+	    	LangID:             langID,
+	    	MOriginID:          mOriginID,
 	    	ActivityDate:       &currentTime,
-	    	PtrBasicID:         23456,
-	    	PointCurrency:      "JPY",
+	    	PtrBasicID:         ptrBasicID,
+	    	PointCurrency:      pointCurrency,
 	    	Created:            &currentTime,
 	    	CreatedUserID:      30,
 	    	CreatedURL:         "http://veltra.com/ac",
