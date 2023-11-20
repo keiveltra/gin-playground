@@ -43,8 +43,8 @@ func migrateDatabase() {
 		db.Create(&review)
 	}
 
-	//reviewImage := getReviewImage()
-	//db.Create(&reviewImage)
+	reviewImage := getReviewImage()
+	db.Create(&reviewImage)
 
 	//reviewKeys := getReviewKeys()
 	//db.Create(&reviewKeys)
@@ -147,17 +147,29 @@ func getTestModelDataFromYaml() []map[string]interface{} {
 	return result
 }
 
+func toUint64(data map[string]interface{}, key string) uint64 {
+	value, _ := data[key].(uint64)	
+	return value
+}
+
+func toUint8(data map[string]interface{}, key string) uint8 {
+	value, _ := data[key].(uint8)	
+	return value
+}
+
+func toUint16(data map[string]interface{}, key string) uint16 {
+	value, _ := data[key].(uint16)	
+	return value
+}
+
+func toString(data map[string]interface{}, key string) string {
+	value, _ := data[key].(string)	
+	return value
+}
+
 func getReview(data map[string]interface{}) models.Review {
 	currentTime := time.Now()
-
-	serviceCategoryID, _ := data["service_category_id"].(uint64)	
-	bookingID, _         := data["booking_id"].(uint64)	
-	userBasicID, _       := data["user_basic_id"].(uint64)	
-	rate, _              := data["rate"].(uint8)	
-	displayUserName, _   := data["display_user_name"].(string)	
-	advice, _            := data["advice"].(string)
-	goWithID, _          := data["go_with_id"].(uint16)
-	firstReviewID, _     := data["first_review_id"].(uint64)
+	
 	orgReviewID, _       := data["org_review_id"].(uint64)
 	ptrComment, _        := data["ptr_comment"].(string)
 	likeCount, _         := data["like_count"].(uint64)
@@ -176,14 +188,14 @@ func getReview(data map[string]interface{}) models.Review {
 
 	return models.Review{
 		ServiceKey:         models.Activity,
-		ServiceCategoryID:  serviceCategoryID,
-		BookingID:          bookingID,
-		UserBasicID:        userBasicID,
-		Rate:               rate,
-		DisplayUserName:    displayUserName,
-		Advice:             advice,
-		GoWithID:           goWithID,
-		FirstReviewID:      firstReviewID,
+		ServiceCategoryID:  toUint64(data, "service_category_id"),
+		BookingID:          toUint64(data, "booking_id"),
+		UserBasicID:        toUint64(data, "user_basic_id"),
+		Rate:               toUint8(data, "rate"),
+		DisplayUserName:    toString(data, "display_user_name"),
+		Advice:             toString(data, "advice"),
+		GoWithID:           toUint16(data, "go_with_id"),
+		FirstReviewID:      toUint64(data, "first_review_id"),
 		OrgReviewID:        orgReviewID,
 		PtrComment:         ptrComment,
 		LikeCount:          likeCount,
