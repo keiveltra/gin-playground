@@ -1,5 +1,5 @@
 data:
-  - review_id: 0
+  - id: 0
     service_category_id: 10
     booking_id: 12345
     user_basic_id: 123
@@ -24,7 +24,7 @@ data:
     ptr_basic_id: 23456
     point_currency: "JPY"
 
-  - review_id: 1
+  - id: 1
     service_category_id: 11
     booking_id: 12346
     user_basic_id: 130

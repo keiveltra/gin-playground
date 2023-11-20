@@ -36,15 +36,19 @@ func migrateDatabase() {
 
 	fmt.Println("Injecting the dataset ...")
 
-        for _, data := range getTestModelDataFromYaml() {	
-		fmt.Println("...%s", data)
+        for _, data := range getTestModelDataFromYaml("review") {	
+		fmt.Println("review: ", data)
 
 		review := getReview(data)
 		db.Create(&review)
 	}
 
-	reviewImage := getReviewImage()
-	db.Create(&reviewImage)
+        for _, data := range getTestModelDataFromYaml("review_image") {	
+		fmt.Println("review_image: ", data)
+
+	        reviewImage := getReviewImage(data)
+	        db.Create(&reviewImage)
+	}
 
 	//reviewKeys := getReviewKeys()
 	//db.Create(&reviewKeys)
@@ -67,7 +71,24 @@ func migrateDatabase() {
 	}
 }
 
-func getReviewImage() models.ReviewImage {
+func getReviewImage(data map[string]interface{}) models.ReviewImage {
+    	currentTime := time.Now()
+	return models.ReviewImage{
+		Filename:         toString(data, "file_name"),
+		FilenameBase:     toString(data, "file_name_base"),
+		Width:            toUint64(data, "width"),
+		Height:           toUint64(data, "height"),
+		Size:             toUint64(data, "size"),
+		Comment:          toString(data, "comment"),
+		Created:          &currentTime,
+		CreatedUserID:    toUint64(data, "created_user_id"),
+		CreatedURL:       toString(data, "created_url"),
+		Updated:          &currentTime,
+		UpdatedUserID:    toInt(data, "updated_user_id"),
+		UpdatedURL:       toString(data, "updated_url"),
+		ACConversionFlag: toUint8(data, "acc_conversion_flag"),
+	}
+	
 	return models.ReviewImage{}
 }
 
@@ -129,8 +150,8 @@ func getAnswer(questionSectionID uint, questionOptionID uint, reviewID uint) mod
 	}
 }
 
-func getTestModelDataFromYaml() []map[string]interface{} {
-	viper.SetConfigFile("test/fixtures/test.yaml")
+func getTestModelDataFromYaml(target string) []map[string]interface{} {
+	viper.SetConfigFile(fmt.Sprintf("test/fixtures/%s.yaml", target))
 
 	if err := viper.ReadInConfig(); err != nil {
 		fmt.Printf("Error reading config file: %s\n", err)
@@ -146,37 +167,6 @@ func getTestModelDataFromYaml() []map[string]interface{} {
 
 	return result
 }
-
-func toUint64(data map[string]interface{}, key string) uint64 {
-	value, _ := data[key].(uint64)	
-	return value
-}
-
-func toUint8(data map[string]interface{}, key string) uint8 {
-	value, _ := data[key].(uint8)	
-	return value
-}
-
-func toUint16(data map[string]interface{}, key string) uint16 {
-	value, _ := data[key].(uint16)	
-	return value
-}
-
-func toString(data map[string]interface{}, key string) string {
-	value, _ := data[key].(string)	
-	return value
-}
-
-func toInt(data map[string]interface{}, key string) int {
-	value, _ := data[key].(int)	
-	return value
-}
-
-func toInt64(data map[string]interface{}, key string) int64 {
-	value, _ := data[key].(int64)	
-	return value
-}
-
 
 func getReview(data map[string]interface{}) models.Review {
 	currentTime := time.Now()
@@ -212,11 +202,41 @@ func getReview(data map[string]interface{}) models.Review {
 	    	PtrBasicID:         toInt   (data, "ptr_basic_id"),
 	    	PointCurrency:      toString(data, "point_currency"),
 	    	Created:            &currentTime,
-	    	CreatedUserID:      30,
-	    	CreatedURL:         "http://veltra.com/ac",
+	    	CreatedUserID:      toInt   (data, "created_user_id"),
+	    	CreatedURL:         toString(data, "created_url"),
 	    	Updated:            &currentTime,
-	    	UpdatedUserID:      30,
-	    	UpdatedURL:         "http://veltra.com/ac",
-	    	ACConversionFlag:   0,
+	    	UpdatedUserID:      toInt   (data, "updated_user_id"),
+	    	UpdatedURL:         toString(data, "updated_url"),
+	    	ACConversionFlag:   toUint8 (data, "acc_conversion_flag"),
 	    }
 }           
+
+func toUint64(data map[string]interface{}, key string) uint64 {
+	value, _ := data[key].(uint64)	
+	return value
+}
+
+func toUint8(data map[string]interface{}, key string) uint8 {
+	value, _ := data[key].(uint8)	
+	return value
+}
+
+func toUint16(data map[string]interface{}, key string) uint16 {
+	value, _ := data[key].(uint16)	
+	return value
+}
+
+func toString(data map[string]interface{}, key string) string {
+	value, _ := data[key].(string)	
+	return value
+}
+
+func toInt(data map[string]interface{}, key string) int {
+	value, _ := data[key].(int)	
+	return value
+}
+
+func toInt64(data map[string]interface{}, key string) int64 {
+	value, _ := data[key].(int64)	
+	return value
+}
