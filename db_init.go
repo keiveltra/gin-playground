@@ -50,8 +50,12 @@ func migrateDatabase() {
 	        db.Create(&reviewImage)
 	}
 
-	//reviewKeys := getReviewKeys()
-	//db.Create(&reviewKeys)
+        for _, data := range getTestModelDataFromYaml("review_image") {	
+		fmt.Println("review_keys: ", data)
+
+	        reviewKeys := getReviewKeys(data)
+	        db.Create(&reviewKeys)
+	}
 
 	//questionTemplate := getQuestionTemplate()
 	//db.Create(&questionTemplate)
@@ -92,14 +96,17 @@ func getReviewImage(data map[string]interface{}) models.ReviewImage {
 	return models.ReviewImage{}
 }
 
-func getReviewKeys() models.ReviewKeys {
+func getReviewKeys(data map[string]interface{}) models.ReviewKeys {
     	currentTime := time.Now()
+
 	return models.ReviewKeys{
-		BookingID: 1,
-		TrUserBasicID: 100,
-		Hash: "abc123abc123",
-		Created: currentTime,
-		Updated: currentTime,
+		BookingID:     toUint  (data, "booking_id"),
+		TrUserBasicID: toUint  (data, "tr_user_basic_id"),
+		Hash:          toString(data, "hash"),
+		Created:       currentTime,
+		CreatedURL:    toString(data, "created_url"),
+		Updated:       currentTime,
+		UpdatedURL:    toString(data, "updated_url"),
 	}
 }
 
@@ -223,6 +230,11 @@ func toUint8(data map[string]interface{}, key string) uint8 {
 
 func toUint16(data map[string]interface{}, key string) uint16 {
 	value, _ := data[key].(uint16)	
+	return value
+}
+
+func toUint(data map[string]interface{}, key string) uint {
+	value, _ := data[key].(uint)	
 	return value
 }
 

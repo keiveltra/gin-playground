@@ -1,0 +1,9 @@
+data:
+  - id:               0
+    booking_id:       1
+    tr_user_basic_id: 5
+    hash:             "0123456ab"
+    created_user_id:  10
+    created_url:      "test.veltra.com/a"
+    updated_user_id:  10
+    updated_url:      "test.veltra.com/b"
