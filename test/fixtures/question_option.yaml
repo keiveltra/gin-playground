@@ -1,0 +1,25 @@
+data:
+  - id: 0
+    type: "checkbox"
+    label: "誰でも"
+    sort_order: 1
+  - id: 1
+    type: "checkbox"
+    label: "カップル・夫婦"
+    sort_order: 2
+  - id: 2
+    type: "checkbox"
+    label: "友達・同僚"
+    sort_order: 3
+  - id: 3
+    type: "checkbox"
+    label: "家族"
+    sort_order: 4
+  - id: 4
+    type: "checkbox"
+    label: "一人"
+    sort_order: 5
+  - id: 5
+    type: "checkbox"
+    label: "小さなお子様連れ"
+    sort_order: 6

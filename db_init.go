@@ -66,11 +66,15 @@ func migrateDatabase() {
 			fmt.Println("question_section: ", data)
 		    	questionSection := getQuestionSection(data, questionTemplate.ID)
 			db.Create(&questionSection)
+
+			if(questionSection.Type == "multi_choice") {
+				questionOption := getQuestionOption(questionSection.ID, data)
+				db.Create(&questionOption)
+
+
+			}
 		}
 	}
-
-	//questionOption := getQuestionOption(questionSection.ID)
-	//db.Create(&questionOption)
 
 	//answer := getAnswer(questionSection.ID, 
 	//      	      questionOption.ID, uint(review.ID))
@@ -127,23 +131,22 @@ func getQuestionSection(data map[string]interface{}, questionTemplateID uint) mo
 
 	return models.QuestionSection{
 		QuestionTemplateID: questionTemplateID,
-		Type:               models.SectionTypeNormal,
-		Label:              "Type 1",
-		SortOrder:          1,
+		Type:               toEnum(data, "type"),
+		Label:              toString(data, "label"),
+		SortOrder:          toUint  (data, "sort_order"),
 		CreatedAt:          currentTime,
 		UpdatedAt:          currentTime,
 	}
 }
 
-func getQuestionOption(questionSectionID uint) models.QuestionOption {
+func getQuestionOption(questionSectionID uint, data map[string]interface{}) models.QuestionOption {
 	currentTime := time.Now()
 
-	fmt.Println("questionSectionID is:", questionSectionID)
 	return models.QuestionOption{
 		QuestionSectionID:  questionSectionID,
 		Type:               string(models.OptionTypeCheckbox),
-		Label:              "How is the staff?",
-		SortOrder:          1,
+		Label:              toString(data, "label"),
+		SortOrder:          toUint  (data, "sort_order"),
 		CreatedAt:          currentTime,
 		UpdatedAt:          currentTime,
 	}
@@ -256,4 +259,22 @@ func toInt(data map[string]interface{}, key string) int {
 func toInt64(data map[string]interface{}, key string) int64 {
 	value, _ := data[key].(int64)	
 	return value
+}
+
+func toEnum(data map[string]interface{}, key string) models.SectionType {
+	value, ok := data[key].(string)
+	if !ok {
+		return models.SectionTypeNormal
+	}
+
+	switch value {
+	case "normal":
+		return models.SectionTypeNormal
+	case "weather":
+		return models.SectionTypeWeather
+	case "multi_choice":
+		return models.SectionTypeMultiChoice
+	default:
+		return models.SectionTypeNormal
+	}
 }
