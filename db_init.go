@@ -167,55 +167,50 @@ func toString(data map[string]interface{}, key string) string {
 	return value
 }
 
+func toInt(data map[string]interface{}, key string) int {
+	value, _ := data[key].(int)	
+	return value
+}
+
+func toInt64(data map[string]interface{}, key string) int64 {
+	value, _ := data[key].(int64)	
+	return value
+}
+
+
 func getReview(data map[string]interface{}) models.Review {
 	currentTime := time.Now()
-	
-	orgReviewID, _       := data["org_review_id"].(uint64)
-	ptrComment, _        := data["ptr_comment"].(string)
-	likeCount, _         := data["like_count"].(uint64)
-	status, _            := data["status"].(string)
-	ptrStatus, _         := data["ptr_status"].(string)
-	useFlag, _           := data["use_flag"].(uint8)
-	mappingID, _         := data["mapping_id"].(int64)
-	cdFlag, _            := data["cd_flag"].(uint8)
-	statusChangeID, _    := data["status_change_id"].(int)
-	ptrStatusChangeID, _ := data["ptr_status_change_id"].(int)
-	mSiteID, _           := data["m_site_id"].(int)
-	langID, _            := data["lang_id"].(int)
-	mOriginID, _         := data["m_origin_id"].(uint64)
-	ptrBasicID, _        := data["ptr_basic_id"].(int)
-	pointCurrency, _     := data["point_currency"].(string)
 
 	return models.Review{
 		ServiceKey:         models.Activity,
 		ServiceCategoryID:  toUint64(data, "service_category_id"),
 		BookingID:          toUint64(data, "booking_id"),
 		UserBasicID:        toUint64(data, "user_basic_id"),
-		Rate:               toUint8(data, "rate"),
+		Rate:               toUint8 (data, "rate"),
 		DisplayUserName:    toString(data, "display_user_name"),
 		Advice:             toString(data, "advice"),
 		GoWithID:           toUint16(data, "go_with_id"),
 		FirstReviewID:      toUint64(data, "first_review_id"),
-		OrgReviewID:        orgReviewID,
-		PtrComment:         ptrComment,
-		LikeCount:          likeCount,
-		Status:             status,
-		PtrStatus:          ptrStatus,
-		UseFlag:            useFlag,
-		MappingID:          mappingID,
-		CdFlag:             cdFlag,
+		OrgReviewID:        toUint64(data, "org_review_id"),
+		PtrComment:         toString(data, "ptr_comment"),
+		LikeCount:          toUint64(data, "like_count"),
+		Status:             toString(data, "status"),
+		PtrStatus:          toString(data, "ptr_status"),
+		UseFlag:            toUint8 (data, "use_flag"),
+		MappingID:          toInt64 (data, "mapping_id"),
+		CdFlag:             toUint8 (data, "cd_flag"),
 		PostDate:           &currentTime,
 		CommentDate:        &currentTime,
 		StatusChangeDate:   &currentTime,
-		StatusChangeID:     statusChangeID,
+		StatusChangeID:     toInt   (data, "status_change_id"),
 	    	PtrStatusChangeDate: &currentTime,
-	    	PtrStatusChangeID:  ptrStatusChangeID,
-	    	MSiteID:            mSiteID,
-	    	LangID:             langID,
-	    	MOriginID:          mOriginID,
+	    	PtrStatusChangeID:  toInt   (data, "ptr_status_change_id"),
+	    	MSiteID:            toInt   (data, "m_site_id"),
+	    	LangID:             toInt   (data, "lang_id"),
+	    	MOriginID:          toUint64(data, "m_origin_id"),
 	    	ActivityDate:       &currentTime,
-	    	PtrBasicID:         ptrBasicID,
-	    	PointCurrency:      pointCurrency,
+	    	PtrBasicID:         toInt   (data, "ptr_basic_id"),
+	    	PointCurrency:      toString(data, "point_currency"),
 	    	Created:            &currentTime,
 	    	CreatedUserID:      30,
 	    	CreatedURL:         "http://veltra.com/ac",
