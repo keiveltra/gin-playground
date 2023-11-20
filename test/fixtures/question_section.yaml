@@ -1,0 +1,25 @@
+data:
+  - id: 0
+    label: "現地スタッフの対応について"
+    type: "normal"
+    sort_order: 1
+  - id: 1
+    label: "場所・雰囲気について"
+    type: "normal"
+    sort_order: 2
+  - id: 2
+    label: "安心・安全性について"
+    type: "normal"
+    sort_order: 3
+  - id: 3
+    label: "設備について"
+    type: "normal"
+    sort_order: 4
+  - id: 4
+    label: "参加日の天気"
+    type: "weather"
+    sort_order: 5
+  - id: 5
+    label: "おすすめしたいグループはありますか？"
+    type: "multi_choice"
+    sort_order: 6

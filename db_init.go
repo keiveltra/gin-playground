@@ -20,52 +20,54 @@ func migrateDatabase() {
 	}
 
 	models := []interface{}{
-	    &models.Review{},
-	    &models.ReviewImage{},
-	    &models.ReviewKeys{},
-	    &models.QuestionTemplate{},
-	    &models.Question{},
-	    &models.QuestionSection{},
-	    &models.QuestionOption{},
-	    &models.Answer{},
+		 &models.Review{},
+		 &models.ReviewImage{},
+		 &models.ReviewKeys{},
+		 &models.QuestionTemplate{},
+		 &models.Question{},
+		 &models.QuestionSection{},
+		 &models.QuestionOption{},
+		 &models.Answer{},
 	}
 	
 	if err := db.AutoMigrate(models...); err != nil {
-	    log.Fatal(err)
+		log.Fatal(err)
 	}
 
 	fmt.Println("Injecting the dataset ...")
 
-        for _, data := range getTestModelDataFromYaml("review") {	
+	for _, data := range getTestModelDataFromYaml("review") {	
 		fmt.Println("review: ", data)
 
 		review := getReview(data)
 		db.Create(&review)
 	}
 
-        for _, data := range getTestModelDataFromYaml("review_image") {	
+	for _, data := range getTestModelDataFromYaml("review_image") {	
 		fmt.Println("review_image: ", data)
 
-	        reviewImage := getReviewImage(data)
-	        db.Create(&reviewImage)
+		reviewImage := getReviewImage(data)
+		db.Create(&reviewImage)
 	}
 
-        for _, data := range getTestModelDataFromYaml("review_image") {	
+	for _, data := range getTestModelDataFromYaml("review_image") {	
 		fmt.Println("review_keys: ", data)
 
-	        reviewKeys := getReviewKeys(data)
-	        db.Create(&reviewKeys)
+		reviewKeys := getReviewKeys(data)
+		db.Create(&reviewKeys)
 	}
 
-        for _, data := range getTestModelDataFromYaml("question_template") {	
+	for _, data := range getTestModelDataFromYaml("question_template") {	
 		fmt.Println("question_template: ", data)
+	    	questionTemplate := getQuestionTemplate(data)
+	    	db.Create(&questionTemplate)
 
-	        question_template := getQuestionTemplate(data)
-	        db.Create(&question_template)
+		for _, data := range getTestModelDataFromYaml("question_section") {	
+			fmt.Println("question_section: ", data)
+		    	questionSection := getQuestionSection(data, questionTemplate.ID)
+			db.Create(&questionSection)
+		}
 	}
-
-	//questionSection := getQuestionSection(questionTemplate.ID)
-	//db.Create(&questionSection)
 
 	//questionOption := getQuestionOption(questionSection.ID)
 	//db.Create(&questionOption)
@@ -80,7 +82,7 @@ func migrateDatabase() {
 }
 
 func getReviewImage(data map[string]interface{}) models.ReviewImage {
-    	currentTime := time.Now()
+		currentTime := time.Now()
 	return models.ReviewImage{
 		Filename:         toString(data, "file_name"),
 		FilenameBase:     toString(data, "file_name_base"),
@@ -101,7 +103,7 @@ func getReviewImage(data map[string]interface{}) models.ReviewImage {
 }
 
 func getReviewKeys(data map[string]interface{}) models.ReviewKeys {
-    	currentTime := time.Now()
+		currentTime := time.Now()
 
 	return models.ReviewKeys{
 		BookingID:     toUint  (data, "booking_id"),
@@ -120,10 +122,9 @@ func getQuestionTemplate(data map[string]interface{}) models.QuestionTemplate {
 	}
 }
 
-func getQuestionSection(questionTemplateID uint) models.QuestionSection {
+func getQuestionSection(data map[string]interface{}, questionTemplateID uint) models.QuestionSection {
 	currentTime := time.Now()
 
-	fmt.Println("questionTemplateID is:", questionTemplateID)
 	return models.QuestionSection{
 		QuestionTemplateID: questionTemplateID,
 		Type:               models.SectionTypeNormal,
@@ -204,22 +205,22 @@ func getReview(data map[string]interface{}) models.Review {
 		CommentDate:        &currentTime,
 		StatusChangeDate:   &currentTime,
 		StatusChangeID:     toInt   (data, "status_change_id"),
-	    	PtrStatusChangeDate: &currentTime,
-	    	PtrStatusChangeID:  toInt   (data, "ptr_status_change_id"),
-	    	MSiteID:            toInt   (data, "m_site_id"),
-	    	LangID:             toInt   (data, "lang_id"),
-	    	MOriginID:          toUint64(data, "m_origin_id"),
-	    	ActivityDate:       &currentTime,
-	    	PtrBasicID:         toInt   (data, "ptr_basic_id"),
-	    	PointCurrency:      toString(data, "point_currency"),
-	    	Created:            &currentTime,
-	    	CreatedUserID:      toInt   (data, "created_user_id"),
-	    	CreatedURL:         toString(data, "created_url"),
-	    	Updated:            &currentTime,
-	    	UpdatedUserID:      toInt   (data, "updated_user_id"),
-	    	UpdatedURL:         toString(data, "updated_url"),
-	    	ACConversionFlag:   toUint8 (data, "acc_conversion_flag"),
-	    }
+	 	PtrStatusChangeDate: &currentTime,
+	 	PtrStatusChangeID:  toInt   (data, "ptr_status_change_id"),
+	 	MSiteID:            toInt   (data, "m_site_id"),
+	 	LangID:             toInt   (data, "lang_id"),
+	 	MOriginID:          toUint64(data, "m_origin_id"),
+	 	ActivityDate:       &currentTime,
+	 	PtrBasicID:         toInt   (data, "ptr_basic_id"),
+	 	PointCurrency:      toString(data, "point_currency"),
+	 	Created:            &currentTime,
+	 	CreatedUserID:      toInt   (data, "created_user_id"),
+	 	CreatedURL:         toString(data, "created_url"),
+	 	Updated:            &currentTime,
+	 	UpdatedUserID:      toInt   (data, "updated_user_id"),
+	 	UpdatedURL:         toString(data, "updated_url"),
+	 	ACConversionFlag:   toUint8 (data, "acc_conversion_flag"),
+	 }
 }           
 
 func toUint64(data map[string]interface{}, key string) uint64 {
