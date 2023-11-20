@@ -57,8 +57,12 @@ func migrateDatabase() {
 	        db.Create(&reviewKeys)
 	}
 
-	//questionTemplate := getQuestionTemplate()
-	//db.Create(&questionTemplate)
+        for _, data := range getTestModelDataFromYaml("question_template") {	
+		fmt.Println("question_template: ", data)
+
+	        question_template := getQuestionTemplate(data)
+	        db.Create(&question_template)
+	}
 
 	//questionSection := getQuestionSection(questionTemplate.ID)
 	//db.Create(&questionSection)
@@ -110,9 +114,9 @@ func getReviewKeys(data map[string]interface{}) models.ReviewKeys {
 	}
 }
 
-func getQuestionTemplate() models.QuestionTemplate {
+func getQuestionTemplate(data map[string]interface{}) models.QuestionTemplate {
 	return models.QuestionTemplate{
-		Name: "Type 1",
+		Name: toString(data, "name"),
 	}
 }
 
