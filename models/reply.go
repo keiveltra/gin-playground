@@ -14,4 +14,6 @@ type Reply struct {
 	PtrStatus           string     `gorm:"type:enum('pending','published','declined')"`
 	PtrStatusChangeDate *time.Time `gorm:"type:datetime"`
 	PtrStatusChangeID   int        `gorm:"type:int"`
+
+	Review              Review     `gorm:"foreignKey:ReviewID"`
 }
