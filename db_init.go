@@ -19,7 +19,7 @@ func migrateDatabase() {
 		log.Fatal(err)
 	}
 
-	models := []interface{}{
+	_models := []interface{}{
 		 &models.Review{},
 		 &models.ReviewImage{},
 		 &models.ReviewKeys{},
@@ -30,31 +30,8 @@ func migrateDatabase() {
 		 &models.Answer{},
 	}
 	
-	if err := db.AutoMigrate(models...); err != nil {
+	if err := db.AutoMigrate(_models...); err != nil {
 		log.Fatal(err)
-	}
-
-	fmt.Println("Injecting the dataset ...")
-
-	for _, data := range getTestModelDataFromYaml("review") {	
-		fmt.Println("review: ", data)
-
-		review := getReview(data)
-		db.Create(&review)
-	}
-
-	for _, data := range getTestModelDataFromYaml("review_image") {	
-		fmt.Println("review_image: ", data)
-
-		reviewImage := getReviewImage(data)
-		db.Create(&reviewImage)
-	}
-
-	for _, data := range getTestModelDataFromYaml("review_image") {	
-		fmt.Println("review_keys: ", data)
-
-		reviewKeys := getReviewKeys(data)
-		db.Create(&reviewKeys)
 	}
 
 	for _, data := range getTestModelDataFromYaml("question_template") {	
@@ -79,6 +56,33 @@ func migrateDatabase() {
 		}
 	}
 
+	fmt.Println("Injecting the dataset ...")
+
+	for _, data := range getTestModelDataFromYaml("review_image") {	
+		fmt.Println("review_image: ", data)
+
+		reviewImage := getReviewImage(data)
+		db.Create(&reviewImage)
+	}
+
+	for _, data := range getTestModelDataFromYaml("review_image") {	
+		fmt.Println("review_keys: ", data)
+
+		reviewKeys := getReviewKeys(data)
+		db.Create(&reviewKeys)
+	}
+
+	// var questions []models.Question
+	// db.Find(&questions)
+	// fmt.Println("questions: ", questions)
+
+	for _, data := range getTestModelDataFromYaml("review") {	
+		fmt.Println("review: ", data)
+
+		review := getReview(data)
+		db.Create(&review)
+	}
+
 	//answer := getAnswer(questionSection.ID, 
 	//      	      questionOption.ID, uint(review.ID))
 	//db.Create(&answer)
@@ -89,7 +93,8 @@ func migrateDatabase() {
 }
 
 func getReviewImage(data map[string]interface{}) models.ReviewImage {
-		currentTime := time.Now()
+	currentTime := getCurrentTime()
+
 	return models.ReviewImage{
 		Filename:         toString(data, "file_name"),
 		FilenameBase:     toString(data, "file_name_base"),
@@ -110,7 +115,7 @@ func getReviewImage(data map[string]interface{}) models.ReviewImage {
 }
 
 func getReviewKeys(data map[string]interface{}) models.ReviewKeys {
-		currentTime := time.Now()
+	currentTime := getCurrentTime()
 
 	return models.ReviewKeys{
 		BookingID:     toUint  (data, "booking_id"),
@@ -124,21 +129,33 @@ func getReviewKeys(data map[string]interface{}) models.ReviewKeys {
 }
 
 func getQuestion(questionTemplateID uint, data map[string]interface{}) models.Question {
+	currentTime := getCurrentTime()
+
 	return models.Question{
 		QuestionTemplateID: questionTemplateID,
 		ServiceKey:         "activity",
 		ServiceCategoryID:  toUint(data, "service_category_id"),
+		CreatedAt:          currentTime,
+		UpdatedAt:          currentTime,
 	}
 }
 
 func getQuestionTemplate(data map[string]interface{}) models.QuestionTemplate {
+	currentTime := getCurrentTime()
+
 	return models.QuestionTemplate{
-		Name: toString(data, "name"),
+		Name:      toString(data, "name"),
+		CreatedAt: currentTime,
+		UpdatedAt: currentTime,
 	}
 }
 
+func getCurrentTime() time.Time {
+	return time.Now()
+}
+
 func getQuestionSection(data map[string]interface{}, questionTemplateID uint) models.QuestionSection {
-	currentTime := time.Now()
+	currentTime := getCurrentTime()
 
 	return models.QuestionSection{
 		QuestionTemplateID: questionTemplateID,
@@ -151,7 +168,7 @@ func getQuestionSection(data map[string]interface{}, questionTemplateID uint) mo
 }
 
 func getQuestionOption(questionSectionID uint, data map[string]interface{}) models.QuestionOption {
-	currentTime := time.Now()
+	currentTime := getCurrentTime()
 
 	return models.QuestionOption{
 		QuestionSectionID:  questionSectionID,
@@ -164,7 +181,7 @@ func getQuestionOption(questionSectionID uint, data map[string]interface{}) mode
 }
 
 func getAnswer(questionSectionID uint, questionOptionID uint, reviewID uint) models.Answer {
-	currentTime := time.Now()
+	currentTime := getCurrentTime()
 	
 	return models.Answer{
 		QuestionSectionID:  questionSectionID,
@@ -195,7 +212,7 @@ func getTestModelDataFromYaml(target string) []map[string]interface{} {
 }
 
 func getReview(data map[string]interface{}) models.Review {
-	currentTime := time.Now()
+	currentTime := getCurrentTime()
 
 	return models.Review{
 		ServiceKey:         models.Activity,
