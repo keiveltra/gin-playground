@@ -9,21 +9,16 @@ data:
     go_with_id: 1
     first_review_id: 1
     org_review_id: 1  
-    ptr_comment: "Thanks. Our team is very impressed about your feedback."
     like_count: 10000
     status: "new"
-    ptr_status: "pending"
     use_flag: 10
     mapping_id: 10
     cd_flag: 10
     status_change_id: 10
-    ptr_status_change_id: 10
     m_site_id: 10
     lang_id: 1
     m_origin_id: 10
-    ptr_basic_id: 23456
     point_currency: "JPY"
-
   - id: 1
     service_category_id: 11
     booking_id: 12346
@@ -34,17 +29,13 @@ data:
     go_with_id: 2
     first_review_id: 2
     org_review_id: 2  
-    ptr_comment: "Thanks. Our team is very impressed about your feedback."
     like_count: 10000
     status: "new"
-    ptr_status: "pending"
     use_flag: 10
     mapping_id: 10
     cd_flag: 10
     status_change_id: 10
-    ptr_status_change_id: 10
     m_site_id: 10
     lang_id: 2
     m_origin_id: 10
-    ptr_basic_id: 23456
     point_currency: "JPY"

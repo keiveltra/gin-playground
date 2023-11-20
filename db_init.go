@@ -20,6 +20,7 @@ func migrateDatabase() {
 	}
 
 	_models := []interface{}{
+		 &models.Reply{},
 		 &models.Review{},
 		 &models.ReviewImage{},
 		 &models.ReviewKeys{},
@@ -81,6 +82,9 @@ func migrateDatabase() {
 
 		review := getReview(data)
 		db.Create(&review)
+
+		reply := getReply(review.ID, data)
+		db.Create(&reply)
 	}
 
 	//answer := getAnswer(questionSection.ID, 
@@ -154,6 +158,19 @@ func getCurrentTime() time.Time {
 	return time.Now()
 }
 
+func getReply(reviewID uint, data map[string]interface{}) models.Reply {
+	currentTime := getCurrentTime()
+
+	return models.Reply {
+		ReviewID:           reviewID,
+	 	PtrBasicID:         toInt   (data, "ptr_basic_id"),
+		PtrComment:         toString(data, "ptr_comment"),
+		PtrStatus:          "pending",
+	 	PtrStatusChangeDate: &currentTime,
+	 	PtrStatusChangeID:  toInt   (data, "ptr_status_change_id"),
+	}
+}
+
 func getQuestionSection(data map[string]interface{}, questionTemplateID uint) models.QuestionSection {
 	currentTime := getCurrentTime()
 
@@ -225,10 +242,8 @@ func getReview(data map[string]interface{}) models.Review {
 		GoWithID:           toUint16(data, "go_with_id"),
 		FirstReviewID:      toUint64(data, "first_review_id"),
 		OrgReviewID:        toUint64(data, "org_review_id"),
-		PtrComment:         toString(data, "ptr_comment"),
 		LikeCount:          toUint64(data, "like_count"),
 		Status:             toString(data, "status"),
-		PtrStatus:          toString(data, "ptr_status"),
 		UseFlag:            toUint8 (data, "use_flag"),
 		MappingID:          toInt64 (data, "mapping_id"),
 		CdFlag:             toUint8 (data, "cd_flag"),
@@ -236,13 +251,10 @@ func getReview(data map[string]interface{}) models.Review {
 		CommentDate:        &currentTime,
 		StatusChangeDate:   &currentTime,
 		StatusChangeID:     toInt   (data, "status_change_id"),
-	 	PtrStatusChangeDate: &currentTime,
-	 	PtrStatusChangeID:  toInt   (data, "ptr_status_change_id"),
 	 	MSiteID:            toInt   (data, "m_site_id"),
 	 	LangID:             toInt   (data, "lang_id"),
 	 	MOriginID:          toUint64(data, "m_origin_id"),
 	 	ActivityDate:       &currentTime,
-	 	PtrBasicID:         toInt   (data, "ptr_basic_id"),
 	 	PointCurrency:      toString(data, "point_currency"),
 	 	Created:            &currentTime,
 	 	CreatedUserID:      toInt   (data, "created_user_id"),

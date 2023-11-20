@@ -30,7 +30,7 @@ const (
 
 type Review struct {
 	gorm.Model
-	ID                  uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
+	ID                  uint       `gorm:"type:int unsigned;primaryKey;autoIncrement"`
 	ServiceKey          ServiceKey `gorm:"type:enum('ac','ticket');index"`
 	ServiceCategoryID   uint64     `gorm:"type:int unsigned"`
 	BookingID           uint64     `gorm:"type:int unsigned"`
@@ -43,10 +43,8 @@ type Review struct {
 	GoWithID            uint16     `gorm:"type:smallint unsigned"`
 	FirstReviewID       uint64     `gorm:"type:int unsigned;index"`
 	OrgReviewID         uint64     `gorm:"type:int unsigned"`
-	PtrComment          string     `gorm:"type:varchar(1000)"`
 	LikeCount           uint64     `gorm:"type:int unsigned"`
 	Status              string     `gorm:"type:enum('new','pending','published','declined','deleted');index"`
-	PtrStatus           string     `gorm:"type:enum('pending','published','declined')"`
 	UseFlag             uint8      `gorm:"type:tinyint unsigned;index"`
 	MappingID           int64      `gorm:"type:int"`
 	CdFlag              uint8      `gorm:"type:tinyint unsigned;default:0"`
@@ -54,13 +52,10 @@ type Review struct {
 	CommentDate         *time.Time `gorm:"type:datetime"`
 	StatusChangeDate    *time.Time `gorm:"type:datetime"`
 	StatusChangeID      int        `gorm:"type:int"`
-	PtrStatusChangeDate *time.Time `gorm:"type:datetime"`
-	PtrStatusChangeID   int        `gorm:"type:int"`
 	MSiteID             int        `gorm:"type:int"`
 	LangID              int        `gorm:"type:int unsigned;index"`
 	MOriginID           uint64     `gorm:"type:int unsigned"`
 	ActivityDate        *time.Time `gorm:"type:date"`
-	PtrBasicID          int        `gorm:"type:int unsigned;index"`
 	PointCurrency       string     `gorm:"type:varchar(10)"`
 	Created             *time.Time `gorm:"type:datetime"`
 	CreatedUserID       int        `gorm:"type:int"`
@@ -70,10 +65,5 @@ type Review struct {
 	UpdatedURL          string     `gorm:"type:varchar(512)"`
 	ACConversionFlag    uint8      `gorm:"type:tinyint unsigned;index;default:0"`
 
-	Answer Answer `gorm:"foreignKey:ReviewID"`
+	Answer []Answer `gorm:"foreignKey:ReviewID"`
 }
-
-// func (r *Review) UpdateMyself(newLabel string) {
-//     r.ServiceCategoryID = 12
-//     r.UpdatedAt = time.Now()
-// }
