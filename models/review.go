@@ -7,32 +7,32 @@ import (
 
 type ServiceKey string
 const (
-    Activity ServiceKey = "ac"
-    Ticket   ServiceKey = "ticket"
-    Store    ServiceKey = "store"
+	Activity ServiceKey = "ac"
+	Ticket   ServiceKey = "ticket"
+	Store    ServiceKey = "store"
 )
 
 type Status string
 const (
-    StatusNew       Status = "New"
-    StatusPending   Status = "Pending"
-    StatusPublished Status = "Published"
-    StatusDeclined  Status = "Declined"
-    StatusDeleted   Status = "Deleted"
+	StatusNew       Status = "New"
+	StatusPending   Status = "Pending"
+	StatusPublished Status = "Published"
+	StatusDeclined  Status = "Declined"
+	StatusDeleted   Status = "Deleted"
 )
 
 type PtrStatus string
 const (
-    PtrStatusPending   Status = "Pending"
-    PtrStatusPublished Status = "Published"
-    PtrStatusDeclined  Status = "Declined"
+	PtrStatusPending   Status = "Pending"
+	PtrStatusPublished Status = "Published"
+	PtrStatusDeclined  Status = "Declined"
 )
 
 type Review struct {
 	gorm.Model
 	ID                  uint       `gorm:"type:int unsigned;primaryKey;autoIncrement"`
 	ServiceKey          ServiceKey `gorm:"type:enum('ac','ticket');index"`
-	ServiceCategoryID   uint64     `gorm:"type:int unsigned"`
+	ProductID           uint64     `gorm:"type:int unsigned"`
 	BookingID           uint64     `gorm:"type:int unsigned"`
 	UserBasicID         uint64     `gorm:"type:int unsigned;index"`
 	Rate                uint8      `gorm:"type:tinyint unsigned;index:idx_rate;default:5"`

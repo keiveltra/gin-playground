@@ -138,7 +138,7 @@ func getQuestion(questionTemplateID uint, data map[string]interface{}) models.Qu
 	return models.Question{
 		QuestionTemplateID: questionTemplateID,
 		ServiceKey:         "activity",
-		ServiceCategoryID:  toUint(data, "service_category_id"),
+		ProductID:          toUint(data, "service_category_id"),
 		CreatedAt:          currentTime,
 		UpdatedAt:          currentTime,
 	}
@@ -233,7 +233,7 @@ func getReview(data map[string]interface{}) models.Review {
 
 	return models.Review{
 		ServiceKey:         models.Activity,
-		ServiceCategoryID:  toUint64(data, "service_category_id"),
+		ProductID:          toUint64(data, "service_category_id"),
 		BookingID:          toUint64(data, "booking_id"),
 		UserBasicID:        toUint64(data, "user_basic_id"),
 		Rate:               toUint8 (data, "rate"),
