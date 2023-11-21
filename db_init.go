@@ -60,14 +60,7 @@ func migrateDatabase() {
 
 	fmt.Println("Injecting the dataset ...")
 
-	for _, data := range getTestModelDataFromYaml("review_image") {	
-		fmt.Println("review_image: ", data)
-
-		reviewImage := getReviewImage(data)
-		db.Create(&reviewImage)
-	}
-
-	for _, data := range getTestModelDataFromYaml("review_image") {	
+	for _, data := range getTestModelDataFromYaml("review_keys") {	
 		fmt.Println("review_keys: ", data)
 
 		reviewKeys := getReviewKeys(data)
@@ -83,6 +76,14 @@ func migrateDatabase() {
 
 		review := getReview(data)
 		db.Create(&review)
+
+		for _, data := range getTestModelDataFromYaml("review_image") {	
+			fmt.Println("review_image: ", data)
+
+			reviewImage := getReviewImage(review.ID, data)
+			db.Create(&reviewImage)
+		}
+
 
 		for _, data := range getTestModelDataFromYaml("review_content") {
 			reviewContent := getReviewContent(review.ID, data)
@@ -102,10 +103,11 @@ func migrateDatabase() {
 	}
 }
 
-func getReviewImage(data map[string]interface{}) models.ReviewImage {
+func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewImage {
 	currentTime := getCurrentTime()
 
 	return models.ReviewImage{
+		ReviewID:         reviewID,
 		Filename:         toString(data, "file_name"),
 		FilenameBase:     toString(data, "file_name_base"),
 		Width:            toUint64(data, "width"),
