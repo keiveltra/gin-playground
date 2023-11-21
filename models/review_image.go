@@ -23,5 +23,3 @@ type ReviewImage struct {
 	UpdatedURL         string     `gorm:"type:varchar(512)"`
 	ACConversionFlag   uint8      `gorm:"type:tinyint unsigned;index;default:0"`
 }
-
-
