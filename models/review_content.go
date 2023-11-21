@@ -5,6 +5,10 @@ import (
 	"time"
 )
 
+// 相談あり
+//   - ContentEn, ContentJP?
+//   - LangID? --> メインの LangIDということ？
+//   - LangIDはここ？ Review ではない？
 type ReviewContent struct {
 	gorm.Model
 	ID                  uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
