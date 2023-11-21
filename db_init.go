@@ -30,6 +30,7 @@ func migrateDatabase() {
 		 &models.QuestionSection{},
 		 &models.QuestionOption{},
 		 &models.Answer{},
+		 &models.Plan{},
 	}
 	
 	if err := db.AutoMigrate(_models...); err != nil {
@@ -90,6 +91,11 @@ func migrateDatabase() {
 			db.Create(&reviewContent)
 		}
 
+		for _, data := range getTestModelDataFromYaml("plan") {
+			plan := getPlan(review.ID, data)
+			db.Create(&plan)
+		}
+
 		reply := getReply(review.ID, data)
 		db.Create(&reply)
 	}
@@ -102,6 +108,16 @@ func migrateDatabase() {
 		log.Fatal(db.Error)
 	}
 }
+
+func getPlan(reviewID uint, data map[string]interface{}) models.Plan {
+
+	return models.Plan{
+		ReviewID:         reviewID,
+		ExternalID:       toUint64(data, "external_id"),
+		Name:             toString(data, "name"),
+	}
+}
+
 
 func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewImage {
 	currentTime := getCurrentTime()
@@ -122,8 +138,6 @@ func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewIma
 		UpdatedURL:       toString(data, "updated_url"),
 		ACConversionFlag: toUint8(data, "acc_conversion_flag"),
 	}
-	
-	return models.ReviewImage{}
 }
 
 func getReviewKeys(data map[string]interface{}) models.ReviewKeys {
