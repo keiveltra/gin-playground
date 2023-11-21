@@ -1,0 +1,17 @@
+data:
+  - id: 0
+    rate: 3
+    display_user_name: "David Solomon a.k.a D-sol"
+    content: "とにかくすごいんですねえ。もう感動の嵐としか言いようがない"
+    advice: "Life is only once. Enjoy your life."
+    go_with_id: 1
+    lang_id: 1
+    point_currency: "JPY"
+  - id: 1
+    rate: 4
+    content: "感動です。涙がでていますYO"
+    display_user_name: "Kasuga Tooth"
+    advice: "Tooth, tooth, tooh!"
+    go_with_id: 2
+    lang_id: 2
+    point_currency: "JPY"

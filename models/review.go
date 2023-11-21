@@ -35,13 +35,6 @@ type Review struct {
 	ProductID           uint64     `gorm:"type:int unsigned"`
 	BookingID           uint64     `gorm:"type:int unsigned"`
 	UserBasicID         uint64     `gorm:"type:int unsigned;index"`
-	Rate                uint8      `gorm:"type:tinyint unsigned;index:idx_rate;default:5"`
-	DisplayUserName     string     `gorm:"type:varchar(64)"`
-	Title               string     `gorm:"type:varchar(256)"`
-	Review              string     `gorm:"type:varchar(4000)"`
-	Advice              string     `gorm:"type:varchar(4000)"`
-	GoWithID            uint16     `gorm:"type:smallint unsigned"`
-	FirstReviewID       uint64     `gorm:"type:int unsigned;index"`
 	OrgReviewID         uint64     `gorm:"type:int unsigned"`
 	LikeCount           uint64     `gorm:"type:int unsigned"`
 	Status              string     `gorm:"type:enum('new','pending','published','declined','deleted');index"`
@@ -49,14 +42,10 @@ type Review struct {
 	MappingID           int64      `gorm:"type:int"`
 	CdFlag              uint8      `gorm:"type:tinyint unsigned;default:0"`
 	PostDate            *time.Time `gorm:"type:datetime"`
-	CommentDate         *time.Time `gorm:"type:datetime"`
 	StatusChangeDate    *time.Time `gorm:"type:datetime"`
 	StatusChangeID      int        `gorm:"type:int"`
 	MSiteID             int        `gorm:"type:int"`
-	LangID              int        `gorm:"type:int unsigned;index"`
 	MOriginID           uint64     `gorm:"type:int unsigned"`
-	ActivityDate        *time.Time `gorm:"type:date"`
-	PointCurrency       string     `gorm:"type:varchar(10)"`
 	Created             *time.Time `gorm:"type:datetime"`
 	CreatedUserID       int        `gorm:"type:int"`
 	CreatedURL          string     `gorm:"type:varchar(512)"`

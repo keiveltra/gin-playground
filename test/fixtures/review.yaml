@@ -3,11 +3,7 @@ data:
     service_category_id: 10
     booking_id: 12345
     user_basic_id: 123
-    rate: 3
-    display_user_name: "David Solomon a.k.a D-sol"
-    advice: "Life is only once. Enjoy your life."
     go_with_id: 1
-    first_review_id: 1
     org_review_id: 1  
     like_count: 10000
     status: "new"
@@ -16,18 +12,11 @@ data:
     cd_flag: 10
     status_change_id: 10
     m_site_id: 10
-    lang_id: 1
     m_origin_id: 10
-    point_currency: "JPY"
   - id: 1
     service_category_id: 11
     booking_id: 12346
     user_basic_id: 130
-    rate: 4
-    display_user_name: "Kasuga Tooth"
-    advice: "Tooth, tooth, tooh!"
-    go_with_id: 2
-    first_review_id: 2
     org_review_id: 2  
     like_count: 10000
     status: "new"
@@ -36,6 +25,4 @@ data:
     cd_flag: 10
     status_change_id: 10
     m_site_id: 10
-    lang_id: 2
     m_origin_id: 10
-    point_currency: "JPY"

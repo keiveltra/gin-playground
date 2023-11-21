@@ -24,6 +24,7 @@ func migrateDatabase() {
 		 &models.Review{},
 		 &models.ReviewImage{},
 		 &models.ReviewKeys{},
+		 &models.ReviewContent{},
 		 &models.QuestionTemplate{},
 		 &models.Question{},
 		 &models.QuestionSection{},
@@ -82,6 +83,11 @@ func migrateDatabase() {
 
 		review := getReview(data)
 		db.Create(&review)
+
+		for _, data := range getTestModelDataFromYaml("review_content") {
+			reviewContent := getReviewContent(review.ID, data)
+			db.Create(&reviewContent)
+		}
 
 		reply := getReply(review.ID, data)
 		db.Create(&reply)
@@ -236,11 +242,6 @@ func getReview(data map[string]interface{}) models.Review {
 		ProductID:          toUint64(data, "service_category_id"),
 		BookingID:          toUint64(data, "booking_id"),
 		UserBasicID:        toUint64(data, "user_basic_id"),
-		Rate:               toUint8 (data, "rate"),
-		DisplayUserName:    toString(data, "display_user_name"),
-		Advice:             toString(data, "advice"),
-		GoWithID:           toUint16(data, "go_with_id"),
-		FirstReviewID:      toUint64(data, "first_review_id"),
 		OrgReviewID:        toUint64(data, "org_review_id"),
 		LikeCount:          toUint64(data, "like_count"),
 		Status:             toString(data, "status"),
@@ -248,12 +249,32 @@ func getReview(data map[string]interface{}) models.Review {
 		MappingID:          toInt64 (data, "mapping_id"),
 		CdFlag:             toUint8 (data, "cd_flag"),
 		PostDate:           &currentTime,
-		CommentDate:        &currentTime,
 		StatusChangeDate:   &currentTime,
 		StatusChangeID:     toInt   (data, "status_change_id"),
 	 	MSiteID:            toInt   (data, "m_site_id"),
-	 	LangID:             toInt   (data, "lang_id"),
 	 	MOriginID:          toUint64(data, "m_origin_id"),
+	 	Created:            &currentTime,
+	 	CreatedUserID:      toInt   (data, "created_user_id"),
+	 	CreatedURL:         toString(data, "created_url"),
+	 	Updated:            &currentTime,
+	 	UpdatedUserID:      toInt   (data, "updated_user_id"),
+	 	UpdatedURL:         toString(data, "updated_url"),
+	 	ACConversionFlag:   toUint8 (data, "acc_conversion_flag"),
+	 }
+}           
+
+func getReviewContent(reviewID uint, data map[string]interface{}) models.ReviewContent {
+	currentTime := getCurrentTime()
+
+	return models.ReviewContent{
+		ReviewID:           reviewID,
+		Rate:               toUint8 (data, "rate"),
+		DisplayUserName:    toString(data, "display_user_name"),
+		Advice:             toString(data, "advice"),
+		GoWithID:           toUint16(data, "go_with_id"),
+		CommentDate:        &currentTime,
+		Content:            toString(data, "content"),
+	 	LangID:             toInt   (data, "lang_id"),
 	 	ActivityDate:       &currentTime,
 	 	PointCurrency:      toString(data, "point_currency"),
 	 	Created:            &currentTime,
@@ -262,7 +283,6 @@ func getReview(data map[string]interface{}) models.Review {
 	 	Updated:            &currentTime,
 	 	UpdatedUserID:      toInt   (data, "updated_user_id"),
 	 	UpdatedURL:         toString(data, "updated_url"),
-	 	ACConversionFlag:   toUint8 (data, "acc_conversion_flag"),
 	 }
 }           
 
