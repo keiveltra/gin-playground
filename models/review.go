@@ -46,10 +46,8 @@ type Review struct {
 	StatusChangeID      int        `gorm:"type:int"`
 	MSiteID             int        `gorm:"type:int"`
 	MOriginID           uint64     `gorm:"type:int unsigned"`
-	Created             *time.Time `gorm:"type:datetime"`
 	CreatedUserID       int        `gorm:"type:int"`
 	CreatedURL          string     `gorm:"type:varchar(512)"`
-	Updated             *time.Time `gorm:"type:datetime"`
 	UpdatedUserID       int        `gorm:"type:int"`
 	UpdatedURL          string     `gorm:"type:varchar(512)"`
 	ACConversionFlag    uint8      `gorm:"type:tinyint unsigned;index;default:0"`

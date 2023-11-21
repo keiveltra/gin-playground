@@ -20,10 +20,8 @@ type ReviewContent struct {
 	ActivityDate        *time.Time `gorm:"type:date"`
 	PointCurrency       string     `gorm:"type:varchar(10)"`
 
-	Created             *time.Time `gorm:"type:datetime"`
 	CreatedUserID       int        `gorm:"type:int"`
 	CreatedURL          string     `gorm:"type:varchar(512)"`
-	Updated             *time.Time `gorm:"type:datetime"`
 	UpdatedUserID       int        `gorm:"type:int"`
 	UpdatedURL          string     `gorm:"type:varchar(512)"`
 
