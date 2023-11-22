@@ -10,6 +10,7 @@ type ReviewContent struct {
 	ID                  uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
 	VersionID           uint       `gorm:"type:int unsigned" json:"review_id"`
 	ReviewID            uint       `gorm:"type:int unsigned" json:"review_id"`
+	LatestContent       bool       `gorm:"column:latest_content"`
 	DisplayUserName     string     `gorm:"type:varchar(64)"`
 	Title               string     `gorm:"type:varchar(256)"`
 	Rate                uint8      `gorm:"type:tinyint unsigned;index:idx_rate;default:5"`

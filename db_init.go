@@ -283,6 +283,7 @@ func getReviewContent(reviewID uint, data map[string]interface{}) models.ReviewC
 		ReviewID:           reviewID,
 		Rate:               toUint8 (data, "rate"),
 		VersionID:          toUint  (data, "version_id"),
+		LatestContent:      true,
 		Status:             toString(data, "status"),
 		DisplayUserName:    toString(data, "display_user_name"),
 		Title:              toString(data, "title"),
