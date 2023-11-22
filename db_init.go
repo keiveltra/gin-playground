@@ -113,7 +113,7 @@ func getPlan(reviewID uint, data map[string]interface{}) models.Plan {
 
 	return models.Plan{
 		ReviewID:         reviewID,
-		ExternalID:       toUint64(data, "external_id"),
+		PlanID:           toUint64(data, "external_id"),
 		Name:             toString(data, "name"),
 	}
 }
