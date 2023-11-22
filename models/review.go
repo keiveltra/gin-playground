@@ -51,6 +51,7 @@ type Review struct {
 	UpdatedURL          string     `gorm:"type:varchar(512)"`
 	ACConversionFlag    uint8      `gorm:"type:tinyint unsigned;index;default:0"`
 
-	Answer []Answer `gorm:"foreignKey:ReviewID"`
+	Answer      []Answer      `gorm:"foreignKey:ReviewID"`
 	ReviewImage []ReviewImage `gorm:"foreignKey:ReviewID"`
+	Plan        []Plan        `gorm:"foreignKey:ReviewID"`
 }
