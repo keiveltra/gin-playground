@@ -1,19 +1,24 @@
 data:
   - id: 0
+    version_id: 1
     title: "とてつもなくすごいってこと"
     rate: 3
     status: "new"
     display_user_name: "David Solomon a.k.a D-sol"
-    content: "とにかくすごいんですねえ。もう感動の嵐としか言いようがない"
+    content_jp: "とにかくすごいんですねえ。もう感動の嵐としか言いようがない"
+    content_en: "So awesome ones"
     advice: "Life is only once. Enjoy your life."
     go_with_id: 1
     lang_id: 1
     point_currency: "JPY"
+
   - id: 1
+    version_id: 1
     title: "感動の嵐ってこと（渋谷風）"
     rate: 4
     status: "new"
-    content: "感動です。涙がでていますYO"
+    content_jp: "感動です。涙がでていますYO"
+    content_en: "So fantastic"
     display_user_name: "Kasuga Tooth"
     advice: "Tooth, tooth, tooh!"
     go_with_id: 2
