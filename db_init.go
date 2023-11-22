@@ -260,7 +260,6 @@ func getReview(data map[string]interface{}) models.Review {
 		UserBasicID:        toUint64(data, "user_basic_id"),
 		OrgReviewID:        toUint64(data, "org_review_id"),
 		LikeCount:          toUint64(data, "like_count"),
-		Status:             toString(data, "status"),
 		UseFlag:            toUint8 (data, "use_flag"),
 		MappingID:          toInt64 (data, "mapping_id"),
 		CdFlag:             toUint8 (data, "cd_flag"),
@@ -283,7 +282,9 @@ func getReviewContent(reviewID uint, data map[string]interface{}) models.ReviewC
 	return models.ReviewContent{
 		ReviewID:           reviewID,
 		Rate:               toUint8 (data, "rate"),
+		Status:             toString(data, "status"),
 		DisplayUserName:    toString(data, "display_user_name"),
+		Title:              toString(data, "title"),
 		Advice:             toString(data, "advice"),
 		GoWithID:           toUint16(data, "go_with_id"),
 		CommentDate:        &currentTime,

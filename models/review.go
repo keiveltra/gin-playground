@@ -37,7 +37,6 @@ type Review struct {
 	UserBasicID         uint64     `gorm:"type:int unsigned;index"`
 	OrgReviewID         uint64     `gorm:"type:int unsigned"`
 	LikeCount           uint64     `gorm:"type:int unsigned"`
-	Status              string     `gorm:"type:enum('new','pending','published','declined','deleted');index"`
 	UseFlag             uint8      `gorm:"type:tinyint unsigned;index"`
 	MappingID           int64      `gorm:"type:int"`
 	CdFlag              uint8      `gorm:"type:tinyint unsigned;default:0"`
@@ -54,5 +53,4 @@ type Review struct {
 
 	Answer []Answer `gorm:"foreignKey:ReviewID"`
 	ReviewImage []ReviewImage `gorm:"foreignKey:ReviewID"`
-	Plan Plan `gorm:"foreignKey:ReviewID"`
 }
