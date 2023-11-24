@@ -21,6 +21,6 @@ type QuestionSection struct {
 	CreatedAt          time.Time `gorm:"type:datetime" json:"created_at"`
 	UpdatedAt          time.Time `gorm:"type:datetime" json:"updated_at"`
 
-	Answer Answer `gorm:"foreignKey:QuestionSectionID"`
+	AnswerInt AnswerInt `gorm:"foreignKey:QuestionSectionID"`
 	QuestionOptions []QuestionOption `gorm:"foreignKey:QuestionSectionID"`
 }

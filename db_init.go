@@ -29,7 +29,7 @@ func migrateDatabase() {
 		 &models.Question{},
 		 &models.QuestionSection{},
 		 &models.QuestionOption{},
-		 &models.Answer{},
+		 &models.AnswerInt{},
 	}
 	
 	if err := db.AutoMigrate(_models...); err != nil {
@@ -94,7 +94,7 @@ func migrateDatabase() {
 		db.Create(&reply)
 	}
 
-	//answer := getAnswer(questionSection.ID, 
+	//answer := getAnswerInt(questionSection.ID, 
 	//      	      questionOption.ID, uint(review.ID))
 	//db.Create(&answer)
 
@@ -203,10 +203,10 @@ func getQuestionOption(questionSectionID uint, data map[string]interface{}) mode
 	}
 }
 
-func getAnswer(questionSectionID uint, questionOptionID uint, reviewID uint) models.Answer {
+func getAnswerInt(questionSectionID uint, questionOptionID uint, reviewID uint) models.AnswerInt {
 	currentTime := getCurrentTime()
 	
-	return models.Answer{
+	return models.AnswerInt{
 		QuestionSectionID:  questionSectionID,
 		QuestionOptionID:   questionOptionID,
 		ReviewID:           reviewID,
