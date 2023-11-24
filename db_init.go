@@ -98,13 +98,32 @@ func migrateDatabase() {
 		}
 	}
 
-	var questions2 []models.Question
-	db.Find(&questions2)
-	fmt.Println("questions: ", questions2)
+	fmt.Println("\n-------------------------------------------------------------------")
+
+	var questionsQuery []models.Question
+	dryRunDB := db.Session(&gorm.Session{DryRun: true})
+	result   := dryRunDB.Find(&questionsQuery)
+
+	executeRawSQLString(questionsQuery, result, db)
 
 	if db.Error != nil {
 		log.Fatal(db.Error)
 	}
+}
+
+func executeRawSQLString(questionsQuery []models.Question, result *gorm.DB, db *gorm.DB) {
+	if result.Error != nil {
+		log.Fatal(result.Error)
+	}
+	sql := result.Statement.SQL.String()
+
+	result = db.Raw(sql).Find(&questionsQuery)
+	if result.Error != nil {
+		log.Fatal(result.Error)
+	}
+
+	fmt.Println("Raw SQL query:", sql)
+	fmt.Println("result: ", questionsQuery)
 }
 
 func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewImage {
