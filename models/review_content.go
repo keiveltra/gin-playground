@@ -8,13 +8,15 @@ import (
 type ReviewContent struct {
 	gorm.Model
 	ID                  uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
-	VersionID           uint       `gorm:"type:int unsigned" json:"review_id"`
+	VersionID           uint       `gorm:"type:int unsigned" json:"review_id";comment:'this is incremented when the review is updated.'`
 	ReviewID            uint       `gorm:"type:int unsigned" json:"review_id"`
 	LatestContent       bool       `gorm:"column:latest_content"`
 	DisplayUserName     string     `gorm:"type:varchar(64)"`
 	Title               string     `gorm:"type:varchar(256)"`
 	Rate                uint8      `gorm:"type:tinyint unsigned;index:idx_rate;default:5"`
 	Status              string     `gorm:"type:enum('new','pending','published','declined','deleted');index"`
+
+	// TODO: if language support varies, this should be done in ContentTranslation
 	ContentEn           string     `gorm:"type:varchar(4000)"`
 	ContentJp           string     `gorm:"type:varchar(4000)"`
 	Advice              string     `gorm:"type:varchar(4000)"`

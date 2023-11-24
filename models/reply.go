@@ -17,3 +17,11 @@ type Reply struct {
 
 	Review              Review     `gorm:"foreignKey:ReviewID"`
 }
+
+// PdMに要確認
+// type ReplyTranslation struct { // or Contents Translation
+// 	Comment string     `gorm:"type:varchar(1000)"`
+// 	ContentType
+// 	LangID? // TODO: JP or EN or another lang?
+//         ReplyID / ReviewID
+// }

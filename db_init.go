@@ -30,7 +30,6 @@ func migrateDatabase() {
 		 &models.QuestionSection{},
 		 &models.QuestionOption{},
 		 &models.Answer{},
-		 &models.Plan{},
 	}
 	
 	if err := db.AutoMigrate(_models...); err != nil {
@@ -91,11 +90,6 @@ func migrateDatabase() {
 			db.Create(&reviewContent)
 		}
 
-		for _, data := range getTestModelDataFromYaml("plan") {
-			plan := getPlan(review.ID, data)
-			db.Create(&plan)
-		}
-
 		reply := getReply(review.ID, data)
 		db.Create(&reply)
 	}
@@ -108,16 +102,6 @@ func migrateDatabase() {
 		log.Fatal(db.Error)
 	}
 }
-
-func getPlan(reviewID uint, data map[string]interface{}) models.Plan {
-
-	return models.Plan{
-		ReviewID:         reviewID,
-		PlanID:           toUint64(data, "external_id"),
-		Name:             toString(data, "name"),
-	}
-}
-
 
 func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewImage {
 	currentTime := getCurrentTime()
