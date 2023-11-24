@@ -54,4 +54,5 @@ type Review struct {
 	AnswerInt           []AnswerInt          `gorm:"foreignKey:ReviewID"`
 	AnswerBoolean       []AnswerBoolean      `gorm:"foreignKey:ReviewID"`
 	ReviewImage         []ReviewImage        `gorm:"foreignKey:ReviewID"`
+	ContentTranslation  []ContentTranslation `gorm:"foreignKey:ContentID"`
 }
