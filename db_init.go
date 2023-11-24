@@ -90,8 +90,8 @@ func migrateDatabase() {
 			db.Create(&reviewContent)
 
 			// Translations
-			// translation := getTranslation(review.ID, data)
-			// db.Create(&translation)
+			translation := getContentTranslation(reviewContent.ID, data)
+			db.Create(&translation)
 		}
 
 		reply := getReply(review.ID, data)
@@ -301,19 +301,17 @@ func getReviewContent(reviewID uint, data map[string]interface{}) models.ReviewC
 	 }
 }           
 
-//func getTranslation(reviewContentID uint, data map[string]interface{}) models.ReviewContent {
-//	currentTime := getCurrentTime()
-//
-//	return models.ReviewContent{
-//		ReviewContentID:    reviewContentID,
-//		Comment:            "This is a translation",
-//		ReplyID:            nil,
-//		ReviewContentID:    reviewContentID,
-//		LangID:             0,
-//		ContentType:        "reviewContent"
-//	 }
-//}           
+func getContentTranslation(reviewContentID uint64, data map[string]interface{}) models.ContentTranslation {
 
+	return models.ContentTranslation{
+	        TranslatedContent:  "test",
+	        ContentType:        "reply",
+	        ContentID:          reviewContentID,
+	        LangID:             0,
+	        Translator:         "google",
+	        HumanApprovalID:    12345,
+	 }
+}           
 
 func toUint64(data map[string]interface{}, key string) uint64 {
 	value, _ := data[key].(uint64)	
