@@ -21,7 +21,6 @@ func migrateDatabase() {
 
 	_models := []interface{}{
 		 &models.Reply{},
-		 &models.Review{},
 		 &models.ReviewImage{},
 		 &models.ReviewKeys{},
 		 &models.ReviewContent{},
@@ -30,12 +29,14 @@ func migrateDatabase() {
 		 &models.QuestionSection{},
 		 &models.QuestionOption{},
 		 &models.AnswerInt{},
+		 &models.Review{},
 	}
 	
 	if err := db.AutoMigrate(_models...); err != nil {
 		log.Fatal(err)
 	}
 
+        var questions []models.Question
 	for _, data := range getTestModelDataFromYaml("question_template") {	
 		fmt.Println("question_template: ", data)
 	    	questionTemplate := getQuestionTemplate(data)
@@ -43,6 +44,7 @@ func migrateDatabase() {
 
 		question := getQuestion(questionTemplate.ID, data)
 	    	db.Create(&question)
+		questions = append(questions, question)
 
 		for _, data := range getTestModelDataFromYaml("question_section") {	
 			fmt.Println("question_section: ", data)
@@ -74,7 +76,7 @@ func migrateDatabase() {
 	for _, data := range getTestModelDataFromYaml("review") {	
 		fmt.Println("review: ", data)
 
-		review := getReview(data)
+		review := getReview(questions[0].ID, data)
 		db.Create(&review)
 
 		for _, data := range getTestModelDataFromYaml("review_image") {	
@@ -234,12 +236,13 @@ func getTestModelDataFromYaml(target string) []map[string]interface{} {
 	return result
 }
 
-func getReview(data map[string]interface{}) models.Review {
+func getReview(questionID uint, data map[string]interface{}) models.Review {
 	currentTime := getCurrentTime()
 
 	return models.Review{
 		ServiceKey:         models.Activity,
 		ProductID:          toUint64(data, "service_category_id"),
+		QuestionID:         questionID,
 		BookingID:          toUint64(data, "booking_id"),
 		UserBasicID:        toUint64(data, "user_basic_id"),
 		OrgReviewID:        toUint64(data, "org_review_id"),

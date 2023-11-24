@@ -33,6 +33,7 @@ type Review struct {
 	ID                  uint       `gorm:"type:int unsigned;primaryKey;autoIncrement"`
 	ServiceKey          ServiceKey `gorm:"type:enum('ac','ticket');index"`
 	ProductID           uint64     `gorm:"type:int unsigned"`
+	QuestionID          uint      `gorm:"type:int unsigned" json:"question_id"`
 	BookingID           uint64     `gorm:"type:int unsigned"`
 	UserBasicID         uint64     `gorm:"type:int unsigned;index"`
 	OrgReviewID         uint64     `gorm:"type:int unsigned"`

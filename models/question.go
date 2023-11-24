@@ -11,4 +11,6 @@ type Question struct {
 	ProductID          uint      `gorm:"type:int unsigned" json:"service_target_id"`
 	CreatedAt          time.Time `gorm:"type:datetime" json:"created_at"`
 	UpdatedAt          time.Time `gorm:"type:datetime" json:"updated_at"`
+
+	Review             []Review  `gorm:"foreignKey:QuestionID"`
 }
