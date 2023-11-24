@@ -36,7 +36,8 @@ func migrateDatabase() {
 		log.Fatal(err)
 	}
 
-        var questions []models.Question
+        var questions        []models.Question
+        var questionSections []models.QuestionSection
 	for _, data := range getTestModelDataFromYaml("question_template") {	
 		fmt.Println("question_template: ", data)
 	    	questionTemplate := getQuestionTemplate(data)
@@ -50,6 +51,7 @@ func migrateDatabase() {
 			fmt.Println("question_section: ", data)
 		    	questionSection := getQuestionSection(data, questionTemplate.ID)
 			db.Create(&questionSection)
+			questionSections = append(questionSections, questionSection)
 
 			if(questionSection.Type == "multi_choice") {
 				questionOption := getQuestionOption(questionSection.ID, data)
@@ -94,11 +96,13 @@ func migrateDatabase() {
 
 		reply := getReply(review.ID, data)
 		db.Create(&reply)
+
+		for _, questionSection := range questionSections {
+			answer := getAnswerInt(questionSection.ID, uint(review.ID))
+			db.Create(&answer)
+		}
 	}
 
-	//answer := getAnswerInt(questionSection.ID, 
-	//      	      questionOption.ID, uint(review.ID))
-	//db.Create(&answer)
 
 	if db.Error != nil {
 		log.Fatal(db.Error)
@@ -205,12 +209,12 @@ func getQuestionOption(questionSectionID uint, data map[string]interface{}) mode
 	}
 }
 
-func getAnswerInt(questionSectionID uint, questionOptionID uint, reviewID uint) models.AnswerInt {
+func getAnswerInt(questionSectionID uint, reviewID uint) models.AnswerInt {
 	currentTime := getCurrentTime()
 	
 	return models.AnswerInt{
-		QuestionSectionID:  questionSectionID,
-		QuestionOptionID:   questionOptionID,
+		QuestionSectionID:  &questionSectionID,
+		QuestionOptionID:   nil,
 		ReviewID:           reviewID,
 		Value:              3,
 		CreatedAt:          currentTime,
