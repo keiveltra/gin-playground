@@ -23,7 +23,6 @@ func migrateDatabase() {
 	_models := []interface{}{
 		 &models.Reply{},
 		 &models.ReviewImage{},
-		 &models.ReviewKeys{},
 		 &models.ReviewContent{},
 		 &models.ContentTranslation{},
 		 &models.QuestionTemplate{},
@@ -65,13 +64,6 @@ func migrateDatabase() {
 	}
 
 	fmt.Println("Injecting the dataset ...")
-
-	for _, data := range getTestModelDataFromYaml("review_keys") {	
-		fmt.Println("review_keys: ", data)
-
-		reviewKeys := getReviewKeys(data)
-		db.Create(&reviewKeys)
-	}
 
 	for _, data := range getTestModelDataFromYaml("review") {	
 		fmt.Println("review: ", data)
@@ -145,17 +137,6 @@ func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewIma
 		CreatedURL:       toString(data, "created_url"),
 		UpdatedUserID:    toInt(data, "updated_user_id"),
 		UpdatedURL:       toString(data, "updated_url"),
-	}
-}
-
-func getReviewKeys(data map[string]interface{}) models.ReviewKeys {
-
-	return models.ReviewKeys{
-		BookingID:     toUint  (data, "booking_id"),
-		TrUserBasicID: toUint  (data, "tr_user_basic_id"),
-		Hash:          toString(data, "hash"),
-		CreatedURL:    toString(data, "created_url"),
-		UpdatedURL:    toString(data, "updated_url"),
 	}
 }
 

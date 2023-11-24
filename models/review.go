@@ -40,6 +40,7 @@ type Review struct {
 	UseFlag             uint8      `gorm:"type:tinyint unsigned;index"`
 	MappingID           int64      `gorm:"type:int"`
 	CdFlag              uint8      `gorm:"type:tinyint unsigned;default:0"`
+	Hash                string    `gorm:"column:hash;unique"`
 	PostDate            *time.Time `gorm:"type:datetime"`
 	StatusChangeDate    *time.Time `gorm:"type:datetime"`
 	StatusChangeID      int        `gorm:"type:int"`
