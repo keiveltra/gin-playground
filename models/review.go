@@ -51,7 +51,6 @@ type Review struct {
 	UpdatedUserID       int        `gorm:"type:int"`
 	UpdatedURL          string     `gorm:"type:varchar(512)"`
 
-	AnswerInt           []AnswerInt          `gorm:"foreignKey:ReviewID"`
-	AnswerBoolean       []AnswerBoolean      `gorm:"foreignKey:ReviewID"`
+	Answer              []Answer             `gorm:"foreignKey:ReviewID"`
 	ReviewImage         []ReviewImage        `gorm:"foreignKey:ReviewID"`
 }

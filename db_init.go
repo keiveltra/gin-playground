@@ -29,7 +29,7 @@ func migrateDatabase() {
 		 &models.Question{},
 		 &models.QuestionSection{},
 		 &models.QuestionOption{},
-		 &models.AnswerInt{},
+		 &models.Answer{},
 		 &models.Review{},
 	}
 	
@@ -94,7 +94,7 @@ func migrateDatabase() {
 
 
 		for _, questionSection := range questionSections {
-			answer := getAnswerInt(questionSection.ID, uint(review.ID))
+			answer := getAnswer(questionSection.ID, uint(review.ID))
 			db.Create(&answer)
 		}
 	}
@@ -105,7 +105,7 @@ func migrateDatabase() {
 	//executeRawSQLString("select * from question_templates t join question_sections s on s.question_template_id = t.id", db, &[]models.QuestionTemplate{})
 
 	//fmt.Println("\nGet Survey, ReviewID from Answer")
-	//executeRawSQLString("select a.value, s.label from answer_ints a join reviews r on r.id = a.review_id join question_sections s on s.id = a.question_section_id", db, &[]models.AnswerInt{})
+	//executeRawSQLString("select a.value, s.label from answer_ints a join reviews r on r.id = a.review_id join question_sections s on s.id = a.question_section_id", db, &[]models.Answer{})
 
 
 	if db.Error != nil {
@@ -205,14 +205,15 @@ func getQuestionOption(questionSectionID uint, data map[string]interface{}) mode
 	}
 }
 
-func getAnswerInt(questionSectionID uint, reviewID uint) models.AnswerInt {
+func getAnswer(questionSectionID uint, reviewID uint) models.Answer {
 	currentTime := getCurrentTime()
+	numberValue := uint(3)
 	
-	return models.AnswerInt{
+	return models.Answer{
 		QuestionSectionID:  &questionSectionID,
 		QuestionOptionID:   nil,
 		ReviewID:           reviewID,
-		Value:              3,
+		NumberValue:        &numberValue,
 		CreatedAt:          currentTime,
 		UpdatedAt:          currentTime,
 	}
