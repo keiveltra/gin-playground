@@ -145,7 +145,6 @@ func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewIma
 		CreatedURL:       toString(data, "created_url"),
 		UpdatedUserID:    toInt(data, "updated_user_id"),
 		UpdatedURL:       toString(data, "updated_url"),
-		ACConversionFlag: toUint8(data, "acc_conversion_flag"),
 	}
 }
 
@@ -278,7 +277,6 @@ func getReview(questionID uint, data map[string]interface{}) models.Review {
 	 	CreatedURL:         toString(data, "created_url"),
 	 	UpdatedUserID:      toInt   (data, "updated_user_id"),
 	 	UpdatedURL:         toString(data, "updated_url"),
-	 	ACConversionFlag:   toUint8 (data, "acc_conversion_flag"),
 	 }
 }           
 
