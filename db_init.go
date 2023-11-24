@@ -91,12 +91,15 @@ func migrateDatabase() {
 			db.Create(&reviewContent)
 
 			// Translations
-			translation := getContentTranslation(reviewContent.ID, data)
+			translation := getContentTranslationReviewContent(reviewContent.ID, data)
 			db.Create(&translation)
 		}
 
 		reply := getReply(review.ID, data)
 		db.Create(&reply)
+		translation := getContentTranslationReply(reply.ID, data)
+		db.Create(&translation)
+
 
 		for _, questionSection := range questionSections {
 			answer := getAnswerInt(questionSection.ID, uint(review.ID))
@@ -302,7 +305,7 @@ func getReviewContent(reviewID uint, data map[string]interface{}) models.ReviewC
 	 }
 }           
 
-func getContentTranslation(reviewContentID uint64, data map[string]interface{}) models.ContentTranslation {
+func getContentTranslationReviewContent(reviewContentID uint64, data map[string]interface{}) models.ContentTranslation {
 
 	return models.ContentTranslation{
 	        TranslatedContent:  "test",
@@ -315,6 +318,21 @@ func getContentTranslation(reviewContentID uint64, data map[string]interface{}) 
 	        HumanApprovalID:    12345,
 	 }
 }           
+
+func getContentTranslationReply(replyID uint64, data map[string]interface{}) models.ContentTranslation {
+
+	return models.ContentTranslation{
+	        TranslatedContent:  "test",
+	        ContentType:        "reply",
+	        ReviewContentID:    nil,
+	        ReplyID:            &replyID,
+	        ReviewImageID:      nil,
+	        LangID:             0,
+	        Translator:         "google",
+	        HumanApprovalID:    12345,
+	 }
+}           
+
 
 func toUint64(data map[string]interface{}, key string) uint64 {
 	value, _ := data[key].(uint64)	
