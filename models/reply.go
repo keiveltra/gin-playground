@@ -16,12 +16,5 @@ type Reply struct {
 	PtrStatusChangeID   int        `gorm:"type:int"`
 
 	Review              Review     `gorm:"foreignKey:ReviewID"`
-	ContentTranslation  []ContentTranslation `gorm:"foreignKey:ContentID"`
+	ContentTranslation  []ContentTranslation `gorm:"foreignKey:ReplyID"`
 }
-
-type ContentType string
-const (
-	ContentTypeReply  ContentType = "reply"
-	ContentTypeReview ContentType = "review"
-	ContentTypeImage  ContentType = "image"
-)

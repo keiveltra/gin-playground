@@ -25,6 +25,7 @@ func migrateDatabase() {
 		 &models.ReviewImage{},
 		 &models.ReviewKeys{},
 		 &models.ReviewContent{},
+		 &models.ContentTranslation{},
 		 &models.QuestionTemplate{},
 		 &models.Question{},
 		 &models.QuestionSection{},
@@ -105,11 +106,11 @@ func migrateDatabase() {
 
 	fmt.Println("\n-------------------------------------------------------------------")
 
-	fmt.Println("\nGet Sections from Templates")
-	executeRawSQLString("select * from question_templates t join question_sections s on s.question_template_id = t.id", db, &[]models.QuestionTemplate{})
+	//fmt.Println("\nGet Sections from Templates")
+	//executeRawSQLString("select * from question_templates t join question_sections s on s.question_template_id = t.id", db, &[]models.QuestionTemplate{})
 
-	fmt.Println("\nGet Survey, ReviewID from Answer")
-	executeRawSQLString("select a.value, s.label from answer_ints a join reviews r on r.id = a.review_id join question_sections s on s.id = a.question_section_id", db, &[]models.AnswerInt{})
+	//fmt.Println("\nGet Survey, ReviewID from Answer")
+	//executeRawSQLString("select a.value, s.label from answer_ints a join reviews r on r.id = a.review_id join question_sections s on s.id = a.question_section_id", db, &[]models.AnswerInt{})
 
 
 	if db.Error != nil {
@@ -306,7 +307,9 @@ func getContentTranslation(reviewContentID uint64, data map[string]interface{}) 
 	return models.ContentTranslation{
 	        TranslatedContent:  "test",
 	        ContentType:        "reply",
-	        ContentID:          reviewContentID,
+	        ReviewContentID:    &reviewContentID,
+	        ReplyID:            nil,
+	        ReviewImageID:      nil,
 	        LangID:             0,
 	        Translator:         "google",
 	        HumanApprovalID:    12345,
