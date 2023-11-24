@@ -2,7 +2,6 @@ package models
 
 import (
 	"gorm.io/gorm"
-	"time"
 )
 
 type ReviewImage struct {
@@ -15,11 +14,9 @@ type ReviewImage struct {
 	Height             uint64     `gorm:"type:int unsigned"`
 	Size               uint64     `gorm:"type:int unsigned"`
 	Comment            string     `gorm:"type:varchar(1000)"`
-	Created            *time.Time `gorm:"type:datetime"`
 	CreatedUserID      uint64     `gorm:"type:int unsigned"`
 	CreatedURL         string     `gorm:"type:varchar(512)"`
-	Updated            *time.Time `gorm:"type:datetime"`
 	UpdatedUserID      int        `gorm:"type:int"`
 	UpdatedURL         string     `gorm:"type:varchar(512)"`
-	ACConversionFlag   uint8      `gorm:"type:tinyint unsigned;index;default:0"`
+	ACConversionFlag   uint8      `gorm:"type:tinyint unsigned;index;default:0"` // TODO: ask KL whether still used/not
 }

@@ -128,7 +128,6 @@ func executeRawSQLString(sql string, db *gorm.DB, questionsQuery interface{}) {
 }
 
 func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewImage {
-	currentTime := getCurrentTime()
 
 	return models.ReviewImage{
 		ReviewID:         reviewID,
@@ -138,10 +137,8 @@ func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewIma
 		Height:           toUint64(data, "height"),
 		Size:             toUint64(data, "size"),
 		Comment:          toString(data, "comment"),
-		Created:          &currentTime,
 		CreatedUserID:    toUint64(data, "created_user_id"),
 		CreatedURL:       toString(data, "created_url"),
-		Updated:          &currentTime,
 		UpdatedUserID:    toInt(data, "updated_user_id"),
 		UpdatedURL:       toString(data, "updated_url"),
 		ACConversionFlag: toUint8(data, "acc_conversion_flag"),
@@ -149,15 +146,12 @@ func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewIma
 }
 
 func getReviewKeys(data map[string]interface{}) models.ReviewKeys {
-	currentTime := getCurrentTime()
 
 	return models.ReviewKeys{
 		BookingID:     toUint  (data, "booking_id"),
 		TrUserBasicID: toUint  (data, "tr_user_basic_id"),
 		Hash:          toString(data, "hash"),
-		Created:       currentTime,
 		CreatedURL:    toString(data, "created_url"),
-		Updated:       currentTime,
 		UpdatedURL:    toString(data, "updated_url"),
 	}
 }
@@ -267,7 +261,6 @@ func getReview(questionID uint, data map[string]interface{}) models.Review {
 		QuestionID:         questionID,
 		BookingID:          toUint64(data, "booking_id"),
 		UserBasicID:        toUint64(data, "user_basic_id"),
-		OrgReviewID:        toUint64(data, "org_review_id"),
 		LikeCount:          toUint64(data, "like_count"),
 		UseFlag:            toUint8 (data, "use_flag"),
 		MappingID:          toInt64 (data, "mapping_id"),
@@ -291,8 +284,6 @@ func getReviewContent(reviewID uint, data map[string]interface{}) models.ReviewC
 	return models.ReviewContent{
 		ReviewID:           reviewID,
 		Rate:               toUint8 (data, "rate"),
-		VersionID:          toUint  (data, "version_id"),
-		LatestContent:      true,
 		Status:             toString(data, "status"),
 		DisplayUserName:    toString(data, "display_user_name"),
 		Title:              toString(data, "title"),

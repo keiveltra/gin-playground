@@ -36,7 +36,6 @@ type Review struct {
 	QuestionID          uint      `gorm:"type:int unsigned" json:"question_id"`
 	BookingID           uint64     `gorm:"type:int unsigned"`
 	UserBasicID         uint64     `gorm:"type:int unsigned;index"`
-	OrgReviewID         uint64     `gorm:"type:int unsigned"`
 	LikeCount           uint64     `gorm:"type:int unsigned"`
 	UseFlag             uint8      `gorm:"type:tinyint unsigned;index"`
 	MappingID           int64      `gorm:"type:int"`
@@ -50,10 +49,9 @@ type Review struct {
 	CreatedURL          string     `gorm:"type:varchar(512)"`
 	UpdatedUserID       int        `gorm:"type:int"`
 	UpdatedURL          string     `gorm:"type:varchar(512)"`
-	ACConversionFlag    uint8      `gorm:"type:tinyint unsigned;index;default:0"`
+	ACConversionFlag    uint8      `gorm:"type:tinyint unsigned;index;default:0"`  // TODO: ask KL whether still used/not
 
 	AnswerInt           []AnswerInt          `gorm:"foreignKey:ReviewID"`
 	AnswerBoolean       []AnswerBoolean      `gorm:"foreignKey:ReviewID"`
 	ReviewImage         []ReviewImage        `gorm:"foreignKey:ReviewID"`
-	ContentTranslation  []ContentTranslation `gorm:"foreignKey:ReplyID"`
 }

@@ -16,7 +16,7 @@ type Reply struct {
 	PtrStatusChangeID   int        `gorm:"type:int"`
 
 	Review              Review     `gorm:"foreignKey:ReviewID"`
-	ContentTranslation  []ContentTranslation `gorm:"foreignKey:ReplyID"`
+	// ContentTranslation  []ContentTranslation `gorm:"foreignKey:ReplyID"`
 }
 
 //
@@ -28,10 +28,12 @@ const (
 	ContentTypeReview ContentType = "review"
 )
 
-type ContentTranslation struct {
-	Comment             string    `gorm:"type:varchar(1000)"`
-	ReplyID             *uint     `gorm:"type:int unsigned" json:"reply_id"`
-	ReviewContentID     *uint     `gorm:"type:int unsigned" json:"review_id"`
-	LangID              int       `gorm:"type:int unsigned;index"`
-	ContentType         string    `gorm:"type:enum('reply', 'review')" json:"type"`
-}
+//type ContentTranslation struct {
+//	ID                  uint    `gorm:"type:int unsigned;primaryKey;autoIncrement"`
+//	TranslatedContent   string  `gorm:"type:varchar(1000)"`
+//	ContentType         string  `gorm:"type:enum('reply', 'review', 'image')" json:"type"`
+//	ContentID           uint    `gorm:"type:int unsigned" json:"content_id"` // foreign_key
+//	LangID              int     `gorm:"type:int unsigned;index"`
+//	// + Translator tool [Google | DeepL] [Enum]
+//	// + Human Approval ID [userID VTR or PTR or TR]
+//}
