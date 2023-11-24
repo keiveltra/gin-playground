@@ -4,6 +4,7 @@ setup:
 	go get -u gorm.io/driver/mysql
 	go get github.com/spf13/viper
 	go get gopkg.in/yaml.v3
+	go get github.com/davecgh/go-spew/spew
 
 compile:
 	go build -o webapp

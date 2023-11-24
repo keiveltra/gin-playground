@@ -9,6 +9,7 @@ import (
 	"os"
 	"time"
 	"veltra.com/gin_playground/models"
+	"github.com/davecgh/go-spew/spew"
 )
 
 var db = make(map[string]string)
@@ -100,30 +101,26 @@ func migrateDatabase() {
 
 	fmt.Println("\n-------------------------------------------------------------------")
 
-	var questionsQuery []models.Question
-	dryRunDB := db.Session(&gorm.Session{DryRun: true})
-	result   := dryRunDB.Find(&questionsQuery)
+	fmt.Println("\nGet Sections from Templates")
+	executeRawSQLString("select * from question_templates t join question_sections s on s.question_template_id = t.id", db, &[]models.QuestionTemplate{})
 
-	executeRawSQLString(questionsQuery, result, db)
+	fmt.Println("\nGet Survey, ReviewID from Answer")
+	executeRawSQLString("select a.value, s.label from answer_ints a join reviews r on r.id = a.review_id join question_sections s on s.id = a.question_section_id", db, &[]models.AnswerInt{})
+
 
 	if db.Error != nil {
 		log.Fatal(db.Error)
 	}
 }
 
-func executeRawSQLString(questionsQuery []models.Question, result *gorm.DB, db *gorm.DB) {
-	if result.Error != nil {
-		log.Fatal(result.Error)
-	}
-	sql := result.Statement.SQL.String()
-
-	result = db.Raw(sql).Find(&questionsQuery)
+func executeRawSQLString(sql string, db *gorm.DB, questionsQuery interface{}) {
+	result := db.Raw(sql).Find(questionsQuery)
 	if result.Error != nil {
 		log.Fatal(result.Error)
 	}
 
 	fmt.Println("Raw SQL query:", sql)
-	fmt.Println("result: ", questionsQuery)
+	spew.Dump(questionsQuery)
 }
 
 func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewImage {
