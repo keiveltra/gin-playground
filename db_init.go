@@ -14,7 +14,7 @@ import (
 var db = make(map[string]string)
 
 func migrateDatabase() {
-	db, err := gorm.Open(mysql.Open("moomin:moomin@tcp(127.0.0.1:3306)/test"), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open("moomin:moomin@tcp(127.0.0.1:3306)/test?parseTime=true"), &gorm.Config{})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -71,10 +71,6 @@ func migrateDatabase() {
 		db.Create(&reviewKeys)
 	}
 
-	// var questions []models.Question
-	// db.Find(&questions)
-	// fmt.Println("questions: ", questions)
-
 	for _, data := range getTestModelDataFromYaml("review") {	
 		fmt.Println("review: ", data)
 
@@ -87,7 +83,6 @@ func migrateDatabase() {
 			reviewImage := getReviewImage(review.ID, data)
 			db.Create(&reviewImage)
 		}
-
 
 		for _, data := range getTestModelDataFromYaml("review_content") {
 			reviewContent := getReviewContent(review.ID, data)
@@ -103,6 +98,9 @@ func migrateDatabase() {
 		}
 	}
 
+	var questions2 []models.Question
+	db.Find(&questions2)
+	fmt.Println("questions: ", questions2)
 
 	if db.Error != nil {
 		log.Fatal(db.Error)
