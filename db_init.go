@@ -88,6 +88,10 @@ func migrateDatabase() {
 		for _, data := range getTestModelDataFromYaml("review_content") {
 			reviewContent := getReviewContent(review.ID, data)
 			db.Create(&reviewContent)
+
+			// Translations
+			// translation := getTranslation(review.ID, data)
+			// db.Create(&translation)
 		}
 
 		reply := getReply(review.ID, data)
@@ -295,8 +299,7 @@ func getReviewContent(reviewID uint, data map[string]interface{}) models.ReviewC
 		Advice:             toString(data, "advice"),
 		GoWithID:           toUint16(data, "go_with_id"),
 		CommentDate:        &currentTime,
-		ContentEn:          toString(data, "content_en"),
-		ContentJp:          toString(data, "content_jp"),
+		Content:            toString(data, "content_en"),
 	 	LangID:             toInt   (data, "lang_id"),
 	 	ActivityDate:       &currentTime,
 	 	PointCurrency:      toString(data, "point_currency"),
@@ -306,6 +309,20 @@ func getReviewContent(reviewID uint, data map[string]interface{}) models.ReviewC
 	 	UpdatedURL:         toString(data, "updated_url"),
 	 }
 }           
+
+//func getTranslation(reviewContentID uint, data map[string]interface{}) models.ReviewContent {
+//	currentTime := getCurrentTime()
+//
+//	return models.ReviewContent{
+//		ReviewContentID:    reviewContentID,
+//		Comment:            "This is a translation",
+//		ReplyID:            nil,
+//		ReviewContentID:    reviewContentID,
+//		LangID:             0,
+//		ContentType:        "reviewContent"
+//	 }
+//}           
+
 
 func toUint64(data map[string]interface{}, key string) uint64 {
 	value, _ := data[key].(uint64)	

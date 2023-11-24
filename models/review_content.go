@@ -16,9 +16,7 @@ type ReviewContent struct {
 	Rate                uint8      `gorm:"type:tinyint unsigned;index:idx_rate;default:5"`
 	Status              string     `gorm:"type:enum('new','pending','published','declined','deleted');index"`
 
-	// TODO: if language support varies, this should be done in ContentTranslation
-	ContentEn           string     `gorm:"type:varchar(4000)"`
-	ContentJp           string     `gorm:"type:varchar(4000)"`
+	Content             string     `gorm:"type:varchar(4000)"`
 	Advice              string     `gorm:"type:varchar(4000)"`
 	GoWithID            uint16     `gorm:"type:smallint unsigned"`
 	LangID              int        `gorm:"type:int unsigned;index"`
@@ -32,4 +30,5 @@ type ReviewContent struct {
 	UpdatedURL          string     `gorm:"type:varchar(512)"`
 
 	Review              Review     `gorm:"foreignKey:ReviewID"`
+	ContentTranslation  []ContentTranslation `gorm:"foreignKey:ReviewContentID"`
 }

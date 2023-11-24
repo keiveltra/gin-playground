@@ -6,7 +6,7 @@ import (
 
 type OptionType string
 const (
-    OptionTypeCheckbox OptionType = "Checkbox"
+	OptionTypeCheckbox OptionType = "Checkbox"
 )
 
 type QuestionOption struct {
