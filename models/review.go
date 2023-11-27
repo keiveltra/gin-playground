@@ -37,4 +37,5 @@ type Review struct {
 
 	Answer              []Answer             `gorm:"foreignKey:ReviewID"`
 	ReviewImage         []ReviewImage        `gorm:"foreignKey:ReviewID"`
+	Like                []Like               `gorm:"foreignKey:ReviewID"`
 }

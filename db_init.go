@@ -31,6 +31,7 @@ func migrateDatabase() {
 		 &models.QuestionOption{},
 		 &models.Answer{},
 		 &models.Review{},
+		 &models.Like{},
 	}
 	
 	if err := db.AutoMigrate(_models...); err != nil {
@@ -65,13 +66,20 @@ func migrateDatabase() {
 
 	fmt.Println("Injecting the dataset ...")
 
-	for _, data := range getTestModelDataFromYaml("review") {	
+	for _, data := range getTestModelDataFromYaml("review") {
 		fmt.Println("review: ", data)
 
 		review := getReview(questions[0].ID, data)
 		db.Create(&review)
 
-		for _, data := range getTestModelDataFromYaml("review_image") {	
+                for _, data := range getTestModelDataFromYaml("like") {
+			fmt.Println("like: ", data)
+
+			like := getLike(review.ID, data)
+			db.Create(&like)
+                }
+
+		for _, data := range getTestModelDataFromYaml("review_image") {
 			fmt.Println("review_image: ", data)
 
 			reviewImage := getReviewImage(review.ID, data)
@@ -121,6 +129,14 @@ func executeRawSQLString(sql string, db *gorm.DB, questionsQuery interface{}) {
 
 	fmt.Println("Raw SQL query:", sql)
 	spew.Dump(questionsQuery)
+}
+
+func getLike(reviewID uint, data map[string]interface{}) models.Like {
+
+	return models.Like{
+		ReviewID:         reviewID,
+		TrUserBasicID:    toUint64(data, "tr_user_basic_id"),
+	}
 }
 
 func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewImage {
