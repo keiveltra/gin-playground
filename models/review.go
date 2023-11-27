@@ -12,22 +12,6 @@ const (
 	Store    ServiceKey = "store"
 )
 
-type Status string
-const (
-	StatusNew       Status = "New"
-	StatusPending   Status = "Pending"
-	StatusPublished Status = "Published"
-	StatusDeclined  Status = "Declined"
-	StatusDeleted   Status = "Deleted"
-)
-
-type PtrStatus string
-const (
-	PtrStatusPending   Status = "Pending"
-	PtrStatusPublished Status = "Published"
-	PtrStatusDeclined  Status = "Declined"
-)
-
 type Review struct {
 	gorm.Model
 	ID                  uint       `gorm:"type:int unsigned;primaryKey;autoIncrement"`

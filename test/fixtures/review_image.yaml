@@ -2,6 +2,7 @@ data:
   - id:                  0
     file_name:           "s3://domain/src/bra/bra/test.jpg"
     file_name_base:      "test.jpg"
+    status:              "active"
     width:               100
     height:              200
     size:                100

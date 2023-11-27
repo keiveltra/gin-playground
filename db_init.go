@@ -129,6 +129,7 @@ func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewIma
 		ReviewID:         reviewID,
 		Filename:         toString(data, "file_name"),
 		FilenameBase:     toString(data, "file_name_base"),
+		Status:           toString(data, "status"),
 		Width:            toUint64(data, "width"),
 		Height:           toUint64(data, "height"),
 		Size:             toUint64(data, "size"),

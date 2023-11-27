@@ -5,6 +5,13 @@ import (
 	"time"
 )
 
+type PtrStatus string
+const (
+	PtrStatusPending   Status = "Pending"
+	PtrStatusPublished Status = "Published"
+	PtrStatusDeclined  Status = "Declined"
+)
+
 type Reply struct {
 	gorm.Model
 	ID                  uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`

@@ -12,7 +12,7 @@ type Answer struct {
 
 	// TODO: Discussion
 	NumberValue       *uint      `gorm:"type:int unsigned" json:"value"`
-	BooleanValue      *bool      `gorm:"column:latest_content"`
+	BooleanValue      *bool      `gorm:"column:boolean_value"`
 	TextValue         *string    `gorm:"type:varchar(100)" json:"label"`
 
 	CreatedAt         time.Time `gorm:"type:datetime;default:CURRENT_TIMESTAMP" json:"created_at"`

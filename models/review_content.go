@@ -5,6 +5,15 @@ import (
 	"time"
 )
 
+type Status string
+const (
+	StatusNew       Status = "New"
+	StatusPending   Status = "Pending"
+	StatusPublished Status = "Published"
+	StatusDeclined  Status = "Declined"
+	StatusDeleted   Status = "Deleted"
+)
+
 type ReviewContent struct {
 	gorm.Model
 	ID                  uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
