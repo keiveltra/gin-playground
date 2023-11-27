@@ -22,7 +22,6 @@ type ReviewContent struct {
 	Title               string     `gorm:"type:varchar(256)"`
 	Rate                uint8      `gorm:"type:tinyint unsigned;index:idx_rate;default:5"`
 	Status              string     `gorm:"type:enum('new','pending','published','declined','deleted');index"`
-
 	Content             string     `gorm:"type:varchar(4000)"`
 	Advice              string     `gorm:"type:varchar(4000)"`
 	GoWithID            uint16     `gorm:"type:smallint unsigned"`

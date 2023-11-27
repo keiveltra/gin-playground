@@ -185,9 +185,10 @@ func getQuestionSection(data map[string]interface{}, questionTemplateID uint) mo
 
 	return models.QuestionSection{
 		QuestionTemplateID: questionTemplateID,
-		Type:               toEnum(data, "type"),
+		Type:               toEnum  (data, "type"),
 		Label:              toString(data, "label"),
 		SortOrder:          toUint  (data, "sort_order"),
+		Show:               toBool  (data, "show"),
 		CreatedAt:          currentTime,
 		UpdatedAt:          currentTime,
 	}
@@ -315,6 +316,10 @@ func getContentTranslationReply(replyID uint64, data map[string]interface{}) mod
 	 }
 }           
 
+func toBool(data map[string]interface{}, key string) bool {
+	value, _ := data[key].(bool)	
+	return value
+}
 
 func toUint64(data map[string]interface{}, key string) uint64 {
 	value, _ := data[key].(uint64)	
