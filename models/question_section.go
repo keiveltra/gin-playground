@@ -17,7 +17,7 @@ type QuestionSection struct {
 	Type               SectionType `gorm:"type:enum('normal','weather','multi_choice')" json:"type"`
 	Name               string    `gorm:"type:varchar(100)" json:"label"` // summary label
 	Label              string    `gorm:"type:varchar(100)" json:"label"` // detailed label 
-	Show               bool      `gorm:"column:boolean_value"`  // Whether show/display on the UI or not.
+	Show               bool      `gorm:"column:show"`  // Whether show/display on the UI or not.
 	SortOrder          uint      `gorm:"type:int unsigned" json:"sort_order"`
 	CreatedAt          time.Time `gorm:"type:datetime" json:"created_at"`
 	UpdatedAt          time.Time `gorm:"type:datetime" json:"updated_at"`
