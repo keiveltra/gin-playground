@@ -33,14 +33,14 @@ func migrateDatabase() {
 		 &models.Review{},
 		 &models.Like{},
 	}
-	
+
 	if err := db.AutoMigrate(_models...); err != nil {
 		log.Fatal(err)
 	}
 
         var questions        []models.Question
         var questionSections []models.QuestionSection
-	for _, data := range getTestModelDataFromYaml("question_template") {	
+	for _, data := range getTestModelDataFromYaml("question_template") {
 		fmt.Println("question_template: ", data)
 	    	questionTemplate := getQuestionTemplate(data)
 	    	db.Create(&questionTemplate)
@@ -49,7 +49,7 @@ func migrateDatabase() {
 	    	db.Create(&question)
 		questions = append(questions, question)
 
-		for _, data := range getTestModelDataFromYaml("question_section") {	
+		for _, data := range getTestModelDataFromYaml("question_section") {
 			fmt.Println("question_section: ", data)
 		    	questionSection := getQuestionSection(data, questionTemplate.ID)
 			db.Create(&questionSection)
@@ -226,7 +226,7 @@ func getQuestionOption(questionSectionID uint, data map[string]interface{}) mode
 func getAnswer(questionSectionID uint, reviewID uint) models.Answer {
 	currentTime := getCurrentTime()
 	numberValue := uint(3)
-	
+
 	return models.Answer{
 		QuestionSectionID:  &questionSectionID,
 		QuestionOptionID:   nil,
@@ -279,7 +279,7 @@ func getReview(questionID uint, data map[string]interface{}) models.Review {
 	 	UpdatedUserID:      toInt   (data, "updated_user_id"),
 	 	UpdatedURL:         toString(data, "updated_url"),
 	 }
-}           
+}
 
 func getReviewContent(reviewID uint, data map[string]interface{}) models.ReviewContent {
 	currentTime := getCurrentTime()
@@ -302,7 +302,7 @@ func getReviewContent(reviewID uint, data map[string]interface{}) models.ReviewC
 	 	UpdatedUserID:      toInt   (data, "updated_user_id"),
 	 	UpdatedURL:         toString(data, "updated_url"),
 	 }
-}           
+}
 
 func getContentTranslationReviewContent(reviewContentID uint64, data map[string]interface{}) models.ContentTranslation {
 
@@ -316,7 +316,7 @@ func getContentTranslationReviewContent(reviewContentID uint64, data map[string]
 	        Translator:         "google",
 	        HumanApprovalID:    12345,
 	 }
-}           
+}
 
 func getContentTranslationReply(replyID uint64, data map[string]interface{}) models.ContentTranslation {
 
@@ -330,45 +330,45 @@ func getContentTranslationReply(replyID uint64, data map[string]interface{}) mod
 	        Translator:         "google",
 	        HumanApprovalID:    12345,
 	 }
-}           
+}
 
 func toBool(data map[string]interface{}, key string) bool {
-	value, _ := data[key].(bool)	
+	value, _ := data[key].(bool)
 	return value
 }
 
 func toUint64(data map[string]interface{}, key string) uint64 {
-	value, _ := data[key].(uint64)	
+	value, _ := data[key].(uint64)
 	return value
 }
 
 func toUint8(data map[string]interface{}, key string) uint8 {
-	value, _ := data[key].(uint8)	
+	value, _ := data[key].(uint8)
 	return value
 }
 
 func toUint16(data map[string]interface{}, key string) uint16 {
-	value, _ := data[key].(uint16)	
+	value, _ := data[key].(uint16)
 	return value
 }
 
 func toUint(data map[string]interface{}, key string) uint {
-	value, _ := data[key].(uint)	
+	value, _ := data[key].(uint)
 	return value
 }
 
 func toString(data map[string]interface{}, key string) string {
-	value, _ := data[key].(string)	
+	value, _ := data[key].(string)
 	return value
 }
 
 func toInt(data map[string]interface{}, key string) int {
-	value, _ := data[key].(int)	
+	value, _ := data[key].(int)
 	return value
 }
 
 func toInt64(data map[string]interface{}, key string) int64 {
-	value, _ := data[key].(int64)	
+	value, _ := data[key].(int64)
 	return value
 }
 
