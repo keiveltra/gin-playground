@@ -12,10 +12,12 @@ const (
 	PtrStatusDeclined  Status = "Declined"
 )
 
-#
-# 1. Confirmed: PdM needs Version for Reply
-# 2. Per each reviewContent? | Per each review?
-#
+//
+// Review -[1:n]-> Reply
+//
+// Such that Reply, of specific review has multiple versions
+// which can be detected/sort by its replies.id and replies.created_at
+//
 type Reply struct {
 	gorm.Model
 	ID                  uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
