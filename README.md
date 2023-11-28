@@ -32,3 +32,12 @@ To run the webapp,
 ```
 $ make run
 ```
+
+## TODO
+
+```
+- review.+category_id
+- view? 追加
+```
+
+

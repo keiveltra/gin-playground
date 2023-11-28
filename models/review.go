@@ -12,12 +12,18 @@ const (
 	Store    ServiceKey = "store"
 )
 
+//
+// CategoryID is (in activity context) parent of product_id(=ac_id)
+// When querying review count/ave.score then we need dedicated view/table
+// for memory usage reduction.
+//
 type Review struct {
 	gorm.Model
 	ID                  uint       `gorm:"type:int unsigned;primaryKey;autoIncrement"`
 	ServiceKey          ServiceKey `gorm:"type:enum('ac','ticket');index"`
 	ProductID           uint64     `gorm:"type:int unsigned"`
-	QuestionID          uint      `gorm:"type:int unsigned" json:"question_id"`
+	CategoryID          uint64     `gorm:"type:int unsigned"`
+	QuestionID          uint       `gorm:"type:int unsigned" json:"question_id"`
 	BookingID           uint64     `gorm:"type:int unsigned"`
 	UserBasicID         uint64     `gorm:"type:int unsigned;index"`
 	LikeCount           uint64     `gorm:"type:int unsigned"`
