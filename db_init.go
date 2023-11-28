@@ -204,7 +204,7 @@ func getQuestionSection(data map[string]interface{}, questionTemplateID uint) mo
 		Type:               toEnum  (data, "type"),
 		Label:              toString(data, "label"),
 		SortOrder:          toUint  (data, "sort_order"),
-		Show:               toBool  (data, "show"),
+		// Show:               toBool  (data, "show"), // As discussion with PdM, this field is not needed
 		CreatedAt:          currentTime,
 		UpdatedAt:          currentTime,
 	}
