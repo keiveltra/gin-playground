@@ -24,7 +24,7 @@ type ReviewContent struct {
 	Status              string     `gorm:"type:enum('new','pending','published','declined','deleted');index"`
 	Content             string     `gorm:"type:varchar(4000)"`
 	Advice              string     `gorm:"type:varchar(4000)"`
-	GoWithID            uint16     `gorm:"type:smallint unsigned"`
+	AttendedAsID        uint16     `gorm:"type:smallint unsigned"` // Former go_with_id
 	LangID              int        `gorm:"type:int unsigned;index"`
 	CommentDate         *time.Time `gorm:"type:datetime"`
 	ActivityDate        *time.Time `gorm:"type:date"`

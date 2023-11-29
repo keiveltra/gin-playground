@@ -291,7 +291,7 @@ func getReviewContent(reviewID uint, data map[string]interface{}) models.ReviewC
 		DisplayUserName:    toString(data, "display_user_name"),
 		Title:              toString(data, "title"),
 		Advice:             toString(data, "advice"),
-		GoWithID:           toUint16(data, "go_with_id"),
+		AttendedAsID:       toUint16(data, "go_with_id"),
 		CommentDate:        &currentTime,
 		Content:            toString(data, "content_en"),
 	 	LangID:             toInt   (data, "lang_id"),
