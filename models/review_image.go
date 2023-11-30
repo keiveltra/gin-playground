@@ -25,5 +25,7 @@ type ReviewImage struct {
 	CreatedURL         string     `gorm:"type:varchar(512)"`
 	UpdatedUserID      int        `gorm:"type:int"`
 	UpdatedURL         string     `gorm:"type:varchar(512)"`
-	ContentTranslation  []*ContentTranslation `gorm:"foreignKey:ReviewImageID"`
+	ContentTranslation []*ContentTranslation `gorm:"foreignKey:ReviewImageID"`
+
+        ReviewContents     []ReviewContentImage `gorm:"foreignKey:ReviewImageID"`
 }

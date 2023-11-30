@@ -24,6 +24,7 @@ func migrateDatabase() {
 		 &models.Reply{},
 		 &models.ReviewImage{},
 		 &models.ReviewContent{},
+		 &models.ReviewContentImage{},
 		 &models.ContentTranslation{},
 		 &models.QuestionTemplate{},
 		 &models.Question{},
@@ -79,11 +80,13 @@ func migrateDatabase() {
 			db.Create(&like)
                 }
 
+		var images []models.ReviewImage
 		for _, data := range getTestModelDataFromYaml("review_image") {
 			fmt.Println("review_image: ", data)
 
 			reviewImage := getReviewImage(review.ID, data)
 			db.Create(&reviewImage)
+                        images = append(images, reviewImage)
 		}
 
 		for _, data := range getTestModelDataFromYaml("review_content") {
@@ -93,6 +96,8 @@ func migrateDatabase() {
 			// Translations
 			translation := getContentTranslationReviewContent(reviewContent.ID, data)
 			db.Create(&translation)
+
+                        getReviewContentImage(reviewContent.ID, images[0].ID)
 		}
 
 		reply := getReply(review.ID, data)
@@ -136,6 +141,13 @@ func getLike(reviewID uint, data map[string]interface{}) models.Like {
 	return models.Like{
 		ReviewID:         reviewID,
 		TrUserBasicID:    toUint64(data, "tr_user_basic_id"),
+	}
+}
+
+func getReviewContentImage(contentID uint64, imageID uint64) models.ReviewContentImage {
+	return models.ReviewContentImage{
+		ReviewContentID:  contentID,
+		ReviewImageID:    imageID,
 	}
 }
 
