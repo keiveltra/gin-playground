@@ -17,7 +17,7 @@ type ContentTranslation struct {
 	ID                  uint    `gorm:"type:int unsigned;primaryKey;autoIncrement"`
 	TranslatedContent   string  `gorm:"type:varchar(1000)"`
 	ContentType         string  `gorm:"type:enum('reply', 'review', 'image')" json:"type"`
-	ContentID           uint64  `gorm:"type:int unsigned;index"`
+	ContentID           uint64  `gorm:"type:int unsigned;index;foreignKey:Content" json:"content_id"`
 	LangID              int     `gorm:"type:int unsigned;index"`
 	Translator          string  `gorm:"type:enum('google', 'deepl')" json:"type"`
 	HumanApprovalID     uint    `gorm:"type:int unsigned" json:"content_id"`
