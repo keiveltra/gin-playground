@@ -217,6 +217,7 @@ func getQuestionSection(data map[string]interface{}, questionTemplateID uint) mo
 		Label:              toString(data, "label"),
 		SortOrder:          toUint  (data, "sort_order"),
 		// Show:               toBool  (data, "show"), // As discussion with PdM, this field is not needed
+		Optional:           toBool  (data, "optional"),
 		CreatedAt:          currentTime,
 		UpdatedAt:          currentTime,
 	}
