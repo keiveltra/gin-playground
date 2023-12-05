@@ -87,6 +87,9 @@ func migrateDatabase() {
 			reviewImage := getReviewImage(review.ID, data)
 			db.Create(&reviewImage)
                         images = append(images, reviewImage)
+
+			translation := getContentTranslation(reviewImage.ID, "image", data)
+			db.Create(&translation)
 		}
 
 		for _, data := range getTestModelDataFromYaml("review_content") {
@@ -94,7 +97,7 @@ func migrateDatabase() {
 			db.Create(&reviewContent)
 
 			// Translations
-			translation := getContentTranslationReviewContent(reviewContent.ID, data)
+			translation := getContentTranslation(reviewContent.ID, "review", data)
 			db.Create(&translation)
 
                         getReviewContentImage(reviewContent.ID, images[0].ID)
@@ -102,7 +105,7 @@ func migrateDatabase() {
 
 		reply := getReply(review.ID, data)
 		db.Create(&reply)
-		translation := getContentTranslationReply(reply.ID, data)
+		translation := getContentTranslation(reply.ID, "reply", data)
 		db.Create(&translation)
 
 
@@ -317,28 +320,12 @@ func getReviewContent(reviewID uint, data map[string]interface{}) models.ReviewC
 	 }
 }
 
-func getContentTranslationReviewContent(reviewContentID uint64, data map[string]interface{}) models.ContentTranslation {
+func getContentTranslation(contentID uint64, contentType string, data map[string]interface{}) models.ContentTranslation {
 
 	return models.ContentTranslation{
 	        TranslatedContent:  "test",
-	        ContentType:        "reply",
-	        ReviewContentID:    &reviewContentID,
-	        ReplyID:            nil,
-	        ReviewImageID:      nil,
-	        LangID:             0,
-	        Translator:         "google",
-	        HumanApprovalID:    12345,
-	 }
-}
-
-func getContentTranslationReply(replyID uint64, data map[string]interface{}) models.ContentTranslation {
-
-	return models.ContentTranslation{
-	        TranslatedContent:  "test",
-	        ContentType:        "reply",
-	        ReviewContentID:    nil,
-	        ReplyID:            &replyID,
-	        ReviewImageID:      nil,
+	        ContentType:        contentType,
+	        ContentID:          contentID,
 	        LangID:             0,
 	        Translator:         "google",
 	        HumanApprovalID:    12345,
