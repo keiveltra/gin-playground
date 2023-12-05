@@ -4,7 +4,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type Like struct {
+type Vote struct {
 	gorm.Model
 	ID                  uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
 	ReviewID            uint       `gorm:"type:int unsigned" json:"review_id"`

@@ -26,7 +26,7 @@ type Review struct {
 	QuestionID          uint       `gorm:"type:int unsigned" json:"question_id"`
 	BookingID           uint64     `gorm:"type:int unsigned"`
 	UserBasicID         uint64     `gorm:"type:int unsigned;index"`
-	LikeCount           uint64     `gorm:"type:int unsigned"`
+	VoteCount           uint64     `gorm:"type:int unsigned"`
 	UseFlag             uint8      `gorm:"type:tinyint unsigned;index"`
 	MappingID           int64      `gorm:"type:int"`
 	CdFlag              uint8      `gorm:"type:tinyint unsigned;default:0"`
@@ -43,5 +43,5 @@ type Review struct {
 
 	Answer              []Answer             `gorm:"foreignKey:ReviewID"`
 	ReviewImage         []ReviewImage        `gorm:"foreignKey:ReviewID"`
-	Like                []Like               `gorm:"foreignKey:ReviewID"`
+	Vote                []Vote               `gorm:"foreignKey:ReviewID"`
 }

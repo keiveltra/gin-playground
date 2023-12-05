@@ -32,7 +32,7 @@ func migrateDatabase() {
 		 &models.QuestionOption{},
 		 &models.Answer{},
 		 &models.Review{},
-		 &models.Like{},
+		 &models.Vote{},
 	}
 
 	if err := db.AutoMigrate(_models...); err != nil {
@@ -73,11 +73,11 @@ func migrateDatabase() {
 		review := getReview(questions[0].ID, data)
 		db.Create(&review)
 
-                for _, data := range getTestModelDataFromYaml("like") {
-			fmt.Println("like: ", data)
+                for _, data := range getTestModelDataFromYaml("vote") {
+			fmt.Println("vote: ", data)
 
-			like := getLike(review.ID, data)
-			db.Create(&like)
+			vote := getVote(review.ID, data)
+			db.Create(&vote)
                 }
 
 		var images []models.ReviewImage
@@ -136,9 +136,9 @@ func executeRawSQLString(sql string, db *gorm.DB, questionsQuery interface{}) {
 	spew.Dump(questionsQuery)
 }
 
-func getLike(reviewID uint, data map[string]interface{}) models.Like {
+func getVote(reviewID uint, data map[string]interface{}) models.Vote {
 
-	return models.Like{
+	return models.Vote{
 		ReviewID:         reviewID,
 		TrUserBasicID:    toUint64(data, "tr_user_basic_id"),
 	}
@@ -276,7 +276,7 @@ func getReview(questionID uint, data map[string]interface{}) models.Review {
 		QuestionID:         questionID,
 		BookingID:          toUint64(data, "booking_id"),
 		UserBasicID:        toUint64(data, "user_basic_id"),
-		LikeCount:          toUint64(data, "like_count"),
+		VoteCount:          toUint64(data, "vote_count"),
 		UseFlag:            toUint8 (data, "use_flag"),
 		MappingID:          toInt64 (data, "mapping_id"),
 		CdFlag:             toUint8 (data, "cd_flag"),

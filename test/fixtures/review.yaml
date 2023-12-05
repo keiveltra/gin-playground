@@ -5,7 +5,7 @@ data:
     user_basic_id: 123
     go_with_id: 1
     org_review_id: 1  
-    like_count: 10000
+    vote_count: 10000
     status: "new"
     use_flag: 10
     mapping_id: 10
@@ -18,7 +18,7 @@ data:
     booking_id: 12346
     user_basic_id: 130
     org_review_id: 2  
-    like_count: 10000
+    vote_count: 10000
     status: "new"
     use_flag: 10
     mapping_id: 10
