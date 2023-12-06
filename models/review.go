@@ -36,6 +36,7 @@ type Review struct {
 	StatusChangeID      int        `gorm:"type:int"`
 	MSiteID             int        `gorm:"type:int"`
 	MOriginID           uint64     `gorm:"type:int unsigned"`
+	LangID              int        `gorm:"type:int unsigned;index" comment: "language ID"`
 	CreatedUserID       int        `gorm:"type:int"`
 	CreatedURL          string     `gorm:"type:varchar(512)"`
 	UpdatedUserID       int        `gorm:"type:int"`

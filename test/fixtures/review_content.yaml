@@ -9,7 +9,6 @@ data:
     content_en: "So awesome ones"
     advice: "Life is only once. Enjoy your life."
     go_with_id: 1
-    lang_id: 1
     point_currency: "JPY"
 
   - id: 1

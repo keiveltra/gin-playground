@@ -25,7 +25,6 @@ type ReviewContent struct {
 	Content             string     `gorm:"type:varchar(4000)" comment: "review text itself. here Tr can describe his/her experience of the activity"`
 	Advice              string     `gorm:"type:varchar(4000)" comment: "advice to the other Tr written by Reviewer(Tr)"`
 	AttendedAsID        uint16     `gorm:"type:smallint unsigned" comment: "former go_with_id. who Tr accompanied with in Ac."`
-	LangID              int        `gorm:"type:int unsigned;index" comment: "language ID"`
 	CommentDate         *time.Time `gorm:"type:datetime"`
 	ActivityDate        *time.Time `gorm:"type:date" comment: "when Tr joined the activity"`
 	PointCurrency       string     `gorm:"type:varchar(10)" comment: "i.e. JPY | Dollar etc"`

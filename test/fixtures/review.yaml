@@ -11,6 +11,7 @@ data:
     mapping_id: 10
     cd_flag: 10
     status_change_id: 10
+    lang_id: 1
     m_site_id: 10
     m_origin_id: 10
   - id: 1
@@ -24,5 +25,6 @@ data:
     mapping_id: 10
     cd_flag: 10
     status_change_id: 10
+    lang_id: 2
     m_site_id: 10
     m_origin_id: 10
