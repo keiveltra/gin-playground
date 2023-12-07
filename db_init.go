@@ -22,6 +22,7 @@ func migrateDatabase() {
 
 	_models := []interface{}{
 		 &models.Reply{},
+		 &models.ReplyContent{},
 		 &models.ReviewImage{},
 		 &models.ReviewContent{},
 		 &models.ReviewContentImage{},
@@ -105,6 +106,10 @@ func migrateDatabase() {
 
 		reply := getReply(review.ID, data)
 		db.Create(&reply)
+
+		replyContent := getReplyContent(reply.ID, data)
+		db.Create(&replyContent)
+
 		translation := getContentTranslation(reply.ID, "reply", data)
 		db.Create(&translation)
 
@@ -199,11 +204,18 @@ func getCurrentTime() time.Time {
 }
 
 func getReply(reviewID uint, data map[string]interface{}) models.Reply {
-	currentTime := getCurrentTime()
 
 	return models.Reply {
 		ReviewID:           reviewID,
 	 	PtrBasicID:         toInt   (data, "ptr_basic_id"),
+	}
+}
+
+func getReplyContent(replyID uint64, data map[string]interface{}) models.ReplyContent {
+	currentTime := getCurrentTime()
+
+	return models.ReplyContent {
+		ReplyID:            replyID,
 		PtrComment:         toString(data, "ptr_comment"),
 		PtrStatus:          "pending",
 	 	PtrStatusChangeDate: &currentTime,
