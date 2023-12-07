@@ -20,14 +20,14 @@ const (
 type Review struct {
 	gorm.Model
 	ID                  uint       `gorm:"type:int unsigned;primaryKey;autoIncrement"`
-	ServiceKey          ServiceKey `gorm:"type:enum('ac','ticket');index"`
-	ProductID           uint64     `gorm:"type:int unsigned"`
-	CategoryID          uint64     `gorm:"type:int unsigned"`
-	QuestionID          uint       `gorm:"type:int unsigned" json:"question_id"`
-	BookingID           uint64     `gorm:"type:int unsigned"`
-	UserBasicID         uint64     `gorm:"type:int unsigned;index"`
-	VoteCount           uint64     `gorm:"type:int unsigned"`
-	UseFlag             uint8      `gorm:"type:tinyint unsigned;index"`
+	ServiceKey          ServiceKey `gorm:"type:enum('ac','ticket');index" comment: "The key to infer the external service(ES)"`
+	ProductID           uint64     `gorm:"type:int unsigned" comment: "The ID to identify the product id in the ES (i.e. activity id)"`
+	CategoryID          uint64     `gorm:"type:int unsigned" comment: "If the ES is ac, then this field is used."`
+	QuestionID          uint       `gorm:"type:int unsigned" json:"question_id" comment: "The ID of question (= customizable review)"`
+	BookingID           uint64     `gorm:"type:int unsigned" comment: "Booking ID in CS"`
+	UserBasicID         uint64     `gorm:"type:int unsigned;index" comment: "ID of traveller who posts the review"`
+	VoteCount           uint64     `gorm:"type:int unsigned" comment: "When people clicked likes botton in the review, this column is incremented."`
+	UseFlag             uint8      `gorm:"type:tinyint unsigned;index" comment: ""`
 	MappingID           int64      `gorm:"type:int"`
 	CdFlag              uint8      `gorm:"type:tinyint unsigned;default:0"`
 	Hash                string     `gorm:"type:varchar(512)"`
