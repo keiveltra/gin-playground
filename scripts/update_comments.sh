@@ -66,10 +66,12 @@ for file in files:
                 column = to_snake_case(line.split(' ')[0].replace('/', '').strip())
 
                 comment_match = re.search(r'comment:\s+"(.*?)"', line)
+                comment = ''
                 if comment_match:
                     comment = comment_match.group(1)
                 else:
-                    comment = None
+                    if('comment:' in line):
+                       comment = line.split('comment:')[1].replace('"', '').replace("'", "").replace("`", "")
 
                 queries.append(f"ALTER TABLE {to_plural(table)} MODIFY {column} {data_type} COMMENT '{comment}';\n")
 
