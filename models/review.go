@@ -29,7 +29,6 @@ type Review struct {
 	VoteCount           uint64     `gorm:"type:int unsigned" comment: "When people clicked likes botton in the review, this column is incremented."`
 	UseFlag             uint8      `gorm:"type:tinyint unsigned;index" comment: "旧データかそうでないかを判別するフラグっぽい。いらなそう"`
 	MappingID           int64      `gorm:"type:int"`
-	CdFlag              uint8      `gorm:"type:tinyint unsigned;default:0"`
 	Hash                string     `gorm:"type:varchar(512)" comment: "For allowing user to redirect to review page with review_id agnostic."`
 	PostDate            *time.Time `gorm:"type:datetime"`
 	StatusChangeDate    *time.Time `gorm:"type:datetime"`

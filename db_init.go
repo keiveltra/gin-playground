@@ -295,7 +295,6 @@ func getReview(questionID uint, data map[string]interface{}) models.Review {
 		VoteCount:          toUint64(data, "vote_count"),
 		UseFlag:            toUint8 (data, "use_flag"),
 		MappingID:          toInt64 (data, "mapping_id"),
-		CdFlag:             toUint8 (data, "cd_flag"),
 		Hash:               "aab12394893bbffe",
 		PostDate:           &currentTime,
 		StatusChangeDate:   &currentTime,
