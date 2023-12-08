@@ -293,7 +293,6 @@ func getReview(questionID uint, data map[string]interface{}) models.Review {
 		BookingID:          toUint64(data, "booking_id"),
 		UserBasicID:        toUint64(data, "user_basic_id"),
 		VoteCount:          toUint64(data, "vote_count"),
-		UseFlag:            toUint8 (data, "use_flag"),
 		MappingID:          toInt64 (data, "mapping_id"),
 		Hash:               "aab12394893bbffe",
 		PostDate:           &currentTime,
