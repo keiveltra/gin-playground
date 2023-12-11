@@ -27,7 +27,6 @@ type ReviewContent struct {
 	AttendedAsID        uint16     `gorm:"type:smallint unsigned" comment: "former go_with_id. who Tr accompanied with in Ac."`
 	CommentDate         *time.Time `gorm:"type:datetime"`
 	ActivityDate        *time.Time `gorm:"type:date" comment: "when Tr joined the activity"`
-	PointCurrency       string     `gorm:"type:varchar(10)" comment: "i.e. JPY | Dollar etc"`
 
 	CreatedUserID       int        `gorm:"type:int"`
 	CreatedURL          string     `gorm:"type:varchar(512)"`
