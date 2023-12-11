@@ -48,9 +48,9 @@ def format_table(line):
                .strip()
 
 queries = []
-files = ['question_option.go']
 for file_path in files:
     with open(f"models/{file_path}", 'r') as file:
+
         lines = file.readlines()
         table = ''
         for line in lines:
@@ -61,11 +61,15 @@ for file_path in files:
                 if('comment:' in line):
                     data_type_match = re.search(r'gorm:"type:(.*?)"', line)
 
+                    column = to_snake_case(line.split(' ')[0].replace('/', '').strip())
+
                     data_type = ''
                     if data_type_match:
                         data_type = data_type_match.group(1).split(';')[0]
+                    else:
+                        if(column == 'optional'):
+                            data_type = 'bool'
 
-                    column = to_snake_case(line.split(' ')[0].replace('/', '').strip())
 
                     comment_match = re.search(r'comment:\s+"(.*?)"', line)
                     comment = ''
@@ -76,9 +80,9 @@ for file_path in files:
                            comment = line.split('comment:')[1].replace('"', '').replace("'", "").replace("`", "")
 
                     print(f"comment found: {file_path} [{column}][{comment}]")
-                    queries.append(f"ALTER TABLE {to_plural(table)} MODIFY {column} {data_type} COMMENT '{comment}';\n")
+                    queries.append(f"ALTER TABLE {to_plural(table)} MODIFY {column} {data_type} COMMENT \"{comment}\";\n")
                 else:
-                    # print(f"comment not found: {file_path} [{line}]")
+                    print(f"comment not found: {file_path} [{line}]")
                     pass
 
 
