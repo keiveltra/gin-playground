@@ -24,7 +24,7 @@ type Review struct {
 	ProductID           uint64     `gorm:"type:int unsigned" comment:"The ID to identify the product id in the ES (i.e. activity id)"`
 	CategoryID          uint64     `gorm:"type:int unsigned" comment:"If the ES is ac, then this field is used."`
 	QuestionID          uint       `gorm:"type:int unsigned" json:"question_id" comment:"The ID of question (= customizable review)"`
-	UserBasicID         uint64     `gorm:"type:int unsigned;index" comment:"ID of traveller posts the review"`
+	UserBasicID         uint64     `gorm:"type:int unsigned;index" comment:"ID of Tr posts the review"`
 	VoteCount           uint64     `gorm:"type:int unsigned" comment:"When people clicked likes button in the review, this column is incremented."`
 	Hash                string     `gorm:"type:varchar(512)" comment:"For allowing user to redirect to review page with review_id agnostic."`
 	AttendedAsID        uint16     `gorm:"type:smallint unsigned" comment: "former go_with_id"`
@@ -32,7 +32,7 @@ type Review struct {
 	PostDate            *time.Time `gorm:"type:datetime" comment:"Datetime of posting Review"`
 	StatusChangeDate    *time.Time `gorm:"type:datetime" comment:"Datetime of updating the status of Review"`
 	StatusChangeID      int        `gorm:"type:int" comment:"ID of updating the status of review"`
-	MSiteID             int        `gorm:"type:int" comment:"サイトのID"`
+	MSiteID             int        `gorm:"type:int" comment:"Site ID(=CS)"`
 	MOriginID           uint64     `gorm:"type:int unsigned" comment:"Location ID"`
 	LangID              int        `gorm:"type:int unsigned;index" comment:"language ID"`
 	CreatedUserID       int        `gorm:"type:int" comment:"ID of Tr posted the review"`

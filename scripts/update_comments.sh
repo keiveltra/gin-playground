@@ -31,7 +31,7 @@ def to_snake_case(input_string):
 
         words += char
         i = i +1
-    print(words)
+    # print(words)
     return words
 
 def to_plural(table):
@@ -48,33 +48,44 @@ def format_table(line):
                .strip()
 
 queries = []
-for file in files:
-    with open(f"models/{file}", 'r') as file:
+files = ['question_option.go']
+for file_path in files:
+    with open(f"models/{file_path}", 'r') as file:
         lines = file.readlines()
         table = ''
         for line in lines:
             line = line.strip()
             if(re.search(r'type.*struct.*{', line)):
                 table = to_snake_case(format_table(line))
-            if('comment:' in line):
-                data_type_match = re.search(r'gorm:"type:(.*?)"', line)
+            if('gorm:' in line):
+                if('comment:' in line):
+                    data_type_match = re.search(r'gorm:"type:(.*?)"', line)
 
-                data_type = ''
-                if data_type_match:
-                    data_type = data_type_match.group(1).split(';')[0]
+                    data_type = ''
+                    if data_type_match:
+                        data_type = data_type_match.group(1).split(';')[0]
 
-                column = to_snake_case(line.split(' ')[0].replace('/', '').strip())
+                    column = to_snake_case(line.split(' ')[0].replace('/', '').strip())
 
-                comment_match = re.search(r'comment:\s+"(.*?)"', line)
-                comment = ''
-                if comment_match:
-                    comment = comment_match.group(1)
+                    comment_match = re.search(r'comment:\s+"(.*?)"', line)
+                    comment = ''
+                    if comment_match:
+                        comment = comment_match.group(1)
+                    else:
+                        if('comment:' in line):
+                           comment = line.split('comment:')[1].replace('"', '').replace("'", "").replace("`", "")
+
+                    print(f"comment found: {file_path} [{column}][{comment}]")
+                    queries.append(f"ALTER TABLE {to_plural(table)} MODIFY {column} {data_type} COMMENT '{comment}';\n")
                 else:
-                    if('comment:' in line):
-                       comment = line.split('comment:')[1].replace('"', '').replace("'", "").replace("`", "")
+                    # print(f"comment not found: {file_path} [{line}]")
+                    pass
 
-                queries.append(f"ALTER TABLE {to_plural(table)} MODIFY {column} {data_type} COMMENT '{comment}';\n")
 
+queries = '; '.join(queries)
+print('=========== query =============')
+print(queries)
+print('===========       =============')
 with open('query.sql', 'w') as file:
     file.writelines(queries)
 
