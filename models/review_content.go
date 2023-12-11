@@ -36,19 +36,4 @@ type ReviewContent struct {
 
 	Review              Review     `gorm:"foreignKey:ReviewID"`
 	ContentTranslation  []ContentTranslation `gorm:"polymorphic:Content;"`
-
-        ReviewImages        []ReviewContentImage `gorm:"foreignKey:ReviewContentID"`
-}
-
-//
-// since review history (=review content) should have reference to
-// review image, review_content and review_image's relationship
-// has to be many-to-many.
-// plus, in gorm we need immediate table to realize this
-// many-to-many relationships.
-//
-type ReviewContentImage struct {
-    gorm.Model
-    ReviewContentID uint64 `gorm:"type:int unsigned"`
-    ReviewImageID   uint64 `gorm:"type:int unsigned"`
 }

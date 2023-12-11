@@ -25,7 +25,6 @@ func migrateDatabase() {
 		 &models.ReplyContent{},
 		 &models.ReviewImage{},
 		 &models.ReviewContent{},
-		 &models.ReviewContentImage{},
 		 &models.ContentTranslation{},
 		 &models.QuestionTemplate{},
 		 &models.Question{},
@@ -100,9 +99,15 @@ func migrateDatabase() {
 			// Translations
 			translation := getContentTranslation(reviewContent.ID, "review", data)
 			db.Create(&translation)
-
-                        getReviewContentImage(reviewContent.ID, images[0].ID)
 		}
+
+
+                //
+                // need to: 
+                // 1. call review_images
+                // 2. set  review_content_ids
+                // 3. save
+                //
 
 		reply := getReply(review.ID, data)
 		db.Create(&reply)
@@ -149,13 +154,6 @@ func getVote(reviewID uint, data map[string]interface{}) models.Vote {
 	return models.Vote{
 		ReviewID:         reviewID,
 		TrUserBasicID:    toUint64(data, "tr_user_basic_id"),
-	}
-}
-
-func getReviewContentImage(contentID uint64, imageID uint64) models.ReviewContentImage {
-	return models.ReviewContentImage{
-		ReviewContentID:  contentID,
-		ReviewImageID:    imageID,
 	}
 }
 
