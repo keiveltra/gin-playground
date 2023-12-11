@@ -24,10 +24,10 @@ type Review struct {
 	ProductID           uint64     `gorm:"type:int unsigned" comment:"The ID to identify the product id in the ES (i.e. activity id)"`
 	CategoryID          uint64     `gorm:"type:int unsigned" comment:"If the ES is ac, then this field is used."`
 	QuestionID          uint       `gorm:"type:int unsigned" json:"question_id" comment:"The ID of question (= customizable review)"`
-	UserBasicID         uint64     `gorm:"type:int unsigned;index" comment:"ID of traveller who posts the review"`
+	UserBasicID         uint64     `gorm:"type:int unsigned;index" comment:"ID of traveller posts the review"`
 	VoteCount           uint64     `gorm:"type:int unsigned" comment:"When people clicked likes button in the review, this column is incremented."`
 	Hash                string     `gorm:"type:varchar(512)" comment:"For allowing user to redirect to review page with review_id agnostic."`
-	AttendedAsID        uint16     `gorm:"type:smallint unsigned" comment: "former go_with_id. who Tr accompanied with in Ac."`
+	AttendedAsID        uint16     `gorm:"type:smallint unsigned" comment: "former go_with_id"`
 	ActivityDate        *time.Time `gorm:"type:date" comment: "when Tr joined the activity"`
 	PostDate            *time.Time `gorm:"type:datetime" comment:"Datetime of posting Review"`
 	StatusChangeDate    *time.Time `gorm:"type:datetime" comment:"Datetime of updating the status of Review"`
@@ -35,10 +35,10 @@ type Review struct {
 	MSiteID             int        `gorm:"type:int" comment:"サイトのID"`
 	MOriginID           uint64     `gorm:"type:int unsigned" comment:"Location ID"`
 	LangID              int        `gorm:"type:int unsigned;index" comment:"language ID"`
-	CreatedUserID       int        `gorm:"type:int" comment:"体験談を投稿したTravellerのID"`
-	CreatedURL          string     `gorm:"type:varchar(512)"`
-	UpdatedUserID       int        `gorm:"type:int"`
-	UpdatedURL          string     `gorm:"type:varchar(512)"`
+	CreatedUserID       int        `gorm:"type:int" comment:"ID of Tr posted the review"`
+	CreatedURL          string     `gorm:"type:varchar(512)" comment: "source URL of the review creation"`
+	UpdatedUserID       int        `gorm:"type:int" comment:"ID of Tr updated the review"`
+	UpdatedURL          string     `gorm:"type:varchar(512)" comment: "source URL of the review update"`
 
 	Answer              []Answer             `gorm:"foreignKey:ReviewID"`
 	ReviewImage         []ReviewImage        `gorm:"foreignKey:ReviewID"`
