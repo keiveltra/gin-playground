@@ -43,4 +43,5 @@ type Review struct {
 	Answer              []Answer             `gorm:"foreignKey:ReviewID"`
 	ReviewImage         []ReviewImage        `gorm:"foreignKey:ReviewID"`
 	Vote                []Vote               `gorm:"foreignKey:ReviewID"`
+	LikeCountStat       LikeCountStat
 }

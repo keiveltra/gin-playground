@@ -28,4 +28,5 @@ type QuestionSection struct {
 
 	Answer Answer `gorm:"foreignKey:QuestionSectionID"`
 	QuestionOptions []QuestionOption `gorm:"foreignKey:QuestionSectionID"`
+ 	QuestionSectionAverageStat QuestionSectionAverageStat
 }

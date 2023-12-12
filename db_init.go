@@ -33,6 +33,8 @@ func migrateDatabase() {
 		 &models.Answer{},
 		 &models.Review{},
 		 &models.Vote{},
+		 &models.LikeCountStat{},
+		 &models.QuestionSectionAverageStat{},
 	}
 
 	if err := db.AutoMigrate(_models...); err != nil {
@@ -72,6 +74,9 @@ func migrateDatabase() {
 
 		review := getReview(questions[0].ID, data)
 		db.Create(&review)
+
+		likeCount := getLikeCountStat(review.ID, data)
+                db.Create(&likeCount)
 
                 for _, data := range getTestModelDataFromYaml("vote") {
 			fmt.Println("vote: ", data)
@@ -122,6 +127,8 @@ func migrateDatabase() {
 		for _, questionSection := range questionSections {
 			answer := getAnswer(questionSection.ID, uint(review.ID))
 			db.Create(&answer)
+			stat := getQuestionSectionAverageStat(questionSection.ID, data)
+			db.Create(&stat)
 		}
 	}
 
@@ -147,6 +154,25 @@ func executeRawSQLString(sql string, db *gorm.DB, questionsQuery interface{}) {
 
 	fmt.Println("Raw SQL query:", sql)
 	spew.Dump(questionsQuery)
+}
+
+func getQuestionSectionAverageStat(questionSectionID uint, data map[string]interface{}) models.QuestionSectionAverageStat {
+	return models.QuestionSectionAverageStat{
+		ServiceKey:        "ac",
+		ProductID:         1123,
+		QuestionSectionID: questionSectionID,
+		Average:           100,
+	}
+}
+
+func getLikeCountStat(reviewID uint, data map[string]interface{}) models.LikeCountStat {
+	return models.LikeCountStat{
+		ServiceKey: "ac",
+		ProductID:  1123,
+		CategoryID: 12,
+		ReviewID:   reviewID,
+		LikeCount:  1000,
+	}
 }
 
 func getVote(reviewID uint, data map[string]interface{}) models.Vote {
