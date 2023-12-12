@@ -22,5 +22,5 @@ type ReplyContent struct {
 	PtrStatusChangeID   int        `gorm:"type:int" comment: "status change ID by Ptr"`
 
 	Reply               Reply      `gorm:"foreignKey:ReplyID"`
-	ContentTranslation  []ContentTranslation `gorm:"polymorphic:Content;"`
+	ContentTranslations []ContentTranslation `gorm:"polymorphic:Content;"`
 }

@@ -27,5 +27,5 @@ type ReviewImage struct {
 	UpdatedUserID      int        `gorm:"type:int" comment:"ID of Tr updated the review"`
 	UpdatedURL         string     `gorm:"type:varchar(512)" comment: "source URL of the review update"`
 
-	ContentTranslation []ContentTranslation `gorm:"polymorphic:Content;"`
+	ContentTranslations []ContentTranslation `gorm:"polymorphic:Content;"`
 }

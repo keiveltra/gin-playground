@@ -34,5 +34,5 @@ type ReviewContent struct {
 	UpdatedURL          string     `gorm:"type:varchar(512)" comment: "source URL of the review update"`
 
 	Review              Review     `gorm:"foreignKey:ReviewID"`
-	ContentTranslation  []ContentTranslation `gorm:"polymorphic:Content;"`
+	ContentTranslations []ContentTranslation `gorm:"polymorphic:Content;"`
 }
