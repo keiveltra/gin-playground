@@ -11,9 +11,9 @@ type Answer struct {
 	ReviewID          uint      `gorm:"type:int unsigned" json:"review_id"`
 
 	// TODO: Discussion
-	NumberValue       *uint      `gorm:"type:int unsigned" json:"value"`
-	BooleanValue      *bool      `gorm:"column:boolean_value"`
-	TextValue         *string    `gorm:"type:varchar(100)" json:"label"`
+	NumberValue       *uint      `gorm:"type:int unsigned" json:"value" comment: "if the answer value is numeric, this column is used."`
+	BooleanValue      *bool      `gorm:"column:boolean_value" comment: "if the answer value is boolean, this column is used (i.e. checkbox)."`
+	TextValue         *string    `gorm:"type:varchar(100)" json:"label" comment: "if the answer value is text string, this column is used."`
 
 	CreatedAt         time.Time `gorm:"type:datetime;default:CURRENT_TIMESTAMP" json:"created_at"`
 	UpdatedAt         time.Time `gorm:"type:datetime;default:CURRENT_TIMESTAMP" json:"updated_at"`

@@ -16,10 +16,10 @@ type ReplyContent struct {
 	gorm.Model
 	ID                  uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
 	ReplyID             uint64     `gorm:"type:int unsigned" json:"reply_id"`
-	PtrComment          string     `gorm:"type:varchar(1000)"`
-	PtrStatus           string     `gorm:"type:enum('pending','published','declined')"`
-	PtrStatusChangeDate *time.Time `gorm:"type:datetime"`
-	PtrStatusChangeID   int        `gorm:"type:int"`
+	PtrComment          string     `gorm:"type:varchar(1000)" comment: "comment by the Ptr"`
+	PtrStatus           string     `gorm:"type:enum('pending','published','declined')" comment: "status by the Ptr"`
+	PtrStatusChangeDate *time.Time `gorm:"type:datetime" comment: "status change date by Ptr"`
+	PtrStatusChangeID   int        `gorm:"type:int" comment: "status change ID by Ptr"`
 
 	Reply               Reply      `gorm:"foreignKey:ReplyID"`
 	ContentTranslation  []ContentTranslation `gorm:"polymorphic:Content;"`
