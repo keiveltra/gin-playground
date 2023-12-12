@@ -28,9 +28,9 @@ type ReviewContent struct {
 	CommentDate         *time.Time `gorm:"type:datetime"`
 	ActivityDate        *time.Time `gorm:"type:date" comment: "when Tr joined the activity"`
 
-	CreatedUserID       int        `gorm:"type:int" comment:"ID of Tr posted the review"`
+	CreatedUserID       int        `gorm:"type:int"          comment:"ID of Tr posted the review"`
 	CreatedURL          string     `gorm:"type:varchar(512)" comment: "source URL of the review creation"`
-	UpdatedUserID       int        `gorm:"type:int" comment:"ID of Tr updated the review"`
+	UpdatedUserID       int        `gorm:"type:int"          comment:"ID of Tr updated the review"`
 	UpdatedURL          string     `gorm:"type:varchar(512)" comment: "source URL of the review update"`
 
 	Review              Review     `gorm:"foreignKey:ReviewID"`
