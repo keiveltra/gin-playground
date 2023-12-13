@@ -6,15 +6,16 @@ import (
 
 type SectionType string
 const (
-    SectionTypeNormal  SectionType = "normal"
-    SectionTypeWeather SectionType = "weather"
-    SectionTypeMultiChoice SectionType = "multi_choice"
+    SectionTypeRating          SectionType = "rating"
+    SectionTypeText            SectionType = "text"
+    SectionTypeSingleAnswer    SectionType = "single_answer"
+    SectionTypeMultipleAnswers SectionType = "multiple_answers"
 )
 
 type QuestionSection struct {
 	ID                 uint      `gorm:"type:int unsigned;primary_key;auto_increment" json:"id"`
 	QuestionTemplateID uint     `gorm:"type:int unsigned" json:"question_template_id"`
-        Type               SectionType `gorm:"type:enum('normal','weather','multi_choice')" json:"type" comment: "form of each question item. if it is usual 5-digit score evaluation, it is normal"`
+        Type               SectionType `gorm:"type:enum('rating','text','single_answer', 'multiple_answers')" json:"type" comment: "form of each question item. if it is usual 5-digit score evaluation, it is normal"`
         Name               string    `gorm:"type:varchar(100)" json:"label" comment: "summary label of question item (shorter version). This is chiefly used for the statistics view"`
         Label              string    `gorm:"type:varchar(100)" json:"label" comment: "detailed label"`
         //

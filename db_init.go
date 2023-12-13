@@ -406,17 +406,17 @@ func toInt64(data map[string]interface{}, key string) int64 {
 func toEnum(data map[string]interface{}, key string) models.SectionType {
 	value, ok := data[key].(string)
 	if !ok {
-		return models.SectionTypeNormal
+		return models.SectionTypeRating
 	}
 
 	switch value {
 	case "normal":
-		return models.SectionTypeNormal
+		return models.SectionTypeRating
 	case "weather":
-		return models.SectionTypeWeather
+		return models.SectionTypeText
 	case "multi_choice":
-		return models.SectionTypeMultiChoice
+		return models.SectionTypeMultipleAnswers
 	default:
-		return models.SectionTypeNormal
+		return models.SectionTypeRating
 	}
 }
