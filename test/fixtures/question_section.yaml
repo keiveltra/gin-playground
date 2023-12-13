@@ -4,34 +4,34 @@ data:
     type: "normal"
     sort_order: 1
     show: true
-    optional: true
+    required: true
   - id: 1
     label: "場所・雰囲気について"
     type: "normal"
     sort_order: 2
     show: true
-    optional: true
+    required: true
   - id: 2
     label: "安心・安全性について"
     type: "normal"
     sort_order: 3
     show: true
-    optional: true
+    required: true
   - id: 3
     label: "設備について"
     type: "normal"
     sort_order: 4
     show: true
-    optional: true
+    required: true
   - id: 4
     label: "参加日の天気"
     type: "weather"
     sort_order: 5
     show: true
-    optional: true
+    required: true
   - id: 5
     label: "おすすめしたいグループはありますか？"
     type: "multi_choice"
     sort_order: 6
     show: true
-    optional: true
+    required: true

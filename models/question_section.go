@@ -21,7 +21,7 @@ type QuestionSection struct {
         // As discussed with PdM on 2023-11-28, they concluded this show field is not needed sor far.
         //
 	// Show               bool      `gorm:"column:show"`  // Whether show/display on the UI or not.
-        Optional           bool      `gorm:"column:optional" comment: "If this is False, Tr must input this question item."`
+        Required           bool      `gorm:"column:required" comment: "If this is False, Tr must input this question item."`
         SortOrder          uint      `gorm:"type:int unsigned" json:"sort_order" comment: "On which index (order) this item should be positioned."`
 	CreatedAt          time.Time `gorm:"type:datetime" json:"created_at"`
 	UpdatedAt          time.Time `gorm:"type:datetime" json:"updated_at"`

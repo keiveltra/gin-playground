@@ -67,7 +67,7 @@ for file_path in files:
                     if data_type_match:
                         data_type = data_type_match.group(1).split(';')[0]
                     else:
-                        if(column == 'optional' or column == 'boolean_value'):
+                        if(column == 'required' or column == 'boolean_value'):
                             data_type = 'bool'
 
 
