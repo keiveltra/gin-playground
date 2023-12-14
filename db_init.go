@@ -26,7 +26,7 @@ func migrateDatabase() {
 		 &models.ReviewImage{},
 		 &models.ReviewContent{},
 		 &models.ContentTranslation{},
-		 &models.QuestionTemplate{},
+		 &models.SurveryTemplate{},
 		 &models.Question{},
 		 &models.QuestionOption{},
 		 &models.Answer{},
@@ -43,7 +43,7 @@ func migrateDatabase() {
         var questions []models.Question
 	for _, data := range getTestModelDataFromYaml("question_template") {
 		fmt.Println("question_template: ", data)
-	    	questionTemplate := getQuestionTemplate(data)
+	    	questionTemplate := getSurveryTemplate(data)
 	    	db.Create(&questionTemplate)
 
 		for _, data := range getTestModelDataFromYaml("question_section") {
@@ -121,7 +121,7 @@ func migrateDatabase() {
 	fmt.Println("\n-------------------------------------------------------------------")
 
 	//fmt.Println("\nGet Sections from Templates")
-	//executeRawSQLString("select * from question_templates t join question_sections s on s.question_template_id = t.id", db, &[]models.QuestionTemplate{})
+	//executeRawSQLString("select * from question_templates t join question_sections s on s.question_template_id = t.id", db, &[]models.SurveryTemplate{})
 
 	//fmt.Println("\nGet Survey, ReviewID from Answer")
 	//executeRawSQLString("select a.value, s.label from answer_ints a join reviews r on r.id = a.review_id join question_sections s on s.id = a.question_section_id", db, &[]models.Answer{})
@@ -187,10 +187,10 @@ func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewIma
 	}
 }
 
-func getQuestionTemplate(data map[string]interface{}) models.QuestionTemplate {
+func getSurveryTemplate(data map[string]interface{}) models.SurveryTemplate {
 	currentTime := getCurrentTime()
 
-	return models.QuestionTemplate{
+	return models.SurveryTemplate{
 		Name:      toString(data, "name"),
 		CreatedAt: currentTime,
 		UpdatedAt: currentTime,
@@ -225,7 +225,7 @@ func getQuestion(data map[string]interface{}, questionTemplateID uint) models.Qu
 	currentTime := getCurrentTime()
 
 	return models.Question{
-		QuestionTemplateID: questionTemplateID,
+		SurveryTemplateID: questionTemplateID,
 		ServiceKey:         "activity",
 		ProductID:          toUint(data, "service_category_id"),
 		Type:               toEnum  (data, "type"),

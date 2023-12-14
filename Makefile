@@ -14,9 +14,17 @@ run:
 	./webapp $(arg)
 
 mig:
-	mysql -u moomin -pmoomin -e "drop database test; create database test"
+	mysql -u moomin -pmoomin -e "drop database if exists test;"
+	mysql -u moomin -pmoomin -e "create database test CHARACTER SET utf8mb4;"
 	go build -o webapp
 	./webapp m
+
+inject:
+	# works only if this workdir and review-service's workdir is on the same level
+	mysql -u moomin -pmoomin -e "drop database if exists test;"
+	mysql -u moomin -pmoomin -e "create database test;"
+	echo '--------------------------'
+	mysql -u moomin -pmoomin test < ../review-service/database/reviews_data_included_2023-12-14.sql
 
 curl:
 	curl localhost:8080

@@ -6,7 +6,7 @@ import (
 
 type Answer struct {
 	ID                uint      `gorm:"type:int unsigned;primary_key;auto_increment" json:"id"`
-	QuestionID *uint     `gorm:"type:int unsigned" json:"question_section_id"`
+	QuestionID        *uint     `gorm:"type:int unsigned" json:"question_section_id"`
 	QuestionOptionID  *uint     `gorm:"type:int unsigned" json:"question_field_id"`
 	ReviewID          uint      `gorm:"type:int unsigned" json:"review_id"`
 
