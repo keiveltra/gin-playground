@@ -23,7 +23,6 @@ type Review struct {
 	ServiceKey          ServiceKey `gorm:"type:enum('ac','ticket');index" comment:"The key to infer the external service(ES)"`
 	ProductID           uint64     `gorm:"type:int unsigned" comment:"The ID to identify the product id in the ES (i.e. activity id)"`
 	CategoryID          uint64     `gorm:"type:int unsigned" comment:"If the ES is ac, then this field is used."`
-	QuestionID          uint       `gorm:"type:int unsigned" json:"question_id" comment:"The ID of question (= customizable review)"`
 	UserBasicID         uint64     `gorm:"type:int unsigned;index" comment:"ID of Tr posts the review"`
 	VoteCount           uint64     `gorm:"type:int unsigned" comment:"When people clicked likes button in the review, this column is incremented."`
 	Hash                string     `gorm:"type:varchar(512)" comment:"For allowing user to redirect to review page with review_id agnostic."`

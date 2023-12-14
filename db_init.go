@@ -28,38 +28,32 @@ func migrateDatabase() {
 		 &models.ContentTranslation{},
 		 &models.QuestionTemplate{},
 		 &models.Question{},
-		 &models.QuestionSection{},
 		 &models.QuestionOption{},
 		 &models.Answer{},
 		 &models.Review{},
 		 &models.Vote{},
 		 &models.LikeCountStat{},
-		 &models.QuestionSectionAverageStat{},
+		 &models.QuestionAverageStat{},
 	}
 
 	if err := db.AutoMigrate(_models...); err != nil {
 		log.Fatal(err)
 	}
 
-        var questions        []models.Question
-        var questionSections []models.QuestionSection
+        var questions []models.Question
 	for _, data := range getTestModelDataFromYaml("question_template") {
 		fmt.Println("question_template: ", data)
 	    	questionTemplate := getQuestionTemplate(data)
 	    	db.Create(&questionTemplate)
 
-		question := getQuestion(questionTemplate.ID, data)
-	    	db.Create(&question)
-		questions = append(questions, question)
-
 		for _, data := range getTestModelDataFromYaml("question_section") {
 			fmt.Println("question_section: ", data)
-		    	questionSection := getQuestionSection(data, questionTemplate.ID)
-			db.Create(&questionSection)
-			questionSections = append(questionSections, questionSection)
+		    	question := getQuestion(data, questionTemplate.ID)
+			db.Create(&question)
+			questions = append(questions, question)
 
-			if(questionSection.Type == "multi_choice") {
-				questionOption := getQuestionOption(questionSection.ID, data)
+			if(question.Type == "multi_choice") {
+				questionOption := getQuestionOption(question.ID, data)
 				db.Create(&questionOption)
 
 
@@ -72,7 +66,7 @@ func migrateDatabase() {
 	for _, data := range getTestModelDataFromYaml("review") {
 		fmt.Println("review: ", data)
 
-		review := getReview(questions[0].ID, data)
+		review := getReview(data)
 		db.Create(&review)
 
 		likeCount := getLikeCountStat(review.ID, data)
@@ -106,14 +100,6 @@ func migrateDatabase() {
 			db.Create(&translation)
 		}
 
-
-                //
-                // need to: 
-                // 1. call review_images
-                // 2. set  review_content_ids
-                // 3. save
-                //
-
 		reply := getReply(review.ID, data)
 		db.Create(&reply)
 
@@ -124,10 +110,10 @@ func migrateDatabase() {
 		db.Create(&translation)
 
 
-		for _, questionSection := range questionSections {
-			answer := getAnswer(questionSection.ID, uint(review.ID))
+		for _, question := range questions {
+			answer := getAnswer(question.ID, uint(review.ID))
 			db.Create(&answer)
-			stat := getQuestionSectionAverageStat(questionSection.ID, data)
+			stat := getQuestionAverageStat(question.ID, data)
 			db.Create(&stat)
 		}
 	}
@@ -156,12 +142,12 @@ func executeRawSQLString(sql string, db *gorm.DB, questionsQuery interface{}) {
 	spew.Dump(questionsQuery)
 }
 
-func getQuestionSectionAverageStat(questionSectionID uint, data map[string]interface{}) models.QuestionSectionAverageStat {
-	return models.QuestionSectionAverageStat{
-		ServiceKey:        "ac",
-		ProductID:         1123,
-		QuestionSectionID: questionSectionID,
-		Average:           100,
+func getQuestionAverageStat(questionID uint, data map[string]interface{}) models.QuestionAverageStat {
+	return models.QuestionAverageStat{
+		ServiceKey: "ac",
+		ProductID:  1123,
+		QuestionID: questionID,
+		Average:    100,
 	}
 }
 
@@ -201,18 +187,6 @@ func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewIma
 	}
 }
 
-func getQuestion(questionTemplateID uint, data map[string]interface{}) models.Question {
-	currentTime := getCurrentTime()
-
-	return models.Question{
-		QuestionTemplateID: questionTemplateID,
-		ServiceKey:         "activity",
-		ProductID:          toUint(data, "service_category_id"),
-		CreatedAt:          currentTime,
-		UpdatedAt:          currentTime,
-	}
-}
-
 func getQuestionTemplate(data map[string]interface{}) models.QuestionTemplate {
 	currentTime := getCurrentTime()
 
@@ -247,11 +221,13 @@ func getReplyContent(replyID uint64, data map[string]interface{}) models.ReplyCo
 	}
 }
 
-func getQuestionSection(data map[string]interface{}, questionTemplateID uint) models.QuestionSection {
+func getQuestion(data map[string]interface{}, questionTemplateID uint) models.Question {
 	currentTime := getCurrentTime()
 
-	return models.QuestionSection{
+	return models.Question{
 		QuestionTemplateID: questionTemplateID,
+		ServiceKey:         "activity",
+		ProductID:          toUint(data, "service_category_id"),
 		Type:               toEnum  (data, "type"),
 		Label:              toString(data, "label"),
 		SortOrder:          toUint  (data, "sort_order"),
@@ -262,25 +238,25 @@ func getQuestionSection(data map[string]interface{}, questionTemplateID uint) mo
 	}
 }
 
-func getQuestionOption(questionSectionID uint, data map[string]interface{}) models.QuestionOption {
+func getQuestionOption(questionID uint, data map[string]interface{}) models.QuestionOption {
 	currentTime := getCurrentTime()
 
 	return models.QuestionOption{
-		QuestionSectionID:  questionSectionID,
-		Type:               string(models.OptionTypeCheckbox),
-		Label:              toString(data, "label"),
-		SortOrder:          toUint  (data, "sort_order"),
-		CreatedAt:          currentTime,
-		UpdatedAt:          currentTime,
+		QuestionID: questionID,
+		Type:       string(models.OptionTypeCheckbox),
+		Label:      toString(data, "label"),
+		SortOrder:  toUint  (data, "sort_order"),
+		CreatedAt:  currentTime,
+		UpdatedAt:  currentTime,
 	}
 }
 
-func getAnswer(questionSectionID uint, reviewID uint) models.Answer {
+func getAnswer(questionID uint, reviewID uint) models.Answer {
 	currentTime := getCurrentTime()
 	numberValue := uint(3)
 
 	return models.Answer{
-		QuestionSectionID:  &questionSectionID,
+		QuestionID:         &questionID,
 		QuestionOptionID:   nil,
 		ReviewID:           reviewID,
 		NumberValue:        &numberValue,
@@ -307,13 +283,12 @@ func getTestModelDataFromYaml(target string) []map[string]interface{} {
 	return result
 }
 
-func getReview(questionID uint, data map[string]interface{}) models.Review {
+func getReview(data map[string]interface{}) models.Review {
 	currentTime := getCurrentTime()
 
 	return models.Review{
 		ServiceKey:         models.Activity,
 		ProductID:          toUint64(data, "service_category_id"),
-		QuestionID:         questionID,
 		UserBasicID:        toUint64(data, "user_basic_id"),
 		VoteCount:          toUint64(data, "vote_count"),
 		Hash:               "aab12394893bbffe",
