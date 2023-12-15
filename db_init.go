@@ -41,7 +41,7 @@ func migrateDatabase() {
 	}
 
         var questions []models.Question
-	for _, data := range getTestModelDataFromYaml("question_template") {
+	for _, data := range getTestModelDataFromYaml("survey_template") {
 		fmt.Println("question_template: ", data)
 	    	questionTemplate := getSurveyTemplate(data)
 	    	db.Create(&questionTemplate)
@@ -191,9 +191,11 @@ func getSurveyTemplate(data map[string]interface{}) models.SurveyTemplate {
 	currentTime := getCurrentTime()
 
 	return models.SurveyTemplate{
-		Name:      toString(data, "name"),
-		CreatedAt: currentTime,
-		UpdatedAt: currentTime,
+		Name:       toString(data, "name"),
+		ServiceKey: "activity",
+		ProductID:  toUint(data, "service_category_id"),
+		CreatedAt:  currentTime,
+		UpdatedAt:  currentTime,
 	}
 }
 
@@ -226,15 +228,13 @@ func getQuestion(data map[string]interface{}, questionTemplateID uint) models.Qu
 
 	return models.Question{
 		SurveyTemplateID: questionTemplateID,
-		ServiceKey:         "activity",
-		ProductID:          toUint(data, "service_category_id"),
-		Type:               toEnum  (data, "type"),
-		Label:              toString(data, "label"),
-		SortOrder:          toUint  (data, "sort_order"),
-		// Show:               toBool  (data, "show"), // As discussion with PdM, this field is not needed
-		Required:           toBool  (data, "required"),
-		CreatedAt:          currentTime,
-		UpdatedAt:          currentTime,
+		Type:      toEnum  (data, "type"),
+		Label:     toString(data, "label"),
+		SortOrder: toUint  (data, "sort_order"),
+		// Show:      toBool  (data, "show"), // As discussion with PdM, this field is not needed
+		Required:  toBool  (data, "required"),
+		CreatedAt: currentTime,
+		UpdatedAt: currentTime,
 	}
 }
 

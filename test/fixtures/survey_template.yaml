@@ -1,3 +1,4 @@
 data:
   - id: 0
     name: "Template 1"
+    service_category_id: 1
