@@ -16,7 +16,7 @@ type Question struct {
 	ID                 uint      `gorm:"type:int unsigned;primary_key;auto_increment" json:"id"`
         ServiceKey         string    `gorm:"type:enum('activity','ticket','point')" json:"service_key" comment: "key to identify the external service(ES) uses Review Service"`
         ProductID          uint      `gorm:"type:int unsigned" json:"service_target_id" comment: "product id of the ES"`
-	SurveryTemplateID uint      `gorm:"type:int unsigned" json:"question_template_id"`
+	SurveyTemplateID uint      `gorm:"type:int unsigned" json:"question_template_id"`
         Type               SectionType `gorm:"type:enum('rating','text','single_answer', 'multiple_answers')" json:"type" comment: "form of each question item. if it is usual 5-digit score evaluation, it is rating"`
         Name               string    `gorm:"type:varchar(100)" json:"label" comment: "summary label of question item (shorter version). This is chiefly used for the statistics view"`
         Label              string    `gorm:"type:varchar(100)" json:"label" comment: "detailed label"`
