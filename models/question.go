@@ -14,7 +14,7 @@ const (
 
 type Question struct {
 	ID                 uint      `gorm:"type:int unsigned;primary_key;auto_increment" json:"id"`
-	SurveyTemplateID uint      `gorm:"type:int unsigned" json:"question_template_id"`
+	TemplateID         uint      `gorm:"type:int unsigned" json:"question_template_id"`
         Type               SectionType `gorm:"type:enum('rating','text','single_answer', 'multiple_answers')" json:"type" comment: "form of each question item. if it is usual 5-digit score evaluation, it is rating"`
         Name               string    `gorm:"type:varchar(100)" json:"label" comment: "summary label of question item (shorter version). This is chiefly used for the statistics view"`
         Label              string    `gorm:"type:varchar(100)" json:"label" comment: "detailed label"`
@@ -30,4 +30,5 @@ type Question struct {
 	Answer Answer `gorm:"foreignKey:QuestionID"`
 	QuestionOptions []QuestionOption `gorm:"foreignKey:QuestionID"`
  	QuestionAverageStat QuestionAverageStat
+	TemplateQuestions []TemplateQuestion `gorm:"foreignKey:QuestionID"`
 }

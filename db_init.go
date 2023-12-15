@@ -34,6 +34,8 @@ func migrateDatabase() {
 		 &models.Vote{},
 		 &models.LikeCountStat{},
 		 &models.QuestionAverageStat{},
+		 &models.TemplateReview{},
+		 &models.TemplateQuestion{},
 	}
 
 	if err := db.AutoMigrate(_models...); err != nil {
@@ -55,8 +57,6 @@ func migrateDatabase() {
 			if(question.Type == "multi_choice") {
 				questionOption := getQuestionOption(question.ID, data)
 				db.Create(&questionOption)
-
-
 			}
 		}
 	}
@@ -227,14 +227,14 @@ func getQuestion(data map[string]interface{}, questionTemplateID uint) models.Qu
 	currentTime := getCurrentTime()
 
 	return models.Question{
-		SurveyTemplateID: questionTemplateID,
-		Type:      toEnum  (data, "type"),
-		Label:     toString(data, "label"),
-		SortOrder: toUint  (data, "sort_order"),
-		// Show:      toBool  (data, "show"), // As discussion with PdM, this field is not needed
-		Required:  toBool  (data, "required"),
-		CreatedAt: currentTime,
-		UpdatedAt: currentTime,
+		TemplateID: questionTemplateID,
+		Type:       toEnum  (data, "type"),
+		Label:      toString(data, "label"),
+		SortOrder:  toUint  (data, "sort_order"),
+		// Show:       toBool  (data, "show"), // As discussion with PdM, this field is not needed
+		Required:   toBool  (data, "required"),
+		CreatedAt:  currentTime,
+		UpdatedAt:  currentTime,
 	}
 }
 
