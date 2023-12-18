@@ -24,10 +24,13 @@ inject:
 	mysql -u moomin -pmoomin -e "drop database if exists test;"
 	mysql -u moomin -pmoomin -e "create database test;"
 	echo '--------------------------'
-	mysql -u moomin -pmoomin test < ../review-service/database/reviews_data_included_2023-12-14.sql
+	mysql -u moomin -pmoomin test < ../review-service/database/reviews_schema_only_2023-12-15.sql
 
 mi: # mig inject
 	k mig; sqd -p; k inject
+        
+min: # mig inject
+	k mig; sqd; k inject
 
 curl:
 	curl localhost:8080

@@ -165,7 +165,7 @@ func getVote(reviewID uint, data map[string]interface{}) models.Vote {
 
 	return models.Vote{
 		ReviewID:         reviewID,
-		TrUserBasicID:    toUint64(data, "tr_user_basic_id"),
+		UserID:    toUint64(data, "tr_user_basic_id"),
 	}
 }
 
@@ -173,6 +173,7 @@ func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewIma
 
 	return models.ReviewImage{
 		ReviewID:         reviewID,
+		ReviewContentID:  1234,
 		Filename:         toString(data, "file_name"),
 		FilenameBase:     toString(data, "file_name_base"),
 		Status:           toString(data, "status"),
@@ -206,8 +207,8 @@ func getCurrentTime() time.Time {
 func getReply(reviewID uint, data map[string]interface{}) models.Reply {
 
 	return models.Reply {
-		ReviewID:           reviewID,
-	 	PtrBasicID:         toInt   (data, "ptr_basic_id"),
+		ReviewID:         reviewID,
+	 	PtrBasicID:       toInt   (data, "ptr_basic_id"),
 	}
 }
 
@@ -216,6 +217,7 @@ func getReplyContent(replyID uint64, data map[string]interface{}) models.ReplyCo
 
 	return models.ReplyContent {
 		ReplyID:            replyID,
+                ReviewContentID:    1234,
 		PtrComment:         toString(data, "ptr_comment"),
 		PtrStatus:          "pending",
 	 	PtrStatusChangeDate: &currentTime,
