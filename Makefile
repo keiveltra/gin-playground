@@ -18,19 +18,27 @@ mig:
 	mysql -u moomin -pmoomin -e "create database test CHARACTER SET utf8mb4;"
 	go build -o webapp
 	./webapp m
+	make drop_auto_gen_cols
 
 inject:
 	# works only if this workdir and review-service's workdir is on the same level
 	mysql -u moomin -pmoomin -e "drop database if exists test;"
 	mysql -u moomin -pmoomin -e "create database test;"
 	echo '--------------------------'
-	mysql -u moomin -pmoomin test < ../review-service/database/reviews_schema_only_2023-12-15.sql
+	dumpfilefixer.py ../review-service/database/reviews_schema_only_2023-12-19.sql
+	mysql -u moomin -pmoomin test < ../review-service/database/reviews_schema_only_2023-12-19.sql
+
+drop_auto_gen_cols:
+	mysql -u moomin -pmoomin -e "alter table test.votes drop column deleted_at;"
 
 mi: # mig inject
-	k mig; sqd -p; k inject
+	make mig; sqd -p; make inject
         
 min: # mig inject
-	k mig; sqd; k inject
+	make mig; sqd; make inject
+
+miu: 
+	make mig; ./scripts/update_comments.sh 
 
 curl:
 	curl localhost:8080
