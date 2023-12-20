@@ -26,7 +26,7 @@ type Review struct {
 	UserBasicID         uint64     `gorm:"type:int unsigned;index" comment:"ID of Tr posts the review"`
 	VoteCount           uint64     `gorm:"type:int unsigned" comment:"When people clicked likes button in the review, this column is incremented."`
 	Hash                string     `gorm:"type:varchar(512)" comment:"For allowing user to redirect to review page with review_id agnostic."`
-	AttendedAsID        uint16     `gorm:"type:smallint unsigned" comment: "former go_with_id"`
+	AttendedWithID      uint16     `gorm:"type:smallint unsigned" comment: "former go_with_id"`
 	ActivityDate        *time.Time `gorm:"type:date" comment: "when Tr joined the activity"`
 	PostDate            *time.Time `gorm:"type:datetime" comment:"Datetime of posting Review"`
 	StatusChangeDate    *time.Time `gorm:"type:datetime" comment:"Datetime of updating the status of Review"`

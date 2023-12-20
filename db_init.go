@@ -300,7 +300,7 @@ func getReview(data map[string]interface{}) models.Review {
 	 	LangID:             toInt   (data, "lang_id"),
 	 	MSiteID:            toInt   (data, "m_site_id"),
 	 	MOriginID:          toUint64(data, "m_origin_id"),
-		AttendedAsID:       toUint16(data, "go_with_id"),
+		AttendedWithID:     toUint16(data, "go_with_id"),
 	 	ActivityDate:       &currentTime,
 	 	CreatedUserID:      toInt   (data, "created_user_id"),
 	 	CreatedURL:         toString(data, "created_url"),

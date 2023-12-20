@@ -24,9 +24,8 @@ type ReviewContent struct {
 	Status              string     `gorm:"type:enum('new','pending','published','declined','deleted');index" comment: "status of the review"`
 	Content             string     `gorm:"type:varchar(4000)" comment: "review text itself. here Tr can describe his/her experience of the activity"`
 	Advice              string     `gorm:"type:varchar(4000)" comment: "advice to the other Tr written by Reviewer(Tr)"`
-	AttendedAsID        uint16     `gorm:"type:smallint unsigned" comment: "former go_with_id. who Tr accompanied with in Ac."`
-	CommentDate         *time.Time `gorm:"type:datetime"`
 	ActivityDate        *time.Time `gorm:"type:date" comment: "when Tr joined the activity"`
+	CommentDate         *time.Time `gorm:"type:datetime"`    
 
 	CreatedUserID       int        `gorm:"type:int"          comment:"ID of Tr posted the review"`
 	CreatedURL          string     `gorm:"type:varchar(512)" comment: "source URL of the review creation"`
