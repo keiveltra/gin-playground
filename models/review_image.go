@@ -20,7 +20,7 @@ type ReviewImage struct {
 	Status             string     `gorm:"type:enum('active','deleted');index" comment: "whether the image has been still active or deleted"`
 	Width              uint64     `gorm:"type:int unsigned" comment: "width of the image"`
 	Height             uint64     `gorm:"type:int unsigned" comment: "hight of the image"`
-	Size               uint64     `gorm:"type:int unsigned" comment: "size of the image"`
+	FileSize           uint64     `gorm:"type:int unsigned" comment: "size of the image"`
 	Comment            string     `gorm:"type:varchar(1000)" comment: "comment description of the image"`
 	CreatedBy          uint64     `gorm:"type:int unsigned" comment:"ID of Tr posted the review"`
 	CreatedURL         string     `gorm:"type:varchar(512)" comment: "source URL of the review creation"`
