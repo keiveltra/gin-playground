@@ -34,9 +34,9 @@ type Review struct {
 	MSiteID             int        `gorm:"type:int" comment:"Site ID(=CS)"`
 	MOriginID           uint64     `gorm:"type:int unsigned" comment:"Location ID"`
 	LangID              int        `gorm:"type:int unsigned;index" comment:"language ID"`
-	CreatedUserID       int        `gorm:"type:int" comment:"ID of Tr posted the review"`
+	CreatedBy       int        `gorm:"type:int" comment:"ID of Tr posted the review"`
 	CreatedURL          string     `gorm:"type:varchar(512)" comment: "source URL of the review creation"`
-	UpdatedUserID       int        `gorm:"type:int" comment:"ID of Tr updated the review"`
+	UpdatedBy       int        `gorm:"type:int" comment:"ID of Tr updated the review"`
 	UpdatedURL          string     `gorm:"type:varchar(512)" comment: "source URL of the review update"`
 
 	Answer              []Answer             `gorm:"foreignKey:ReviewID"`

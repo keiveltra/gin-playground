@@ -181,9 +181,9 @@ func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewIma
 		Height:           toUint64(data, "height"),
 		Size:             toUint64(data, "size"),
 		Comment:          toString(data, "comment"),
-		CreatedUserID:    toUint64(data, "created_user_id"),
+		CreatedBy:        toUint64(data, "created_user_id"),
 		CreatedURL:       toString(data, "created_url"),
-		UpdatedUserID:    toInt(data, "updated_user_id"),
+		UpdatedBy:        toInt(data, "updated_user_id"),
 		UpdatedURL:       toString(data, "updated_url"),
 	}
 }
@@ -302,9 +302,9 @@ func getReview(data map[string]interface{}) models.Review {
 	 	MOriginID:          toUint64(data, "m_origin_id"),
 		AttendedWithID:     toUint16(data, "go_with_id"),
 	 	ActivityDate:       &currentTime,
-	 	CreatedUserID:      toInt   (data, "created_user_id"),
+	 	CreatedBy:          toInt   (data, "created_user_id"),
 	 	CreatedURL:         toString(data, "created_url"),
-	 	UpdatedUserID:      toInt   (data, "updated_user_id"),
+	 	UpdatedBy:          toInt   (data, "updated_user_id"),
 	 	UpdatedURL:         toString(data, "updated_url"),
 	 }
 }
@@ -321,9 +321,9 @@ func getReviewContent(reviewID uint, data map[string]interface{}) models.ReviewC
 		Advice:             toString(data, "advice"),
 		CommentDate:        &currentTime,
 		Content:            toString(data, "content_en"),
-	 	CreatedUserID:      toInt   (data, "created_user_id"),
+	 	CreatedBy:          toInt   (data, "created_user_id"),
 	 	CreatedURL:         toString(data, "created_url"),
-	 	UpdatedUserID:      toInt   (data, "updated_user_id"),
+	 	UpdatedBy:          toInt   (data, "updated_user_id"),
 	 	UpdatedURL:         toString(data, "updated_url"),
 	 }
 }

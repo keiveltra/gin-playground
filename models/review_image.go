@@ -22,9 +22,9 @@ type ReviewImage struct {
 	Height             uint64     `gorm:"type:int unsigned" comment: "hight of the image"`
 	Size               uint64     `gorm:"type:int unsigned" comment: "size of the image"`
 	Comment            string     `gorm:"type:varchar(1000)" comment: "comment description of the image"`
-	CreatedUserID      uint64     `gorm:"type:int unsigned" comment:"ID of Tr posted the review"`
+	CreatedBy      uint64     `gorm:"type:int unsigned" comment:"ID of Tr posted the review"`
 	CreatedURL         string     `gorm:"type:varchar(512)" comment: "source URL of the review creation"`
-	UpdatedUserID      int        `gorm:"type:int" comment:"ID of Tr updated the review"`
+	UpdatedBy      int        `gorm:"type:int" comment:"ID of Tr updated the review"`
 	UpdatedURL         string     `gorm:"type:varchar(512)" comment: "source URL of the review update"`
 
 	ContentTranslations []ContentTranslation `gorm:"polymorphic:Content;"`
