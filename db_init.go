@@ -304,7 +304,6 @@ func getReview(data map[string]interface{}) models.Review {
 	 	ActivityDate:       &currentTime,
 	 	CreatedBy:          toInt   (data, "created_user_id"),
 	 	CreatedURL:         toString(data, "created_url"),
-	 	UpdatedBy:          toInt   (data, "updated_user_id"),
 	 	UpdatedURL:         toString(data, "updated_url"),
 	 }
 }
