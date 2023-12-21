@@ -298,7 +298,6 @@ func getReview(data map[string]interface{}) models.Review {
 		StatusChangeDate:   &currentTime,
 		StatusChangeID:     toInt   (data, "status_change_id"),
 	 	LangID:             toInt   (data, "lang_id"),
-	 	MSiteID:            toInt   (data, "m_site_id"),
 	 	MOriginID:          toUint64(data, "m_origin_id"),
 		AttendedWithID:     toUint16(data, "go_with_id"),
 	 	ActivityDate:       &currentTime,

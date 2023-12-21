@@ -31,7 +31,6 @@ type Review struct {
 	PostDate            *time.Time `gorm:"type:datetime" comment:"Datetime of posting Review"`
 	StatusChangeDate    *time.Time `gorm:"type:datetime" comment:"Datetime of updating the status of Review"`
 	StatusChangeID      int        `gorm:"type:int" comment:"ID of updating the status of review"`
-	MSiteID             int        `gorm:"type:int" comment:"Site ID(=CS)"`
 	MOriginID           uint64     `gorm:"type:int unsigned" comment:"Location ID"`
 	LangID              int        `gorm:"type:int unsigned;index" comment:"language ID"`
 	CreatedBy           int        `gorm:"type:int" comment:"ID of Tr posted the review"`
