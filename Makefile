@@ -25,8 +25,8 @@ inject:
 	mysql -u moomin -pmoomin -e "drop database if exists test;"
 	mysql -u moomin -pmoomin -e "create database test;"
 	echo '--------------------------'
-	dumpfilefixer.py ../review-service/database/reviews_schema_only_2023-12-19.sql
-	mysql -u moomin -pmoomin test < ../review-service/database/reviews_schema_only_2023-12-19.sql
+	dumpfilefixer.py ../review-service/database/reviews_schema_only_2023-12-21.sql
+	mysql -u moomin -pmoomin test < ../review-service/database/reviews_schema_only_2023-12-21.sql
 
 drop_auto_gen_cols:
 	mysql -u moomin -pmoomin -e "alter table test.votes drop column deleted_at;"
