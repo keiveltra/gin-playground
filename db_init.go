@@ -22,9 +22,9 @@ func migrateDatabase() {
 
 	_models := []interface{}{
 		 &models.Reply{},
-		 &models.ReplyContent{},
+		 &models.ReplyHistory{},
 		 &models.ReviewImage{},
-		 &models.ReviewContent{},
+		 &models.ReviewHistory{},
 		 &models.ContentTranslation{},
 		 &models.SurveyTemplate{},
 		 &models.Question{},
@@ -92,19 +92,19 @@ func migrateDatabase() {
 		}
 
 		for _, data := range getTestModelDataFromYaml("review_content") {
-			reviewContent := getReviewContent(review.ID, data)
-			db.Create(&reviewContent)
+			reviewHistory := getReviewHistory(review.ID, data)
+			db.Create(&reviewHistory)
 
 			// Translations
-			translation := getContentTranslation(reviewContent.ID, "review", data)
+			translation := getContentTranslation(reviewHistory.ID, "review", data)
 			db.Create(&translation)
 		}
 
 		reply := getReply(review.ID, data)
 		db.Create(&reply)
 
-		replyContent := getReplyContent(reply.ID, data)
-		db.Create(&replyContent)
+		replyHistory := getReplyHistory(reply.ID, data)
+		db.Create(&replyHistory)
 
 		translation := getContentTranslation(reply.ID, "reply", data)
 		db.Create(&translation)
@@ -173,7 +173,7 @@ func getReviewImage(reviewID uint, data map[string]interface{}) models.ReviewIma
 
 	return models.ReviewImage{
 		ReviewID:         reviewID,
-		ReviewContentID:  1234,
+		ReviewHistoryID:  1234,
 		FilePath:         toString(data, "file_path"),
 		FileName:         toString(data, "file_name"),
 		Status:           toString(data, "status"),
@@ -212,12 +212,12 @@ func getReply(reviewID uint, data map[string]interface{}) models.Reply {
 	}
 }
 
-func getReplyContent(replyID uint64, data map[string]interface{}) models.ReplyContent {
+func getReplyHistory(replyID uint64, data map[string]interface{}) models.ReplyHistory {
 	currentTime := getCurrentTime()
 
-	return models.ReplyContent {
+	return models.ReplyHistory {
 		ReplyID:            replyID,
-                ReviewContentID:    1234,
+                ReviewHistoryID:    1234,
 		PtrComment:         toString(data, "ptr_comment"),
 		PtrStatus:          "pending",
 	 	PtrStatusChangeDate: &currentTime,
@@ -308,10 +308,10 @@ func getReview(data map[string]interface{}) models.Review {
 	 }
 }
 
-func getReviewContent(reviewID uint, data map[string]interface{}) models.ReviewContent {
+func getReviewHistory(reviewID uint, data map[string]interface{}) models.ReviewHistory {
 	currentTime := getCurrentTime()
 
-	return models.ReviewContent{
+	return models.ReviewHistory{
 		ReviewID:           reviewID,
 		Rate:               toUint8 (data, "rate"),
 		Status:             toString(data, "status"),

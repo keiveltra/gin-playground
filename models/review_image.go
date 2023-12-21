@@ -14,7 +14,7 @@ type ReviewImage struct {
 	gorm.Model
 	ID                 uint64     `gorm:"type:int unsigned;primaryKey;autoIncrement"`
 	ReviewID           uint       `gorm:"type:int unsigned" json:"review_id"`
-	ReviewContentID    uint       `gorm:"type:int unsigned" json:"review_content_id"`
+	ReviewHistoryID    uint       `gorm:"type:int unsigned" json:"review_history_id"`
 	FilePath           string     `gorm:"type:varchar(128)" comment: "file_path of review image in S3 or CDN"`
 	FileName           string     `gorm:"type:varchar(128)" comment: "pure file_name of review image"`
 	Status             string     `gorm:"type:enum('active','deleted');index" comment: "whether the image has been still active or deleted"`
