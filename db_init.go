@@ -42,7 +42,7 @@ func migrateDatabase() {
 		log.Fatal(err)
 	}
 
-        var questions []models.Question
+	var questions []models.Question
 	for _, data := range getTestModelDataFromYaml("survey_template") {
 		fmt.Println("question_template: ", data)
 	    	questionTemplate := getSurveyTemplate(data)
@@ -50,7 +50,7 @@ func migrateDatabase() {
 
 		for _, data := range getTestModelDataFromYaml("question_section") {
 			fmt.Println("question_section: ", data)
-		    	question := getQuestion(data, questionTemplate.ID)
+			question := getQuestion(data, questionTemplate.ID)
 			db.Create(&question)
 			questions = append(questions, question)
 
@@ -70,14 +70,14 @@ func migrateDatabase() {
 		db.Create(&review)
 
 		likeCount := getLikeCountStat(review.ID, data)
-                db.Create(&likeCount)
+		db.Create(&likeCount)
 
-                for _, data := range getTestModelDataFromYaml("vote") {
+		for _, data := range getTestModelDataFromYaml("vote") {
 			fmt.Println("vote: ", data)
 
 			vote := getVote(review.ID, data)
 			db.Create(&vote)
-                }
+		}
 
 		var images []models.ReviewImage
 		for _, data := range getTestModelDataFromYaml("review_image") {
@@ -85,7 +85,7 @@ func migrateDatabase() {
 
 			reviewImage := getReviewImage(review.ID, data)
 			db.Create(&reviewImage)
-                        images = append(images, reviewImage)
+			images = append(images, reviewImage)
 
 			translation := getContentTranslation(reviewImage.ID, "image", data)
 			db.Create(&translation)
@@ -217,7 +217,7 @@ func getReplyHistory(replyID uint64, data map[string]interface{}) models.ReplyHi
 
 	return models.ReplyHistory {
 		ReplyID:            replyID,
-                ReviewHistoryID:    1234,
+		ReviewHistoryID:    1234,
 		PtrComment:         toString(data, "ptr_comment"),
 		PtrStatus:          "pending",
 	 	PtrStatusChangeDate: &currentTime,
