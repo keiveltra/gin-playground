@@ -11,16 +11,16 @@ package models
 //
 
 type LikeCountStat struct {
-	ServiceKey          ServiceKey `gorm:"type:enum('ac','ticket');index"`
-	ProductID           uint64     `gorm:"type:int unsigned"`
-	CategoryID          uint64     `gorm:"type:int unsigned"`
-	ReviewID            uint       `gorm:"type:int unsigned"`
-	LikeCount           uint64     `gorm:"type:int unsigned" comment: "[--> Redis ?] total count of likes"`
+	ServiceKey ServiceKey `gorm:"type:enum('ac','ticket');index"`
+	ProductID  uint64     `gorm:"type:int unsigned"`
+	CategoryID uint64     `gorm:"type:int unsigned"`
+	ReviewID   uint       `gorm:"type:int unsigned"`
+	LikeCount  uint64     `gorm:"type:int unsigned" comment: "[--> Redis ?] total count of likes"`
 }
 
 type QuestionAverageStat struct {
-	ServiceKey          ServiceKey `gorm:"type:enum('ac','ticket');index"`
-	ProductID           uint64     `gorm:"type:int unsigned"`
-	QuestionID          uint       `gorm:"type:int unsigned"`
-	Average             uint64     `gorm:"type:int unsigned"  comment: "[--> Redis ?] Average Score, per question_section"` 
+	ServiceKey ServiceKey `gorm:"type:enum('ac','ticket');index"`
+	ProductID  uint64     `gorm:"type:int unsigned"`
+	QuestionID uint       `gorm:"type:int unsigned"`
+	Average    uint64     `gorm:"type:int unsigned"  comment: "[--> Redis ?] Average Score, per question_section"` 
 }
