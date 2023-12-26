@@ -41,7 +41,7 @@ $ make run
 
 it reads test/fixtures/*.yaml
 
-**This repo is POC of testing data design requirement and whether it works in gin+golang, no other further stuff is in scope. **
+**This repo is POC of testing data design requirement and whether it works in gin+golang, no other further stuff is in scope.**
 
 You need to choose whatever fixture(aka test data) fostering protocol or any testing framework. This repo does not cover those.
 
