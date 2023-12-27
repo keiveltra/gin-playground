@@ -93,5 +93,8 @@ func getReviewList(
         page               string,
 ) []models.Review {
         review_list := []models.Review{}
+	//
+        // Query whatever you want.
+	//
 	return review_list
 }
