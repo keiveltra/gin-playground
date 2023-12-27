@@ -64,10 +64,6 @@ func GetProduct(c *gin.Context) {
         	page,
         )
 
-        fmt.Println("----------------------")
-        fmt.Println(review_list)
-        fmt.Println("----------------------")
-
         var total_page_count     = 1 // TODO: implement
         var total_items_count    = 1 // TODO: implement
         var total_review_count   = 1 // TODO: implement
