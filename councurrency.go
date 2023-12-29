@@ -3,38 +3,41 @@ package main
 import (
 	"fmt"
 	"strconv"
-	"time"
+	"sync"
 )
 
-//
-// This is a sample program for the concurrent/multithread programming
-// in Golang. It looks so far we do not need such tips but
-// during your development if performance concerns requires either
-// of concurrent/multithread programming then you can look here for
-// example.
-//
+var mu sync.Mutex
 
 func testConcurrency() {
-	var c chan string = make(chan string)
+	xs := [10]int{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 
-	go execProcess1(c)
-	go execProcess2(c)
+	xs1 := xs[0:5]
+	xs2 := xs[5:10]
 
-	var input string
-	fmt.Scanln(&input)
+	var wg sync.WaitGroup
+	wg.Add(2)
+
+	go execProcessWithLock(&wg, xs1)
+	go execProcessWithLock(&wg, xs2)
+
+	wg.Wait()
+
+	fmt.Print("[")
+	for i, val := range xs {
+		if i > 0 {
+			fmt.Print(", ")
+		}
+		fmt.Print(val)
+	}
+	fmt.Println("]")
 }
 
-func execProcess1(c chan string) {
-  for i := 0; i < 10 ; i++ {
-    fmt.Println("execProcess1: " + strconv.Itoa(i))
-    c <- strconv.Itoa(i)
-  }
-}
-
-func execProcess2(c chan string) {
-  for i := 0; i < 10 ; i++ {
-    msg := <- c
-    fmt.Println("execProcess2: " + msg)
-    time.Sleep(time.Second * 1)
-  }
+func execProcessWithLock(wg *sync.WaitGroup, xs []int) {
+	defer wg.Done()
+        mu.Lock()
+	for i := range xs {
+		xs[i]++
+		fmt.Println("execProcessWithLock: " + strconv.Itoa(xs[i]))
+	}
+        mu.Unlock()
 }
