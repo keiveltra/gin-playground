@@ -152,8 +152,7 @@ func getReviewList(
 	sort_by            string,
 	limit              string,
 	page               string,
-) []models.Review 
-{
+) []models.Review {
 	var reviews []models.Review
 	var qb strings.Builder
 	var args []interface{}

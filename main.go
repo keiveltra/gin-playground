@@ -12,8 +12,8 @@ func main() {
 		return
 	}
 
-	if len(args) > 1 && (args[1] == "m" || args[1] == "migrate") {
-		migrateDatabase()
+	if len(args) > 1 && (args[1] == "c" || args[1] == "testConcurrency") {
+		testConcurrency()
 		return
 	}
 

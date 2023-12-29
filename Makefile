@@ -20,6 +20,10 @@ mig:
 	./webapp m
 	make drop_auto_gen_cols
 
+cc:
+	go build -o webapp
+	./webapp c 
+
 inject:
 	# works only if this workdir and review-service's workdir is on the same level
 	mysql -u moomin -pmoomin -e "drop database if exists test;"
