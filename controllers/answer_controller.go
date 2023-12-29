@@ -3,16 +3,40 @@ package controllers
 import (
 	"github.com/gin-gonic/gin"
 	"veltra.com/gin_playground/models"
-        "fmt" // TODO remove
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-        "strings"
+		"strings"
 )
 
 func Index(c *gin.Context) {
-    	c.JSON(200, gin.H{
+	c.JSON(200, gin.H{
 		"message": "this is index!!!!",
 	})
+}
+
+//
+// In some project/framework usually BE has Costraint class,
+// i.e. AnswerConstraint.class to handle the validation on the backend.
+// In another case (i.e. rails) it is defined in model class.
+// You can choose the practice of your preference, yet it is generally
+// recommended that this validation is defined per class.
+//
+// TODO: add function arguments to make it sufficient
+func validate(product_id string, service_key string) ([]string, int) {
+	var errors []string
+        httpStatus := 200
+
+	if product_id == "" {
+		errors = append(errors, "product_id is missing.")
+                httpStatus = 400 // for example. put whatever number you need
+        }
+
+	if service_key == "" {
+		errors = append(errors, "service_key is missing.")
+                httpStatus = 400 // for example. put whatever number you need
+        }
+
+        return errors, httpStatus
 }
 
 func GetProduct(c *gin.Context) {
@@ -38,45 +62,48 @@ func GetProduct(c *gin.Context) {
 
 	db, err := getDatabase()
 	if err != nil {
-            // raise error
+			// raise error
 	}
 
-        review_list := getReviewList(
-        	db,
-		product_id,
-        	service_key,
-        	lang_id, 
-        	review_status,
-        	reply_status,
-        	activity_date_from,
-        	activity_date_to, 
-        	posted_date_from, 
-        	posted_date_to,
-        	plan,
-        	has_image,
-        	rating_range,
-        	attended_as,
-        	participated_month,
-        	survey_id,
-        	survey_score,
-        	sort_by,
-        	limit,
-        	page,
-        )
+	errors, httpStatus := validate(product_id, service_key)
 
-        var total_page_count     = 1 // TODO: implement
-        var total_items_count    = 1 // TODO: implement
-        var total_review_count   = 1 // TODO: implement
-        var average_review_score = 3 // TODO: implement
+	review_list := getReviewList(
+			db,
+			product_id,
+			service_key,
+			lang_id, 
+			review_status,
+			reply_status,
+			activity_date_from,
+			activity_date_to, 
+			posted_date_from, 
+			posted_date_to,
+			plan,
+			has_image,
+			rating_range,
+			attended_as,
+			participated_month,
+			survey_id,
+			survey_score,
+			sort_by,
+			limit,
+			page,
+	)
 
-    	c.JSON(200, gin.H{
-		"page":  page,
-                "limit": limit,
-                "total_page_count":     total_page_count,
-                "total_items_count":    total_items_count,
-                "total_review_count":   total_review_count,
-                "average_review_score": average_review_score,
-                "review_list":          review_list,
+	var total_page_count     = 1 // TODO: implement
+	var total_items_count    = 1 // TODO: implement
+	var total_review_count   = 1 // TODO: implement
+	var average_review_score = 3 // TODO: implement
+
+	c.JSON(httpStatus, gin.H{
+		"page":                 page,
+		"limit":                limit,
+		"total_page_count":     total_page_count,
+		"total_items_count":    total_items_count,
+		"total_review_count":   total_review_count,
+		"average_review_score": average_review_score,
+		"review_list":          review_list,
+                "errors":               errors,
 	})
 }
 
@@ -89,10 +116,10 @@ func getDatabase() (*gorm.DB, error) {
 }
 
 func addCondition(
-	qb *strings.Builder,
-        args         *[]interface{}, 
-        condition    string,
-        value        string,
+	qb        *strings.Builder,
+	args      *[]interface{}, 
+	condition string,
+	value     string,
 ) {
 	if value != "" {
 		if qb.Len() > 0 {
@@ -107,55 +134,55 @@ func addCondition(
 func getReviewList(
 	db                 *gorm.DB,
 	product_id         string,
-        service_key        string,
-        lang_id            string, 
-        review_status      string,
-        reply_status       string,
-        activity_date_from string,
-        activity_date_to   string, 
-        posted_date_from   string, 
-        posted_date_to     string,
-        plan               string,
-        has_image          string,
-        rating_range       string,
-        attended_as        string,
-        participated_month string,
-        survey_id          string,
-        survey_score       string,
-        sort_by            string,
-        limit              string,
-        page               string,
-) []models.Review {
-        var reviews []models.Review
-        var qb strings.Builder
+	service_key        string,
+	lang_id            string, 
+	review_status      string,
+	reply_status       string,
+	activity_date_from string,
+	activity_date_to   string, 
+	posted_date_from   string, 
+	posted_date_to     string,
+	plan               string,
+	has_image          string,
+	rating_range       string,
+	attended_as        string,
+	participated_month string,
+	survey_id          string,
+	survey_score       string,
+	sort_by            string,
+	limit              string,
+	page               string,
+) []models.Review 
+{
+	var reviews []models.Review
+	var qb strings.Builder
 	var args []interface{}
 
 	addCondition(&qb, &args, "product_id",    product_id)
 	addCondition(&qb, &args, "service_key",   service_key)
 	addCondition(&qb, &args, "lang_id",       lang_id)
 	addCondition(&qb, &args, "review_status", review_status)
-        addCondition(&qb, &args, "reply_status", reply_status)
-        addCondition(&qb, &args, "activity_date_from", activity_date_from)
-        addCondition(&qb, &args, "activity_date_to", activity_date_to)
-        addCondition(&qb, &args, "posted_date_from", posted_date_from)
-        addCondition(&qb, &args, "posted_date_to", posted_date_to)
-        addCondition(&qb, &args, "plan", plan)
-        addCondition(&qb, &args, "has_image", has_image)
-        addCondition(&qb, &args, "rating_range", rating_range)
-        addCondition(&qb, &args, "attended_as", attended_as)
-        addCondition(&qb, &args, "participated_month", participated_month)
-        addCondition(&qb, &args, "survey_id", survey_id)
-        addCondition(&qb, &args, "survey_score", survey_score)
-        addCondition(&qb, &args, "sort_by", sort_by)
-        addCondition(&qb, &args, "limit", limit)
-        addCondition(&qb, &args, "page", page)
+	addCondition(&qb, &args, "reply_status", reply_status)
+	addCondition(&qb, &args, "activity_date_from", activity_date_from)
+	addCondition(&qb, &args, "activity_date_to", activity_date_to)
+	addCondition(&qb, &args, "posted_date_from", posted_date_from)
+	addCondition(&qb, &args, "posted_date_to", posted_date_to)
+	addCondition(&qb, &args, "plan", plan)
+	addCondition(&qb, &args, "has_image", has_image)
+	addCondition(&qb, &args, "rating_range", rating_range)
+	addCondition(&qb, &args, "attended_as", attended_as)
+	addCondition(&qb, &args, "participated_month", participated_month)
+	addCondition(&qb, &args, "survey_id", survey_id)
+	addCondition(&qb, &args, "survey_score", survey_score)
+	addCondition(&qb, &args, "sort_by", sort_by)
+	addCondition(&qb, &args, "limit", limit)
+	addCondition(&qb, &args, "page", page)
 
-        query := qb.String()
+	query := qb.String()
 
-        result := db.Where(query, args...).Find(&reviews)
+	result := db.Where(query, args...).Find(&reviews)
 	if result.Error != nil {
 	    // handle error
 	}
-        fmt.Println(result)
 	return reviews
 }

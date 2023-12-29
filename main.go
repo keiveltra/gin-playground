@@ -6,6 +6,12 @@ import (
 
 func main() {
 	args := os.Args
+
+	if len(args) > 1 && (args[1] == "m" || args[1] == "migrate") {
+		migrateDatabase()
+		return
+	}
+
 	if len(args) > 1 && (args[1] == "m" || args[1] == "migrate") {
 		migrateDatabase()
 		return
